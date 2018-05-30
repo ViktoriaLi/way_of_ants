@@ -41,18 +41,23 @@ typedef	struct	s_room
 	void			*name;
   int x;
   int y;
-	struct s_room	*next;
+  int distance;
+  struct s_link *links;
+  struct s_room *next;
 }				t_room;
 
-typedef struct	s_coordinate
+typedef struct	s_link
 {
-	int x;
-	int y;
-}				t_coordinate;
+	struct s_room *link;
+  struct s_link *next;
+}				t_link;
 
+char  *ft_strchr(const char *s, int c);
 
 int		get_next_line(const int fd, char **line);
 int		ft_printf(const char *format, ...);
+void  ft_strdel(char **as);
+
 int   ft_strcmp(const char *s1, const char *s2);
 t_list  *ft_lstnew(void const *content, size_t content_size);
 char  *ft_strrchr(const char *s, int c);
@@ -63,7 +68,6 @@ int			ft_atoi(const char *str);
 char	**two_dim_arr_mem(char **field, int x, int y, char c);
 size_t		ft_strlen(const char *s);
 
-void	coordinatemin(t_coordinate *c, int size);
 char	*ft_strsub(char const *s, unsigned int start, size_t len);
 
 #endif

@@ -18,7 +18,7 @@
 # include <fcntl.h>
 # include "includes/libft.h"
 
-# define BUFF_SIZE 32
+# define BUFF_SIZE 1
 # define FD_LIMIT 12288
 # define STACK_LIMIT 8192000
 
