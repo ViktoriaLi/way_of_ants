@@ -41,9 +41,9 @@ typedef	struct	s_room
 	void			*name;
   int x;
   int y;
-  int distance;
+  //int distance;
   int which_room;
-  struct s_link *links;
+  struct s_room *links;
   struct s_room *next;
 }				t_room;
 
@@ -52,6 +52,7 @@ typedef struct	s_link
 	struct s_room *link;
   struct s_link *next;
 }				t_link;
+
 
 char  *ft_strchr(const char *s, int c);
 
