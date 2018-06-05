@@ -78,84 +78,90 @@ int	room_push_back(t_link **begin_list, char *content, int which_room)
 	while (list)
 	{
 		ft_printf("name%s x%d y%d dist%d\n", (list)->link->name,
-			(list)->link->x, (list)->link->y, (list)->link->distance);
-
+			(list)->link->x, (list)->link->y, (list)->link->which_room);
 		list = list->next;
 	}
-	/*while (*begin_list)
-	{
-		ft_printf("111%s\n", "test");
-		ft_printf("name%s x%d y%d dist%d\n", (*begin_list)->link->name,
-			(*begin_list)->link->x, (*begin_list)->link->y, (*begin_list)->link->distance);
-		*begin_list = (*begin_list)->next;
-	}*/
 	return (1);
 }
 
-int	make_link(t_link **begin_list, char *content)
+int	make_link(t_link **begin_list, char **content)
 {
 	int i;
 	int if_present;
 	char *first;
 	char *second;
 	t_link	*list;
-	t_link	*link;
-	t_link	*head;
-	//t_link *oneelem;
-	//t_room *new_link;
+	t_room	*link;
+	t_room	*head;
 
 	i = 0;
 	if_present = 0;
-	//oneelem = NULL;
 	head = NULL;
 	link = NULL;
 	list = *begin_list;
-	while (content[i] && content[i] != '-')
-		i++;
-	first = ft_strsub(content, 0, i);
-	i++;
-	if (!content[i])
+	if ((*content)[0] == '#' || !ft_strchr(*content, '-'))
 		return (0);
-	second = ft_strsub(content, i, ft_strlen(content - 1 + 1));
-	/*ft_printf("link%s\n", content);
+	while ((*content)[i] && (*content)[i] != '-')
+		i++;
+	first = ft_strsub((*content), 0, i);
+	i++;
+	if (!(*content)[i])
+		return (0);
+	second = ft_strsub((*content), i, ft_strlen((*content) - 1 + 1));
+	ft_printf("link%s\n", *content);
 	ft_printf("first%s\n", first);
-	ft_printf("second%s\n", second);*/
-	while (list)
+	ft_printf("second%s\n", second);
+	while (*begin_list)
 	{
-		if (ft_strcmp(list->link->name, first) == 0)
+		if (ft_strcmp((*begin_list)->link->name, first) == 0)
 		{
-			head = list;
+			head = (*begin_list)->link;
+			ft_printf("1first%s\n", head->name);
 			if_present++;
 		}
-		list = list->next;
+		(*begin_list) = (*begin_list)->next;
 	}
 	if (if_present != 1)
 		return(0);
 	if_present = 0;
-	list = *begin_list;
-	while (list)
+	(*begin_list) = list;
+	while ((*begin_list))
 	{
-		if (ft_strcmp(list->link->name, second) == 0)
+		if (ft_strcmp((*begin_list)->link->name, second) == 0)
 		{
-			link = list;
+			link = (*begin_list)->link;
+			ft_printf("2first%s\n", link->name);
 			if_present++;
 		}
-		list = list->next;
+		(*begin_list) = (*begin_list)->next;
 	}
 	if (if_present != 1)
 		return(0);
-	head->link = link->link;
-	if (!head->link)
+	//head = link;
+
+	if (!(head->links))
 	{
-		head->link = link->link;
-		*begin_list = head;
+		head->links = link;
+		*begin_list = list;
 		return (1);
 	}
-	while (head->link->next)
-		head->link = head->link->next;
-	head->link = link->link;
-	*begin_list = head;
-	head = *begin_list;
+	while (head->links)
+		head->links = head->next;
+	head->links = link;
+	*begin_list = list;
+	while (list)
+	{
+		ft_printf("1head%s x%d y%d dist%d\n", (list)->link->name,
+			(list)->link->x, (list)->link->y, (list)->link->which_room);
+		while (list->link->links)
+		{
+			ft_printf("1links%s x%d y%d dist%d\n", (list)->link->links->name,
+				(list)->link->links->x, (list)->link->links->y, (list)->link->links->which_room);
+			list->link->links = list->link->links->next;
+		}
+		list = list->next;
+	}
+	//head = *begin_list;
 		/*while (head->link->next)
 		{
 			head->link = head->link->next;
@@ -199,7 +205,7 @@ int if_room(char **buf, t_link **rooms, int which_room)
 
 int comments_parsing(char **buf, int *ifstart, int *ifend, t_link **rooms)
 {
-	if ((*buf)[0] == '#' && (*buf)[1] != '#' && !ft_strchr(*buf, ' ') && !ft_strchr(*buf, '-'))
+	if ((*buf)[0] == '#' && (*buf)[1] != '#' /*&& !ft_strchr(*buf, ' ') && !ft_strchr(*buf, '-')*/)
 	{
 			ft_printf("buf2 %s\n", *buf);
 			ft_strdel(buf);
@@ -267,8 +273,10 @@ int main(void)
 	char *buf;
 	//int count;
 	int ants;
-
+	int links_count;
+	int rooms_count;
 	buf = NULL;
+
 	t_list *all_lines;
 	t_link *rooms;
 	t_link *tmp;
@@ -281,6 +289,8 @@ int main(void)
 	ifstart = 0;
 	ifend = 0;
 	tmp = rooms;
+	links_count = 0;
+	rooms_count = 0;
 	//tmp = rooms;
 	while (get_next_line(0, &buf) > 0 && buf[0] == '#')
 	{
@@ -323,10 +333,8 @@ int main(void)
 		//ft_printf("%s \n", "test3");
 		if (comments_parsing(&buf, &ifstart, &ifend, &rooms))
 			continue ;
-		if (buf[0] != '#' && ft_strchr(buf, '-'))
-		{
-			make_link(&rooms, buf);
-		}
+		if (make_link(&rooms, &buf))
+			continue ;
 		/*else if (buf[0] != '#')
 		{
 			ft_strdel(&buf);
