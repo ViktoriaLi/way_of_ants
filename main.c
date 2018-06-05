@@ -82,11 +82,11 @@ int	room_push_back(t_room **begin_list, char *content, int which_room)
 	return (1);
 }
 
-int	make_link(t_link **begin_list, char *first, char *second)
+/*int	make_link(t_link *links, t_room **begin_list)
 {
 	int i;
 	int if_present;
-	t_link	*list;
+	t_room	*list;
 	t_room	*link;
 	t_room	*head;
 
@@ -95,75 +95,53 @@ int	make_link(t_link **begin_list, char *first, char *second)
 	head = NULL;
 	link = NULL;
 	list = *begin_list;
-	while (*begin_list)
+	while (links)
 	{
-		if (ft_strcmp((*begin_list)->link->name, first) == 0)
+		(*begin_list) = list;
+		while (*begin_list)
 		{
-			head = (*begin_list)->link;
-			ft_printf("1first%s\n", head->name);
-			if_present++;
+			if (ft_strcmp((*begin_list)->name, links->first) == 0)
+				head = (*begin_list);
+			if (ft_strcmp((*begin_list)->name, links->second) == 0)
+				link = (*begin_list);
+			if (head && link)
+			{
+				if (!(head->links))
+				{
+					head->links = link;
+					*begin_list = list;
+					return (1);
+				}
+				while (head->links)
+					head->links = head->next;
+				head->links = link;
+				*begin_list = list;
+				head = NULL;
+				link = NULL;
+				break;
+			}
+			(*begin_list) = (*begin_list)->next;
 		}
-		(*begin_list) = (*begin_list)->next;
+		links = links->next;
 	}
-	if (if_present != 1)
-		return(0);
-	if_present = 0;
-	(*begin_list) = list;
-	while ((*begin_list))
-	{
-		if (ft_strcmp((*begin_list)->link->name, second) == 0)
-		{
-			link = (*begin_list)->link;
-			ft_printf("2first%s\n", link->name);
-			if_present++;
-		}
-		(*begin_list) = (*begin_list)->next;
-	}
-	if (if_present != 1)
-		return(0);
-	//head = link;
-
-	if (!(head->links))
-	{
-		head->links = link;
-		*begin_list = list;
-		return (1);
-	}
-	while (head->links)
-		head->links = head->next;
-	head->links = link;
 	*begin_list = list;
 	while (list)
 	{
-		ft_printf("1head%s x%d y%d dist%d\n", (list)->link->name,
-			(list)->link->x, (list)->link->y, (list)->link->which_room);
-		while (list->link->links)
+		ft_printf("1head%s x%d y%d dist%d\n", (list)->name,
+			(list)->x, (list)->y, (list)->which_room);
+		while (list->links)
 		{
-			ft_printf("1links%s x%d y%d dist%d\n", (list)->link->links->name,
-				(list)->link->links->x, (list)->link->links->y, (list)->link->links->which_room);
-			list->link->links = list->link->links->next;
+			ft_printf("1links%s x%d y%d dist%d\n", (list)->links->name,
+				(list)->links->x, (list)->links->y, (list)->links->which_room);
+			list->links = list->links->next;
 		}
 		list = list->next;
 	}
-	//head = *begin_list;
-		/*while (head->link->next)
-		{
-			head->link = head->link->next;
-			ft_printf("1name%s x%d y%d dist%d\n", head->link->name,
-			head->link->x, head->link->y, head->link->distance);
-		}*/
-
 	return (1);
-	/*
-	if (!(oneelem = (t_link *)malloc(sizeof(t_link))))
-		return (0);
-	oneelem->link = link->link;
-	oneelem->next = NULL;
-	*begin_list = oneelem;f*/
-}
+}*/
 
-/*
-version with malloc element
+
+//version with malloc element
 int	make_link(t_link *links, t_room **begin_list)
 {
 	t_room	*list;
@@ -192,6 +170,7 @@ int	make_link(t_link *links, t_room **begin_list)
 				oneelem->next = NULL;
 				oneelem->which_room = link->which_room;
 				oneelem->links = NULL;
+				//oneelem->links->next = NULL;
 				oneelem->name = link->name;
 				oneelem->x = link->x;
 				oneelem->y = link->y;
@@ -199,7 +178,6 @@ int	make_link(t_link *links, t_room **begin_list)
 				if (!(head->links))
 				{
 					head->links = oneelem;
-					//*begin_list = list;
 					head = NULL;
 					link = NULL;
 					break;
@@ -217,8 +195,7 @@ int	make_link(t_link *links, t_room **begin_list)
 		links = links->next;
 	}
 
-	//*begin_list = list;
-	while (list)
+	/*while (list)
 	{
 		ft_printf("test%s\n", "test");
 		ft_printf("1head%s x%d y%d dist%d\n", (list)->name,
@@ -230,12 +207,9 @@ int	make_link(t_link *links, t_room **begin_list)
 			list->links = list->links->next;
 		}
 		list = list->next;
-	}
-
-
+	}*/
 	return (1);
-
-}*/
+}
 
 int	save_link(t_link **begin_list, char **content)
 {
