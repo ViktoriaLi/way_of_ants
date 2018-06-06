@@ -18,24 +18,23 @@ void	list_push_back(t_list **begin_list, char *content)
 	list->next = oneelem;
 }
 
-int	room_push_back(t_room **begin_list, char *content, int which_room)
+int	room_push_back(t_room_list **begin_list, char *content, int which_room)
 {
 	int i;
 	t_room	*oneelem;
-	t_room *link;
 
-	t_room	*list;
-
+	t_room_list	*list;
+	t_room_list *link;
 	i = 0;
 	oneelem = NULL;
-	link = NULL;
 	list = *begin_list;
-	/*if (!(link = (t_link *)malloc(sizeof(t_link))))
-		return (0);*/
+	if (!(link = (t_room_list *)malloc(sizeof(t_room_list))))
+		return (0);
 	if (!(oneelem = (t_room *)malloc(sizeof(t_room))))
 		return (0);
+	link->next = NULL;
+	link->room = oneelem;
 	//oneelem = ft_lstnew(content, ft_strlen(content));
-	oneelem->next = NULL;
 	while (content[i] && content[i] != ' ')
 		i++;
 	//oneelem->distance = 0;
@@ -66,17 +65,17 @@ int	room_push_back(t_room **begin_list, char *content, int which_room)
 	//link->link = oneelem;
 	if (!(*begin_list))
 	{
-		*begin_list = oneelem;
+		*begin_list = link;
 		return (1);
 	}
 	while ((*begin_list)->next)
 		(*begin_list) = (*begin_list)->next;
-	(*begin_list)->next = oneelem;
+	(*begin_list)->next = link;
 	*begin_list = list;
 	while (list)
 	{
-		ft_printf("name%s x%d y%d dist%d\n", (list)->name,
-			(list)->x, (list)->y, (list)->which_room);
+		ft_printf("name%s x%d y%d dist%d\n", (list)->room->name,
+			(list)->room->x, (list)->room->y, (list)->room->which_room);
 		list = list->next;
 	}
 	return (1);
@@ -142,72 +141,60 @@ int	room_push_back(t_room **begin_list, char *content, int which_room)
 
 
 //version with malloc element
-int	make_link(t_link *links, t_room **begin_list)
+int	make_link(t_link *links, t_room_list *begin_list)
 {
-	t_room	*list;
+	t_room_list	*list;
 	t_room	*link;
 	t_room	*head;
-	t_room	*oneelem;
+	t_room_list	*tmplist;
 
 	head = NULL;
 	link = NULL;
-	list = *begin_list;
-	oneelem = NULL;
+	tmplist = NULL;
 
 	while (links)
 	{
-		(*begin_list) = list;
-		while (*begin_list)
+		list = begin_list;
+		head = NULL;
+		link = NULL;
+		while (list)
 		{
-			if (ft_strcmp((*begin_list)->name, links->first) == 0)
-				head = (*begin_list);
-			if (ft_strcmp((*begin_list)->name, links->second) == 0)
-				link = (*begin_list);
-			if (head && link)
-			{
-				if (!(oneelem = (t_room *)malloc(sizeof(t_room))))
-					return (0);
-				oneelem->next = NULL;
-				oneelem->which_room = link->which_room;
-				oneelem->links = NULL;
-				//oneelem->links->next = NULL;
-				oneelem->name = link->name;
-				oneelem->x = link->x;
-				oneelem->y = link->y;
-				(*begin_list) = list;
-				if (!(head->links))
-				{
-					head->links = oneelem;
-					head = NULL;
-					link = NULL;
-					break;
-				}
-				while (head->links)
-					head->links = head->next;
-				head->links = oneelem;
-				//free()
-				head = NULL;
-				link = NULL;
-				break;
-			}
-			(*begin_list) = (*begin_list)->next;
+			if (ft_strcmp(list->room->name, links->first) == 0)
+				head = list->room;
+			if (ft_strcmp(list->room->name, links->second) == 0)
+				link = list->room;
+			list = list->next;
 		}
+
+		if (!head || !link)
+			return (0);
+		if (!(tmplist = (t_room_list *)malloc(sizeof(t_room_list))))
+			return (0);
+		tmplist->next = head->links;
+		head->links = tmplist;
+		tmplist->room = link;
+		if (!(tmplist = (t_room_list *)malloc(sizeof(t_room_list))))
+			return (0);
+		tmplist->next = link->links;
+		link->links = tmplist;
+		tmplist->room = head;
+
 		links = links->next;
 	}
-
-	/*while (list)
+	list = begin_list;
+	while (list)
 	{
-		ft_printf("test%s\n", "test");
-		ft_printf("1head%s x%d y%d dist%d\n", (list)->name,
-			(list)->x, (list)->y, (list)->which_room);
-		while (list->links)
+		tmplist = list->room->links;
+		ft_printf("1head%s x%d y%d dist%d\n", (list)->room->name,
+			(list)->room->x, (list)->room->y, (list)->room->which_room);
+		while (tmplist)
 		{
-			ft_printf("1links%s x%d y%d dist%d\n", (list)->links->name,
-				(list)->links->x, (list)->links->y, (list)->links->which_room);
-			list->links = list->links->next;
+			ft_printf("1links%s x%d y%d dist%d\n", tmplist->room->name,
+				tmplist->room->x, tmplist->room->y, tmplist->room->which_room);
+			tmplist = tmplist->next;
 		}
 		list = list->next;
-	}*/
+	}
 	return (1);
 }
 
@@ -253,7 +240,7 @@ int	save_link(t_link **begin_list, char **content)
 	return (1);
 }
 
-int if_room(char **buf, t_room **rooms, int which_room)
+int if_room(char **buf, t_room_list **rooms, int which_room)
 {
 	//ft_printf("%s \n", "test2");
 	//ft_printf("if_room%s \n", *buf);
@@ -278,7 +265,7 @@ int if_room(char **buf, t_room **rooms, int which_room)
 	return (0);
 }
 
-int comments_parsing(char **buf, int *ifstart, int *ifend, t_room **rooms)
+int comments_parsing(char **buf, int *ifstart, int *ifend, t_room_list **rooms)
 {
 	if ((*buf)[0] == '#' && (*buf)[1] != '#' /*&& !ft_strchr(*buf, ' ') && !ft_strchr(*buf, '-')*/)
 	{
@@ -348,23 +335,23 @@ int main(void)
 	char *buf;
 	//int count;
 	int ants;
-	int links_count;
-	int rooms_count;
+	//int links_count;
+	//int rooms_count;
 	buf = NULL;
 
-	t_list *all_lines;
-	t_room *rooms;
+	//t_list *all_lines;
+	t_room_list *rooms;
 	t_link *links;
 	//t_link *tmp;
 	i = 0;
 	rooms = NULL;
 	//count = 0;
-	all_lines = NULL;
+	//all_lines = NULL;
 	ants = 0;
 	ifstart = 0;
 	ifend = 0;
-	links_count = 0;
-	rooms_count = 0;
+	//links_count = 0;
+	//rooms_count = 0;
 	links = NULL;
 	//tmp = rooms;
 	while (get_next_line(0, &buf) > 0 && buf[0] == '#')
@@ -388,6 +375,7 @@ int main(void)
 	}
 		ants = ft_atoi(buf);
 		ft_printf("buf8 %s\n", buf);
+		ft_printf("ants %d\n", ants);
 		ft_strdel(&buf);
 		//ft_printf("%s \n", "test");
 	while (get_next_line(0, &buf) > 0)
@@ -430,11 +418,11 @@ int main(void)
 		ft_printf("%s\n", "ERROR8");
 		break ;
 	}
-	make_link(links, &rooms);
+	make_link(links, rooms);
 	while (rooms)
 	{
-		ft_printf("name%s x%d y%d dist%d\n", (rooms)->name,
-			(rooms)->x, (rooms)->y, (rooms)->which_room);
+		ft_printf("name%s x%d y%d dist%d\n", (rooms)->room->name,
+			(rooms)->room->x, (rooms)->room->y, (rooms)->room->which_room);
 		rooms = rooms->next;
 	}
 	while (links)

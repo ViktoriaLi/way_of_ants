@@ -36,16 +36,21 @@ typedef	struct	s_params
 
 t_params params;
 
-typedef	struct	s_room
+typedef struct  s_room
 {
-	void			*name;
+  void      *name;
   int x;
   int y;
   //int distance;
   int which_room;
-  struct s_room *links;
-  struct s_room *next;
-}				t_room;
+  struct  s_room_list *links;
+}       t_room;
+
+typedef	struct	s_room_list
+{
+  struct  s_room *room;
+  struct  s_room_list *next;
+}				t_room_list;
 
 typedef struct	s_link
 {
