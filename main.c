@@ -81,120 +81,66 @@ int	room_push_back(t_room_list **begin_list, char *content, int which_room)
 	return (1);
 }
 
-/*int	make_link(t_link *links, t_room **begin_list)
+int	make_link(t_room_list *begin_list, char **content)
 {
 	int i;
-	int if_present;
-	t_room	*list;
-	t_room	*link;
-	t_room	*head;
-
-	i = 0;
-	if_present = 0;
-	head = NULL;
-	link = NULL;
-	list = *begin_list;
-	while (links)
-	{
-		(*begin_list) = list;
-		while (*begin_list)
-		{
-			if (ft_strcmp((*begin_list)->name, links->first) == 0)
-				head = (*begin_list);
-			if (ft_strcmp((*begin_list)->name, links->second) == 0)
-				link = (*begin_list);
-			if (head && link)
-			{
-				if (!(head->links))
-				{
-					head->links = link;
-					*begin_list = list;
-					return (1);
-				}
-				while (head->links)
-					head->links = head->next;
-				head->links = link;
-				*begin_list = list;
-				head = NULL;
-				link = NULL;
-				break;
-			}
-			(*begin_list) = (*begin_list)->next;
-		}
-		links = links->next;
-	}
-	*begin_list = list;
-	while (list)
-	{
-		ft_printf("1head%s x%d y%d dist%d\n", (list)->name,
-			(list)->x, (list)->y, (list)->which_room);
-		while (list->links)
-		{
-			ft_printf("1links%s x%d y%d dist%d\n", (list)->links->name,
-				(list)->links->x, (list)->links->y, (list)->links->which_room);
-			list->links = list->links->next;
-		}
-		list = list->next;
-	}
-	return (1);
-}*/
-
-
-//version with malloc element
-int	make_link(t_link *links, t_room_list *begin_list)
-{
 	t_room_list	*list;
 	t_room	*link;
 	t_room	*head;
 	t_room_list	*tmplist;
+	char *first;
+	char *second;
+	int if_present;
 
+	i = 0;
 	head = NULL;
 	link = NULL;
 	tmplist = NULL;
-
-	while (links)
-	{
-		list = begin_list;
-		head = NULL;
-		link = NULL;
-		while (list)
-		{
-			if (ft_strcmp(list->room->name, links->first) == 0)
-				head = list->room;
-			if (ft_strcmp(list->room->name, links->second) == 0)
-				link = list->room;
-			list = list->next;
-		}
-
-		if (!head || !link)
-			return (0);
-		if (!(tmplist = (t_room_list *)malloc(sizeof(t_room_list))))
-			return (0);
-		tmplist->next = head->links;
-		head->links = tmplist;
-		tmplist->room = link;
-		if (!(tmplist = (t_room_list *)malloc(sizeof(t_room_list))))
-			return (0);
-		tmplist->next = link->links;
-		link->links = tmplist;
-		tmplist->room = head;
-
-		links = links->next;
-	}
+	if_present = 0;
+	if ((*content)[0] == '#' || !ft_strchr(*content, '-'))
+		return (0);
+	while ((*content)[i] && (*content)[i] != '-')
+		i++;
+	first = ft_strsub((*content), 0, i);
+	i++;
+	if (!(*content)[i])
+		return (0);
+	second = ft_strsub((*content), i, ft_strlen((*content) - 1 + 1));
 	list = begin_list;
 	while (list)
 	{
-		tmplist = list->room->links;
-		ft_printf("1head%s x%d y%d dist%d\n", (list)->room->name,
-			(list)->room->x, (list)->room->y, (list)->room->which_room);
-		while (tmplist)
-		{
-			ft_printf("1links%s x%d y%d dist%d\n", tmplist->room->name,
-				tmplist->room->x, tmplist->room->y, tmplist->room->which_room);
-			tmplist = tmplist->next;
-		}
+		if (ft_strcmp(list->room->name, first) == 0)
+			head = list->room;
+		if (ft_strcmp(list->room->name, second) == 0)
+			link = list->room;
 		list = list->next;
 	}
+	if (!head || !link)
+		return (0);
+	if (!(tmplist = (t_room_list *)malloc(sizeof(t_room_list))))
+		return (0);
+	tmplist->next = head->links;
+	head->links = tmplist;
+	tmplist->room = link;
+	if (!(tmplist = (t_room_list *)malloc(sizeof(t_room_list))))
+		return (0);
+	tmplist->next = link->links;
+	link->links = tmplist;
+	tmplist->room = head;
+		list = begin_list;
+		while (list)
+		{
+			tmplist = list->room->links;
+			ft_printf("1head%s x%d y%d dist%d\n", (list)->room->name,
+				(list)->room->x, (list)->room->y, (list)->room->which_room);
+			while (tmplist)
+			{
+				ft_printf("1links%s x%d y%d dist%d\n", tmplist->room->name,
+					tmplist->room->x, tmplist->room->y, tmplist->room->which_room);
+				tmplist = tmplist->next;
+			}
+			list = list->next;
+		}
 	return (1);
 }
 
@@ -405,8 +351,8 @@ int main(void)
 		//ft_printf("%s \n", "test3");
 		if (comments_parsing(&buf, &ifstart, &ifend, &rooms))
 			continue ;
-		if (save_link(&links, &buf))
-			continue ;
+		if (make_link(rooms, &buf))
+				continue ;
 		/*else if (buf[0] != '#')
 		{
 			ft_strdel(&buf);
@@ -418,7 +364,7 @@ int main(void)
 		ft_printf("%s\n", "ERROR8");
 		break ;
 	}
-	make_link(links, rooms);
+	//make_link(links, rooms);
 	while (rooms)
 	{
 		ft_printf("name%s x%d y%d dist%d\n", (rooms)->room->name,
