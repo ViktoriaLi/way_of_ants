@@ -27,9 +27,11 @@ typedef	struct	s_params
 {
   int ants;
   int step;
+  int links_count;
   char *buf;
   char *start;
   char *end;
+
 }				t_params;
 
 typedef struct  s_room

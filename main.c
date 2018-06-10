@@ -5,6 +5,7 @@ void struct_nulling(t_params *params)
 	(*params).buf = NULL;
 	(*params).ants = 0;
 	(*params).step = 0;
+	(*params).links_count = 0;
 	(*params).start = NULL;
   (*params).end = NULL;
 }
@@ -103,62 +104,101 @@ void	ft_lstadd(t_list **alst, t_list *new)
 	*alst = new;
 }
 
+/*int	queue_push_back(t_room_list *queue, t_params *params, t_room_list *to_add, t_room *enter)
+{
+	t_room	*oneelem;
+	t_room_list	*list;
+	t_room_list *link;
+
+	oneelem = NULL;
+	list = queue;
+	if (!(link = (t_room_list *)malloc(sizeof(t_room_list))))
+		return (0);
+	if (!(oneelem = (t_room *)malloc(sizeof(t_room))))
+		return (0);
+	link->next = NULL;
+	link->room = oneelem;
+	oneelem = to_add->room;
+	oneelem->usage = 1;
+	oneelem->distance = (*params).step++;
+	oneelem->enter = enter;
+	if (oneelem->which_room == END_ROOM)
+		return (2);
+	list = queue;
+	while (list->next)
+		list = list->next;
+	list->next = link;
+	list = queue;
+	while (list)
+	{
+		ft_printf("NEWWW%s x%d y%d dist%d\n", (list)->room->name,
+			(list)->room->x, (list)->room->y, (list)->room->which_room);
+		list = list->next;
+	}
+	return (1);
+}*/
+
+void	queue_push_back(t_room_list *queue, t_room_list *new)
+{
+	t_room_list	*list;
+	t_room_list	*oneelem;
+
+	list = queue;
+	oneelem = NULL;
+	oneelem->next = NULL;
+	oneelem = new;
+	if (!list)
+	{
+		list = oneelem;
+		return ;
+	}
+	while (list->next)
+		list = list->next;
+	list->next = oneelem;
+}
+
 int add_to_queue(t_room_list *queue, t_params *params)
 {
 	ft_printf("startstart %s x%d y%d dist%d %s usage%d\n", (queue)->room->name,
 		(queue)->room->x, (queue)->room->y, (queue)->room->which_room, queue->room->enter->name,
 		queue->room->usage);
-	t_room_list *tmp;
-	t_room_list *tmp1;
-	t_room_list *res;
-	t_room_list *res1;
-	//t_room_list *tmp2;
-	t_room_list *tmp_queue;
-	t_room_list *tmp_queue1;
-	res = queue;
-	tmp = NULL;
-	//tmp2 = NULL;
-	tmp_queue = queue;
-	tmp_queue1 = queue;
-	tmp1 = queue;
-	res1 = queue->room->links;
-	while (res->next)
-				res = res->next;
-	if (queue->room->links)
+	t_room_list *links;
+	t_room *enter;
+	t_room_list *end;
+	t_room_list *new;
+
+	new = NULL;
+	enter = queue->room;
+	links = queue->room->links;
+	end = queue;
+	while (end->next)
+				end = end->next;
+	if (links)
+		enter->usage = 2;
+	while (links)
 	{
-		queue->room->usage = 2;
-	}
-	while (res1)
-	{
-		if (res1->room->usage == 0)
+		if (links->room->usage == 0)
 		{
-			ft_printf("TTT%d\n", res1->room->usage);
-			if (!(tmp = (t_room_list *)malloc(sizeof(t_room_list))))
+			//if (queue_push_back(queue, params, links, enter) == 2)
+				//return (0);
+			ft_printf("TTT%d\n", links->room->usage);
+			if (!(new = (t_room_list *)malloc(sizeof(t_room_list))))
 				return (0);
-				ft_printf("3room%s\n", "test");
-				tmp->next = NULL;
-				ft_printf("4room%s\n", "test");
-				tmp = res1;
-				ft_printf("5room%s\n", "test");
-				tmp->room->usage = 1;
-				ft_printf("6room%s\n", "test");
-				tmp->room->distance = (*params).step++;
-				ft_printf("7room%s\n", "test");
-				tmp->room->enter = tmp1->room;
-				ft_printf("8room%s\n", "test");
-				ft_printf("add %s x%d y%d dist%d %s %d\n", (res1)->room->name,
-					(res1)->room->x, (res1)->room->y, (res1)->room->which_room, res1->room->enter->name,
-				(res1)->room->usage);
-				res->next = tmp;
-				ft_printf("9room%s\n", "test");
-				res = res->next;
-				if (tmp->room->which_room == END_ROOM)
-				{
+				new->next = NULL;
+				new = links;
+				new->room->usage = 1;
+				new->room->distance = (*params).step++;
+				new->room->enter = enter;
+				ft_printf("add %s x%d y%d dist%d %s %d\n", links->room->name,
+					links->room->x, links->room->y, links->room->which_room, links->room->enter->name,
+				links->room->usage);
+				end->next = new;
+				end = end->next;
+				//queue_push_back(queue, new);
+				if (new->room->which_room == END_ROOM)
 					return (0);
-				}
 		}
-		res1 = res1->next;
-		//res = queue;
+		links = links->next;
 	}
 	return (1);
 }
@@ -284,30 +324,30 @@ void create_path(t_ways *all_paths, t_room_list *queue)
 int search_way(t_room_list *rooms, t_params *params)
 {
 	int count;
-	t_room_list *tmp;
+
 	t_room_list *queue;
 	t_room_list *tmp_queue;
 	t_room_list *tmp_rooms;
-	t_room_list *tmp_rooms1;
 	t_ways *all_paths;
 
 	count = 0;
 	queue = NULL;
-	tmp = NULL;
 	tmp_rooms = rooms;
-	tmp_rooms1 = rooms;
 	all_paths = NULL;
+	tmp_queue = queue;
 	if (!(queue = (t_room_list *)malloc(sizeof(t_room_list))))
 		return (0);
+	queue->next = NULL;
 	while (tmp_rooms->room->which_room != START_ROOM)
 		tmp_rooms = tmp_rooms->next;
-	tmp_queue = queue;
-	tmp_queue->room = tmp_rooms->room;
-	tmp_queue->next = NULL;
-	tmp_queue->room->distance = (*params).step++;
-	tmp_queue->room->usage = 1;
-	tmp_queue->room->enter = tmp_queue->room;
+	//tmp_queue = queue;
+	queue->room = tmp_rooms->room;
+	queue->room->distance = (*params).step++;
+	queue->room->usage = 1;
+	queue->room->enter = queue->room;
 	tmp_rooms = rooms;
+	tmp_queue = queue;
+
 	while (tmp_queue)
 	{
 		if (tmp_queue->room->usage != 2)
@@ -315,6 +355,9 @@ int search_way(t_room_list *rooms, t_params *params)
 			if (!add_to_queue(tmp_queue, params))
 				break ;
 		}
+		ft_printf("2queue%s x%d y%d whichroom%d usage%d dist%d enter%s\n", (tmp_queue)->room->name,
+			(tmp_queue)->room->x, (tmp_queue)->room->y, (tmp_queue)->room->which_room,
+		(tmp_queue)->room->usage, (tmp_queue)->room->distance, tmp_queue->room->enter->name);
 		tmp_queue = tmp_queue->next;
 	}
 	tmp_queue = queue;
@@ -497,109 +540,64 @@ int comments_parsing(t_params *params, int *ifstart, int *ifend, t_room_list **r
 	return(0);
 }
 
-
-int main(void)
+int ants_saving(t_params *params)
 {
-	t_params params;
-
 	int i;
-	int ifstart;
-	int ifend;
-	t_room_list *rooms;
-	t_room_list *tmp_rooms;
-	t_link *links;
-	//int count;
-	int links_count;
-	//int rooms_count;
-	//t_list *all_lines;
-	//t_link *tmp;
-	//count = 0;
-	//all_lines = NULL;
+
 	i = 0;
-	rooms = NULL;
-	tmp_rooms = rooms;
-	ifstart = 0;
-	ifend = 0;
-	links = NULL;
-	links_count = 0;
-	//rooms_count = 0;
-	//tmp = rooms;
-	struct_nulling(&params);
-	while (get_next_line(0, &params.buf) > 0 && params.buf[0] == '#')
+	if ((*params).buf[0] < '1' || (*params).buf[0] > '9')
 	{
-		if (!comments_parsing(&params, &ifstart, &ifend, &rooms))
-			return (0);
-	}
-	if (params.buf[0] < '1' || params.buf[0] > '9')
-	{
-		ft_strdel(&params.buf);
+		ft_strdel(&params->buf);
 		ft_printf("%s\n", "ERROR5");
 		return (0);
 	}
-	while (params.buf[i] > '0' && params.buf[i] <= '9')
+	while ((*params).buf[i] > '0' && (*params).buf[i] <= '9')
 		i++;
-	if (params.buf[i])
+	if ((*params).buf[i])
 	{
-		ft_strdel(&params.buf);
+		ft_strdel(&params->buf);
 		ft_printf("%s\n", "ERROR6");
 		return (0);
 	}
-		params.ants = ft_atoi(params.buf);
-		ft_printf("buf8 %s\n", params.buf);
-		ft_printf("ants %d\n", params.ants);
-		ft_strdel(&params.buf);
-		//ft_printf("%s \n", "test");
-	while (get_next_line(0, &params.buf) > 0)
+		(*params).ants = ft_atoi((*params).buf);
+		ft_printf("buf8 %s\n", (*params).buf);
+		ft_printf("ants %d\n", (*params).ants);
+		ft_strdel(&params->buf);
+		return(1);
+}
+
+int lemin_reading(t_params *params, int ifstart, int ifend, t_room_list *rooms)
+{
+	t_room_list *tmp_rooms;
+
+	tmp_rooms = rooms;
+	while (get_next_line(0, &params->buf) > 0)
 	{
-		if (ft_strcmp(params.buf, "\n") == 0 || params.buf[0] == 'L')
-		{
-			ft_strdel(&params.buf);
-			ft_printf("%s\n", "ERROR7");
+		if (ft_strcmp((*params).buf, "\n") == 0 || (*params).buf[0] == 'L')
 			return (0);
-		}
-		//ft_printf("BUF%s\n", buf);
-		//else
-			//list_push_back(&all_lines, buf);
-		//ft_printf("ANTS %d\n", ants);
-		//ft_printf("%s \n", "test1");
-		if (if_room(&params, &rooms, OTHER_ROOM))
+		if (if_room(params, &rooms, OTHER_ROOM))
 		{
-			if (!links_count)
+			if (!(*params).links_count)
 				continue ;
 			else
 			{
-				ft_strdel(&params.buf);
+				ft_strdel(&params->buf);
 				ft_printf("%s\n", "ERROR7");
 				break ;
 			}
 		}
-		//ft_printf("%s \n", "test3");
-		if (comments_parsing(&params, &ifstart, &ifend, &rooms))
+		if (comments_parsing(params, &ifstart, &ifend, &rooms))
 			continue ;
-		if (make_link(rooms, &params))
+		if (make_link(rooms, params))
 		{
-			links_count++;
+			(*params).links_count++;
 			continue ;
 		}
-
-		/*else if (buf[0] != '#')
-		{
-			ft_strdel(&buf);
-			ft_printf("%s\n", "ERROR");
-			return (0);
-		}*/
-		//all_lines = all_lines->next;
-		ft_strdel(&params.buf);
+		ft_strdel(&params->buf);
 		ft_printf("%s\n", "ERROR8");
-		break ;
-	}
-	search_way(rooms, &params);
-	/*if (!search_way(rooms, &params))
-	{
-		ft_printf("%s\n", "ERROR NO WAYS");
 		return (0);
-	}*/
-
+	}
+	search_way(rooms, params);
 	while (rooms)
 	{
 		tmp_rooms = rooms->room->links;
@@ -613,28 +611,33 @@ int main(void)
 		}
 		rooms = rooms->next;
 	}
-	/*while (rooms)
+	return (1);
+}
+
+
+int main(void)
+{
+	t_params params;
+	int ifstart;
+	int ifend;
+	t_room_list *rooms;
+
+	rooms = NULL;
+	ifstart = 0;
+	ifend = 0;
+	rooms = NULL;
+	struct_nulling(&params);
+	while (get_next_line(0, &params.buf) > 0 && params.buf[0] == '#')
 	{
-		ft_printf("name%s x%d y%d dist%d\n", (rooms)->room->name,
-			(rooms)->room->x, (rooms)->room->y, (rooms)->room->which_room);
-		rooms = rooms->next;
-	}*/
-	while (links)
-	{
-		ft_printf("links_saved%s %s\n", (links)->first, (links)->second);
-		links = links->next;
+		if (!comments_parsing(&params, &ifstart, &ifend, &rooms))
+			return (0);
 	}
-	//ft_printf("%s\n", "test");
-	/*while (rooms)
+	if (!ants_saving(&params))
+		return (0);
+	if (!lemin_reading(&params, ifstart, ifend, rooms))
 	{
-		while (tmp->link->next)
-		{
-			tmp->link = tmp->link->next;
-			ft_printf("1name%s x%d y%d dist%d\n", tmp->link->name,
-			tmp->link->x, tmp->link->y, tmp->link->distance);
-		}
-		ft_printf("2name%s x%d y%d dist%d\n", rooms->link->name,
-			rooms->link->x, rooms->link->y, rooms->link->distance);
-		rooms = rooms->next;
-	}*/
+		ft_strdel(&params.buf);
+		ft_printf("%s\n", "ERROR8");
+		return (0);
+	}
 }
