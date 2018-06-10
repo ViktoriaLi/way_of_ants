@@ -44,31 +44,22 @@ int	room_push_back(t_room_list **begin_list, t_params *params, int which_room)
 		return (0);
 	link->next = NULL;
 	link->room = oneelem;
-	//oneelem = ft_lstnew(content, ft_strlen(content));
 	while ((*params).buf[i] && (*params).buf[i] != ' ')
 		i++;
-	//oneelem->distance = 0;
 	oneelem->which_room = which_room;
 	oneelem->distance = 0;
 	oneelem->links = NULL;
-	//if (!(oneelem->enter = (t_room *)malloc(sizeof(t_room))))
-		//return (0);
 	oneelem->enter = NULL;
 	oneelem->usage = 0;
-	oneelem->name = ft_strsub((*params).buf, 0, i);
-	//if (which_room == START_ROOM)
-	//ft_printf("name%s\n", oneelem->name);
-	i++;
+	oneelem->name = ft_strsub((*params).buf, 0, i++);
 	if ((*params).buf[i] >= '0' && (*params).buf[i] <= '9')
 		oneelem->x = ft_atoi(&params->buf[i]);
 	else
 		return (0);
-	//ft_printf("x%d \n", oneelem->x);
 	while ((*params).buf[i] >= '0' && (*params).buf[i] <= '9')
 		i++;
-	if ((*params).buf[i] != ' ')
+	if ((*params).buf[i++] != ' ')
 		return (0);
-	i++;
 	if ((*params).buf[i] >= '0' && (*params).buf[i] <= '9')
 		oneelem->y = ft_atoi(&params->buf[i]);
 	else
@@ -77,8 +68,6 @@ int	room_push_back(t_room_list **begin_list, t_params *params, int which_room)
 		i++;
 	if (i != (int)ft_strlen((*params).buf))
 		return(0);
-	//ft_printf("y%d \n", oneelem->y);
-	//link->link = oneelem;
 	if (!(*begin_list))
 	{
 		*begin_list = link;
