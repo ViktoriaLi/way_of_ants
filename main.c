@@ -98,7 +98,6 @@ void	ft_lstadd(t_list **alst, t_list *new)
 	t_room	*oneelem;
 	t_room_list	*list;
 	t_room_list *link;
-
 	oneelem = NULL;
 	list = queue;
 	if (!(link = (t_room_list *)malloc(sizeof(t_room_list))))
@@ -252,7 +251,6 @@ void create_path(t_ways *all_paths, t_room_list *queue)
 	t_room_list *tmp_queue;
 	t_room_list *queue;
 	t_room_list *tmp_rooms;
-
 	queue = NULL;
 	tmp_queue = NULL;
 	tmp_rooms = rooms;
@@ -380,7 +378,7 @@ int search_way(t_room_list *rooms, t_params *params)
 	return (1);
 }
 
-int	make_link(t_room_list *begin_list, t_params *params)
+int	make_link(t_room_list *rooms, t_params *params)
 {
 	int i;
 	t_room_list	*list;
@@ -405,7 +403,7 @@ int	make_link(t_room_list *begin_list, t_params *params)
 	if (!(*params).buf[i])
 		return (0);
 	second = ft_strsub((*params).buf, i, ft_strlen((*params).buf - 1 + 1));
-	list = begin_list;
+	list = rooms;
 	while (list)
 	{
 		if (ft_strcmp(list->room->name, first) == 0)
@@ -426,7 +424,7 @@ int	make_link(t_room_list *begin_list, t_params *params)
 	tmplist->next = link->links;
 	link->links = tmplist;
 	tmplist->room = head;
-		list = begin_list;
+		list = rooms;
 		while (list)
 		{
 			tmplist = list->room->links;
@@ -447,8 +445,7 @@ int if_room(t_params *params, t_room_list **rooms, int which_room)
 {
 	//ft_printf("%s \n", "test2");
 	//ft_printf("if_room%s \n", *buf);
-	if ((*params).buf[0] != '#' && ft_strchr((*params).buf, ' ') &&
-	ft_strcmp((*params).buf, "\n") != 0 && (*params).buf[0] != 'L')
+	if ((*params).buf[0] != '#' && ft_strchr((*params).buf, ' '))
 	{
 		if (ft_strchr((*params).buf, '-'))
 		{
@@ -477,16 +474,23 @@ int comments_parsing(t_params *params, int *ifstart, int *ifend, t_room_list **r
 			ft_strdel(&params->buf);
 			return(1);
 	}
-	if (params->buf[0] == '#' && (*params).buf[1] == '#' && !ft_strstr(&params->buf[2], "start") && !ft_strstr(&params->buf[2], "end"))
+	if (params->buf[0] == '#' && (*params).buf[1] == '#' &&
+	!ft_strstr(&params->buf[2], "start") && !ft_strstr(&params->buf[2], "end"))
 	{
 		ft_printf("buf3 %s\n", (*params).buf);
 		ft_strdel(&params->buf);
 		return(1);
 	}
-	if ((*params).buf[0] == '#' && (*params).buf[1] == '#' && (ft_strstr(&params->buf[2], "start") || ft_strstr(&params->buf[2], "end")))
+	if ((*params).buf[0] == '#' && (*params).buf[1] == '#' &&
+	(ft_strstr(&params->buf[2], "start") || ft_strstr(&params->buf[2], "end")))
 	{
 		if (ft_strstr(&params->buf[2], "start"))
 		{
+			if ((*params).ants == 0)
+			{
+				ft_strdel(&params->buf);
+				return (0);
+			}
 			if (*ifstart != 0)
 			{
 				ft_printf("%s\n", "ERROR3");
@@ -507,6 +511,11 @@ int comments_parsing(t_params *params, int *ifstart, int *ifend, t_room_list **r
 		}
 		if (ft_strstr(&params->buf[2], "end"))
 		{
+			if ((*params).ants == 0)
+			{
+				ft_strdel(&params->buf);
+				return (0);
+			}
 			if (*ifend != 0)
 			{
 				ft_printf("%s\n", "ERROR4");
@@ -564,7 +573,7 @@ int lemin_reading(t_params *params, int ifstart, int ifend, t_room_list *rooms)
 	{
 		if (ft_strcmp((*params).buf, "\n") == 0 || (*params).buf[0] == 'L')
 			return (0);
-		if (if_room(params, &rooms, OTHER_ROOM))
+		if (!ft_strchr((*params).buf, '-') && if_room(params, &rooms, OTHER_ROOM))
 		{
 			if (!(*params).links_count)
 				continue ;
@@ -614,7 +623,6 @@ int main(void)
 	rooms = NULL;
 	ifstart = 0;
 	ifend = 0;
-	rooms = NULL;
 	struct_nulling(&params);
 	while (get_next_line(0, &params.buf) > 0 && params.buf[0] == '#')
 	{

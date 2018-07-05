@@ -52,13 +52,13 @@ typedef	struct	s_room_list
   struct  s_room_list *next;
 }				t_room_list;
 
-typedef struct	s_link
+/*typedef struct	s_link
 {
 	//struct s_room *link;
   char *first;
   char *second;
   struct s_link *next;
-}				t_link;
+}				t_link;*/
 
 typedef struct	s_ways
 {
@@ -84,7 +84,6 @@ char	**two_dim_arr_mem(char **field, int x, int y, char c);
 size_t		ft_strlen(const char *s);
 
 char	*ft_strsub(char const *s, unsigned int start, size_t len);
-int	save_link(t_link **begin_list, char *first, char *second);
 int	make_link(t_room_list *begin_list, t_params *params);
 int	re_make_link(t_room_list *begin_list);
 
