@@ -28,6 +28,7 @@ typedef	struct	s_params
   int ants;
   int step;
   int links_count;
+  int rooms_count;
   char *buf;
   char *start;
   char *end;
@@ -43,6 +44,7 @@ typedef struct  s_room
   int which_room;
   int usage;
   struct s_room *enter;
+  struct s_room *next;
   struct  s_room_list *links;
 }       t_room;
 
@@ -52,13 +54,12 @@ typedef	struct	s_room_list
   struct  s_room_list *next;
 }				t_room_list;
 
-/*typedef struct	s_link
+typedef struct	s_link
 {
-	//struct s_room *link;
   char *first;
   char *second;
   struct s_link *next;
-}				t_link;*/
+}				t_link;
 
 typedef struct	s_ways
 {
@@ -86,5 +87,7 @@ size_t		ft_strlen(const char *s);
 char	*ft_strsub(char const *s, unsigned int start, size_t len);
 int	make_link(t_room_list *begin_list, t_params *params);
 int	re_make_link(t_room_list *begin_list);
+int	save_link(t_link **head, t_params *params);
+int	save_room(t_room **head, t_params *params, int which_room);
 
 #endif

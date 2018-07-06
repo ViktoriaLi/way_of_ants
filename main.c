@@ -6,6 +6,7 @@ void struct_nulling(t_params *params)
 	(*params).ants = 0;
 	(*params).step = 0;
 	(*params).links_count = 0;
+	(*params).rooms_count = 0;
 	(*params).start = NULL;
   (*params).end = NULL;
 }
@@ -30,7 +31,7 @@ void	list_push_back(t_list **begin_list, char *content)
 
 int	room_push_back(t_room_list *rooms, t_params *params, int which_room)
 {
-	ft_printf("1TEST%s\n", "TEST");
+	//ft_printf("1TEST%s\n", "TEST");
 	int i;
 	t_room_list *link;
 	t_room_list	*list;
@@ -72,22 +73,15 @@ int	room_push_back(t_room_list *rooms, t_params *params, int which_room)
 	list = link;
 	list->next = NULL;
 
-	//list = rooms;
+	rooms = list;
 
 	while (list)
-	{ft_printf("2TEST%s\n", "TEST");
+	{//ft_printf("2TEST%s\n", "TEST");
 		ft_printf("name%s x%d y%d dist%d\n", (list)->room->name,
 			(list)->room->x, (list)->room->y, (list)->room->which_room);
 		list = list->next;
 	}
 	return (1);
-}
-
-void	ft_lstadd(t_list **alst, t_list *new)
-{
-	if (new && alst && *alst)
-		new->next = *alst;
-	*alst = new;
 }
 
 /*int	queue_push_back(t_room_list *queue, t_params *params, t_room_list *to_add, t_room *enter)
@@ -305,31 +299,32 @@ void create_path(t_ways *all_paths, t_room_list *queue)
 	return (1);
 }*/
 
-int search_way(t_room_list *rooms, t_params *params)
+int search_way(t_room_list *farm, t_params *params)
 {
 	int count;
 
 	t_room_list *queue;
+
 	t_room_list *tmp_queue;
 	t_room_list *tmp_rooms;
 	t_ways *all_paths;
 
+	all_paths = NULL;
 	count = 0;
 	queue = NULL;
-	tmp_rooms = rooms;
-	all_paths = NULL;
-	tmp_queue = queue;
+	tmp_rooms = farm;
+
 	if (!(queue = (t_room_list *)malloc(sizeof(t_room_list))))
 		return (0);
 	queue->next = NULL;
-	while (tmp_rooms->room->which_room != START_ROOM)
+	while (tmp_rooms && tmp_rooms->room->which_room != START_ROOM)
 		tmp_rooms = tmp_rooms->next;
 	//tmp_queue = queue;
 	queue->room = tmp_rooms->room;
 	queue->room->distance = (*params).step++;
 	queue->room->usage = 1;
 	queue->room->enter = queue->room;
-	tmp_rooms = rooms;
+	tmp_rooms = farm;
 	tmp_queue = queue;
 
 	while (tmp_queue)
@@ -354,10 +349,11 @@ int search_way(t_room_list *rooms, t_params *params)
 		(tmp_queue)->room->usage, (tmp_queue)->room->distance, tmp_queue->room->enter->name);
 		tmp_queue = tmp_queue->next;
 	}
-	tmp_queue = queue;
+	/*tmp_queue = queue;
+
 	if (!(all_paths = (t_ways *)malloc(sizeof(t_ways *))))
 		return (0);
-	create_path(all_paths, tmp_queue);
+	create_path(all_paths, tmp_queue);*/
 	/*if ((*params).ants > 1)
 		{
 			while (queue)
@@ -438,10 +434,8 @@ int	make_link(t_room_list *rooms, t_params *params)
 	return (1);
 }
 
-int if_room(t_params *params, t_room_list *rooms, int which_room)
+int if_room(t_params *params, t_room **rooms, int which_room)
 {
-	//ft_printf("%s \n", "test2");
-	//ft_printf("if_room%s \n", *buf);
 	if ((*params).buf[0] != '#' && ft_strchr((*params).buf, ' '))
 	{
 		if (ft_strchr((*params).buf, '-'))
@@ -450,7 +444,7 @@ int if_room(t_params *params, t_room_list *rooms, int which_room)
 			ft_printf("%s\n", "ERROR1");
 			return (0);
 		}
-		if (!room_push_back(rooms, params, which_room))
+		if (!save_room(rooms, params, which_room))
 		{
 			ft_strdel(&params->buf);
 			ft_printf("%s\n", "ERROR2");
@@ -463,7 +457,7 @@ int if_room(t_params *params, t_room_list *rooms, int which_room)
 	return (0);
 }
 
-int comments_parsing(t_params *params, int *ifstart, int *ifend, t_room_list *rooms)
+int comments_parsing(t_params *params, int *ifstart, int *ifend, t_room **rooms)
 {
 	if (!ft_strstr(&params->buf[2], "start") && !ft_strstr(&params->buf[2], "end"))
 	{
@@ -488,6 +482,7 @@ int comments_parsing(t_params *params, int *ifstart, int *ifend, t_room_list *ro
 			if (!if_room(params, rooms, START_ROOM))
 				return(0);
 			//ft_printf("buf5 %s\n", *buf);
+			(*params).rooms_count++;
 			return(1);
 		}
 	}
@@ -513,6 +508,7 @@ int comments_parsing(t_params *params, int *ifstart, int *ifend, t_room_list *ro
 			if (!if_room(params, rooms, END_ROOM))
 				return(0);
 			//ft_printf("buf7 %s\n", *buf);
+			(*params).rooms_count++;
 			return(1);
 		}
 	}
@@ -521,7 +517,8 @@ int comments_parsing(t_params *params, int *ifstart, int *ifend, t_room_list *ro
 
 int pre_comments_parsing(t_params *params)
 {
-	if ((*params).buf[1] == '#' && (ft_strstr(&params->buf[2], "start") || ft_strstr(&params->buf[2], "end")))
+	if ((*params).buf[1] == '#' && (ft_strstr(&params->buf[2], "start")
+	|| ft_strstr(&params->buf[2], "end")))
 	{
 		ft_printf("buf3 %s\n", (*params).buf);
 		ft_strdel(&params->buf);
@@ -557,18 +554,203 @@ int ants_saving(t_params *params)
 		return(1);
 }
 
+int	save_link(t_link **head, t_params *params)
+{
+
+	int i;
+	t_link	*newelem;
+
+	i = 0;
+	newelem = NULL;
+	if ((*params).buf[0] == '#' || !ft_strchr((*params).buf, '-'))
+		return (0);
+	if (!(newelem = (t_link *)malloc(sizeof(t_link))))
+		return (0);
+
+	if ((*params).buf[0] == '#' || !ft_strchr((*params).buf, '-'))
+		return (0);
+	while ((*params).buf[i] && (*params).buf[i] != '-')
+		i++;
+	newelem->first = ft_strsub((*params).buf, 0, i);
+	i++;
+	if (!(*params).buf[i])
+		return (0);
+	newelem->second = ft_strsub((*params).buf, i, ft_strlen((*params).buf - 1 + 1));
+	newelem->next = *head;
+	*head = newelem;
+	return (1);
+}
+
+int	save_room(t_room **head, t_params *params, int which_room)
+{
+	int i;
+	t_room *new_room;
+
+	i = 0;
+	//list = rooms;
+	if (!(new_room = (t_room *)malloc(sizeof(t_room))))
+		return (0);
+	new_room->which_room = which_room;
+	new_room->distance = 0;
+	new_room->links = NULL;
+	new_room->enter = NULL;
+	new_room->usage = 0;
+	while ((*params).buf[i] && (*params).buf[i] != ' ')
+		i++;
+	new_room->name = ft_strsub((*params).buf, 0, i++);
+	if ((*params).buf[i] >= '0' && (*params).buf[i] <= '9')
+		new_room->x = ft_atoi(&params->buf[i]);
+	else
+		return (0);
+	while ((*params).buf[i] >= '0' && (*params).buf[i] <= '9')
+		i++;
+	if ((*params).buf[i++] != ' ')
+		return (0);
+	if ((*params).buf[i] >= '0' && (*params).buf[i] <= '9')
+		new_room->y = ft_atoi(&params->buf[i]);
+	else
+		return(0);
+	while ((*params).buf[i] >= '0' && (*params).buf[i] <= '9')
+		i++;
+	if (i != (int)ft_strlen((*params).buf))
+		return(0);
+
+	new_room->next = *head;
+	*head = new_room;
+
+
+	/*while (head)
+	{
+		ft_printf("name%s x%d y%d dist%d\n", (head)->name,
+			(head)->x, (head)->y, (head)->which_room);
+		head = head->next;
+	}*/
+	return (1);
+}
+
+int create_links(t_room_list **farm, t_link *links)
+{
+	t_room_list	*tmplist1;
+	t_room_list	*tmplist2;
+
+	tmplist1 = NULL;
+	tmplist2 = NULL;
+
+	t_room	*link;
+	t_room	*head;
+	t_room_list	*list;
+
+	head = NULL;
+	link = NULL;
+	list = *farm;
+	while (list)
+	{
+		if (ft_strcmp(list->room->name, links->first) == 0)
+			head = list->room;
+		if (ft_strcmp(list->room->name, links->second) == 0)
+			link = list->room;
+		list = list->next;
+	}
+	if (!head || !link)
+		return (0);
+	if (!(tmplist1 = (t_room_list *)malloc(sizeof(t_room_list))))
+		return (0);
+	tmplist1->next = head->links;
+	head->links = tmplist1;
+	tmplist1->room = link;
+	if (!(tmplist2 = (t_room_list *)malloc(sizeof(t_room_list))))
+		return (0);
+	tmplist2->next = link->links;
+	link->links = tmplist2;
+	tmplist2->room = head;
+	return (1);
+}
+
+int add_links(t_room_list **farm, t_link *links, t_params *params)
+{
+	t_room_list	*tmplist1;
+	t_room_list	*tmplist2;
+	t_room_list	*list;
+	tmplist1 = NULL;
+	tmplist2 = NULL;
+	while (links)
+	{
+		create_links(farm, links);
+		links = links->next;
+	}
+	ft_printf("%s\n", "non valid");
+
+	list = *farm;
+	while (list)
+	{
+		tmplist1 = list->room->links;
+		ft_printf("1head%s x%d y%d dist%d\n", (list)->room->name,
+			(list)->room->x, (list)->room->y, (list)->room->which_room);
+		while (tmplist1)
+		{
+		ft_printf("1links%s x%d y%d dist%d\n", tmplist1->room->name,
+			tmplist1->room->x, tmplist1->room->y, tmplist1->room->which_room);
+		tmplist1 = tmplist1->next;
+	}
+	list = list->next;
+	}
+	search_way(*farm, params);
+	return (1);
+}
+
+int make_rooms_with_links(t_room *rooms, t_link *links, t_params *params)
+{
+	t_room_list *farm;
+	t_room_list *head;
+	//t_room_list *tmp_rooms;
+
+	if (!(farm = (t_room_list *)malloc(sizeof(t_room_list))))
+		return (0);
+	head = farm;
+	while (rooms)
+	{
+		farm->room = rooms;
+		if (rooms->next)
+		{
+			if (!(farm->next = (t_room_list *)malloc(sizeof(t_room_list))))
+				return (0);
+		}
+		else
+			farm->next = NULL;
+		rooms = rooms->next;
+		farm = farm->next;
+	}
+	ft_printf("%s\n", "non valid");
+	farm = head;
+	/*while (farm)
+	{
+		tmp_rooms = farm->room->links;
+		ft_printf("1head%s x%d y%d dist%d\n", (farm)->room->name,
+			(farm)->room->x, (farm)->room->y, (farm)->room->which_room);
+		while (tmp_rooms)
+		{
+			ft_printf("1links%s x%d y%d dist%d\n", tmp_rooms->room->name,
+				tmp_rooms->room->x, tmp_rooms->room->y, tmp_rooms->room->which_room);
+			tmp_rooms = tmp_rooms->next;
+		}
+		farm = farm->next;
+	}*/
+	if (!add_links(&farm, links, params))
+		return (0);
+	return (1);
+}
+
 int lemin_reading(t_params *params)
 {
 	int ifstart;
 	int ifend;
+	t_room *rooms;
+	t_link *links;
+
 	ifstart = 0;
 	ifend = 0;
-
-	t_room_list *rooms;
-	t_room_list *tmp_rooms;
-
 	rooms = NULL;
-	tmp_rooms = rooms;
+	links = NULL;
 	while (get_next_line(0, &params->buf) > 0)
 	{
 		if (ft_strcmp((*params).buf, "\n") == 0 || (*params).buf[0] == 'L')
@@ -577,9 +759,11 @@ int lemin_reading(t_params *params)
 			return (0);
 		}
 
-		if (!ft_strchr((*params).buf, '-') && (*params).buf[0] != '#' && if_room(params, tmp_rooms, OTHER_ROOM))
+		if (!ft_strchr((*params).buf, '-') && (*params).buf[0] != '#'
+		&& if_room(params, &rooms, OTHER_ROOM))
 		{
 			ft_printf("%s\n", "room");
+			(*params).rooms_count++;
 			if (!(*params).links_count)
 				continue ;
 			else
@@ -589,41 +773,39 @@ int lemin_reading(t_params *params)
 				break ;
 			}
 		}
-		//tmp_rooms = rooms;
-		if ((*params).buf[0] == '#' && comments_parsing(params, &ifstart, &ifend, tmp_rooms))
+		else if ((*params).buf[0] == '#' &&
+		comments_parsing(params, &ifstart, &ifend, &rooms))
 		{
 			ft_printf("%s\n", "comment");
 			continue ;
 		}
 
-		//tmp_rooms = rooms;
-		if (ft_strchr((*params).buf, '-') && make_link(tmp_rooms, params))
+		else if (ft_strchr((*params).buf, '-') && save_link(&links, params))
 		{
 			ft_printf("%s\n", "link");
 			(*params).links_count++;
 			continue ;
 		}
-		ft_strdel(&params->buf);
-		ft_printf("%s\n", "ERROR8");
-		return (0);
-	}
-
-
-	tmp_rooms = rooms;
-	search_way(tmp_rooms, params);
-	while (rooms)
-	{
-		tmp_rooms = rooms->room->links;
-		ft_printf("1head%s x%d y%d dist%d\n", (rooms)->room->name,
-			(rooms)->room->x, (rooms)->room->y, (rooms)->room->which_room);
-		while (tmp_rooms)
+		else
 		{
-			ft_printf("1links%s x%d y%d dist%d\n", tmp_rooms->room->name,
-				tmp_rooms->room->x, tmp_rooms->room->y, tmp_rooms->room->which_room);
-			tmp_rooms = tmp_rooms->next;
+			ft_strdel(&params->buf);
+			ft_printf("%s\n", "ERROR8");
+			return (0);
 		}
-		rooms = rooms->next;
 	}
+	make_rooms_with_links(rooms, links, params);
+	/*while (links)
+	{
+		ft_printf("name%s %s\n", (links)->first,
+			(links)->second);
+		links = links->next;
+	}*/
+	/*while (rooms)
+	{
+		ft_printf("name%s x%d y%d dist%d\n", (rooms)->name,
+			(rooms)->x, (rooms)->y, (rooms)->which_room);
+		rooms = rooms->next;
+	}*/
 	return (1);
 }
 
