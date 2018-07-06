@@ -141,6 +141,7 @@ int add_to_queue(t_room_list *queue, t_params *params)
 	ft_printf("startstart %s x%d y%d dist%d %s usage%d\n", (queue)->room->name,
 		(queue)->room->x, (queue)->room->y, (queue)->room->which_room, queue->room->enter->name,
 		queue->room->usage);
+
 	t_room_list *links;
 	t_room *enter;
 	t_room_list *end;
@@ -150,21 +151,24 @@ int add_to_queue(t_room_list *queue, t_params *params)
 	enter = queue->room;
 	links = queue->room->links;
 	end = queue;
+
 	while (end->next)
 				end = end->next;
 	if (links)
-		enter->usage = 2;
+		queue->room->usage = 2;
 	while (links)
 	{
 		if (links->room->usage == 0)
 		{
+
+
 			//if (queue_push_back(queue, params, links, enter) == 2)
 				//return (0);
 			ft_printf("TTT%d\n", links->room->usage);
 			if (!(new = (t_room_list *)malloc(sizeof(t_room_list))))
 				return (0);
 				new->next = NULL;
-				new = links;
+				new->room = links->room;
 				new->room->usage = 1;
 				new->room->distance = (*params).step++;
 				new->room->enter = enter;
@@ -189,10 +193,6 @@ void create_path(t_ways *all_paths, t_room_list *queue)
 	t_room_list *tmp_queue;
 
 	new = NULL;
-	if (!(new = (t_ways *)malloc(sizeof(t_ways))))
-		return ;
-	//new = NULL;
-	//new->next = NULL;
 	new_head = NULL;
 	tmp_queue = queue;
 	while (tmp_queue->next)
@@ -306,6 +306,7 @@ int search_way(t_room_list *farm, t_params *params)
 	t_room_list *queue;
 
 	t_room_list *tmp_queue;
+	t_room_list *tmp_queue1;
 	t_room_list *tmp_rooms;
 	t_ways *all_paths;
 
@@ -319,7 +320,6 @@ int search_way(t_room_list *farm, t_params *params)
 	queue->next = NULL;
 	while (tmp_rooms && tmp_rooms->room->which_room != START_ROOM)
 		tmp_rooms = tmp_rooms->next;
-	//tmp_queue = queue;
 	queue->room = tmp_rooms->room;
 	queue->room->distance = (*params).step++;
 	queue->room->usage = 1;
@@ -327,33 +327,61 @@ int search_way(t_room_list *farm, t_params *params)
 	tmp_rooms = farm;
 	tmp_queue = queue;
 
-	while (tmp_queue)
+	while (queue)
 	{
-		if (tmp_queue->room->usage != 2)
+		if (queue->room->usage != 2)
 		{
-			if (!add_to_queue(tmp_queue, params))
+			if (!add_to_queue(queue, params))
 				break ;
 		}
-		ft_printf("2queue%s x%d y%d whichroom%d usage%d dist%d enter%s\n", (tmp_queue)->room->name,
-			(tmp_queue)->room->x, (tmp_queue)->room->y, (tmp_queue)->room->which_room,
-		(tmp_queue)->room->usage, (tmp_queue)->room->distance, tmp_queue->room->enter->name);
-		tmp_queue = tmp_queue->next;
+		ft_printf("2queue%s x%d y%d whichroom%d usage%d dist%d enter%s\n", (queue)->room->name,
+			(queue)->room->x, (queue)->room->y, (queue)->room->which_room,
+		(queue)->room->usage, (queue)->room->distance, queue->room->enter->name);
+		queue = queue->next;
 	}
-	tmp_queue = queue;
+	queue = tmp_queue;
 	/*if (tmp_queue)
 		return (0);*/
-	while (tmp_queue)
+	while (queue)
 	{
-		ft_printf("2queue%s x%d y%d whichroom%d usage%d dist%d enter%s\n", (tmp_queue)->room->name,
-			(tmp_queue)->room->x, (tmp_queue)->room->y, (tmp_queue)->room->which_room,
-		(tmp_queue)->room->usage, (tmp_queue)->room->distance, tmp_queue->room->enter->name);
-		tmp_queue = tmp_queue->next;
+		ft_printf("2queue%s x%d y%d whichroom%d usage%d dist%d enter%s\n", (queue)->room->name,
+			(queue)->room->x, (queue)->room->y, (queue)->room->which_room,
+		(queue)->room->usage, (queue)->room->distance, queue->room->enter->name);
+		queue = queue->next;
 	}
-	/*tmp_queue = queue;
+	queue = tmp_queue;
+	//tmp_queue = queue;
+	while (tmp_rooms)
+	{
+		tmp_queue1 = tmp_rooms->room->links;
+		ft_printf("1head%s x%d y%d dist%d\n", (tmp_rooms)->room->name,
+			(tmp_rooms)->room->x, (tmp_rooms)->room->y, (tmp_rooms)->room->which_room);
+		while (tmp_queue1)
+		{
+		ft_printf("1links%s x%d y%d dist%d\n", tmp_queue1->room->name,
+			tmp_queue1->room->x, tmp_queue1->room->y, tmp_queue1->room->which_room);
+		tmp_queue1 = tmp_queue1->next;
+	}
+	tmp_rooms = tmp_rooms->next;
+}
 
 	if (!(all_paths = (t_ways *)malloc(sizeof(t_ways *))))
 		return (0);
-	create_path(all_paths, tmp_queue);*/
+	create_path(all_paths, queue);
+	/*tmp_rooms = farm;
+	while (tmp_rooms)
+	{
+		tmp_queue1 = tmp_rooms->room->links;
+		ft_printf("1head%s x%d y%d dist%d\n", (tmp_rooms)->room->name,
+			(tmp_rooms)->room->x, (tmp_rooms)->room->y, (tmp_rooms)->room->which_room);
+		while (tmp_queue1)
+		{
+		ft_printf("1links%s x%d y%d dist%d\n", tmp_queue1->room->name,
+			tmp_queue1->room->x, tmp_queue1->room->y, tmp_queue1->room->which_room);
+		tmp_queue1 = tmp_queue1->next;
+	}
+	tmp_rooms = tmp_rooms->next;
+}*/
 	/*if ((*params).ants > 1)
 		{
 			while (queue)
