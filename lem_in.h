@@ -61,11 +61,16 @@ typedef struct	s_link
   struct s_link *next;
 }				t_link;
 
+typedef struct	s_way
+{
+  char *name;
+  struct s_way *next;
+}				t_way;
+
 typedef struct	s_ways
 {
   int number;
-  char *name;
-  struct s_ways *way;
+  struct s_way *way;
   struct s_ways *next;
 }				t_ways;
 
