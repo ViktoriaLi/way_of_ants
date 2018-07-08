@@ -63,6 +63,7 @@ typedef struct	s_link
 
 typedef struct	s_ways
 {
+  int number;
   char *name;
   struct s_ways *way;
   struct s_ways *next;
@@ -75,7 +76,6 @@ int		ft_printf(const char *format, ...);
 void  ft_strdel(char **as);
 
 int   ft_strcmp(const char *s1, const char *s2);
-t_list  *ft_lstnew(void const *content, size_t content_size);
 char  *ft_strrchr(const char *s, int c);
 
 char	*ft_strstr(const char *big, const char *little);
@@ -85,9 +85,16 @@ char	**two_dim_arr_mem(char **field, int x, int y, char c);
 size_t		ft_strlen(const char *s);
 
 char	*ft_strsub(char const *s, unsigned int start, size_t len);
-int	make_link(t_room_list *begin_list, t_params *params);
-int	re_make_link(t_room_list *begin_list);
+
+
 int	save_link(t_link **head, t_params *params);
 int	save_room(t_room **head, t_params *params, int which_room);
+int if_room(t_params *params, t_room **rooms, int which_room);
+int ants_saving(t_params *params);
+int pre_comments_parsing(t_params *params);
+int comments_parsing(t_params *params, int *ifstart, int *ifend, t_room **rooms);
+int make_rooms_with_links(t_room *rooms, t_link *links, t_params *params);
+int add_links(t_room_list **farm, t_link *links, t_params *params);
+int search_way(t_room_list *farm, t_params *params);
 
 #endif

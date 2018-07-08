@@ -14,9 +14,9 @@ NAME = lem-in
 
 LIB_DIR = ./libft/
 
-SFILES = main.c
+SFILES = main.c parsing.c links.c queue.c
 
-OFILES = main.o
+OFILES = main.o parsing.o links.o queue.o
 
 LIBFT = $(LIBFT_DIR)libftprintf.a
 LIBFT_DIR = $(LIB_DIR)
