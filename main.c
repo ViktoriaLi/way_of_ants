@@ -1,10 +1,30 @@
 #include "lem_in.h"
 
+void del_rooms_and_links(t_room *rooms, t_link *links)
+{
+	t_room *tmp_rooms;
+	t_link *tmp_links;
+	while (rooms)
+	{
+		tmp_rooms = rooms->next;
+		free(rooms);
+		rooms = tmp_rooms;
+	}
+	while (links)
+	{
+		tmp_links = links->next;
+		free(links);
+		links = tmp_links;
+	}
+}
+
 void struct_nulling(t_params *params)
 {
 	(*params).buf = NULL;
 	(*params).ants = 0;
 	(*params).links_count = 0;
+	(*params).rooms_count = 0;
+	(*params).if_error = 0;
 	(*params).start = NULL;
   	(*params).end = NULL;
 }
@@ -24,33 +44,47 @@ int lemin_reading(t_params *params)
 	{
 		if (ft_strcmp((*params).buf, "\n") == 0 || (*params).buf[0] == 'L')
 		{
-			ft_printf("%s\n", "non valid");
-			return (0);
+			ft_strdel(&params->buf);
+			ft_printf("%s\n", "ERROR11");
+			if ((*params).links_count && (*params).rooms_count)
+			{
+				(*params).if_error = 1;
+				break;
+			}
+			del_rooms_and_links(rooms, links);
+			exit (0);
 		}
-
 		if (!ft_strchr((*params).buf, '-') && (*params).buf[0] != '#'
 		&& if_room(params, &rooms, OTHER_ROOM))
 		{
+			(*params).rooms_count++;
 			ft_printf("%s\n", "room");
+			ft_strdel(&params->buf);
 			if (!(*params).links_count)
 				continue ;
 			else
 			{
-				ft_strdel(&params->buf);
 				ft_printf("%s\n", "ERROR7");
+				(*params).if_error = 1;
 				break ;
 			}
 		}
 		else if ((*params).buf[0] == '#' &&
 		comments_parsing(params, &ifstart, &ifend, &rooms))
 		{
+			ft_strdel(&params->buf);
 			ft_printf("%s\n", "comment");
 			continue ;
 		}
-
 		else if (ft_strchr((*params).buf, '-') && save_link(&links, params))
 		{
 			ft_printf("%s\n", "link");
+			ft_strdel(&params->buf);
+			if (!(*params).rooms_count)
+			{
+				del_rooms_and_links(rooms, links);
+				exit (0);
+			}
 			(*params).links_count++;
 			continue ;
 		}
@@ -58,10 +92,20 @@ int lemin_reading(t_params *params)
 		{
 			ft_strdel(&params->buf);
 			ft_printf("%s\n", "ERROR8");
-			return (0);
+			if ((*params).links_count && (*params).rooms_count)
+			{
+				(*params).if_error = 1;
+				break;
+			}
+			del_rooms_and_links(rooms, links);
+			exit (0);
 		}
 	}
-	make_rooms_with_links(rooms, links, params);
+	if (!make_rooms_with_links(rooms, links, params))
+	{
+		del_rooms_and_links(rooms, links);
+		exit (0);
+	}
 	return (1);
 }
 

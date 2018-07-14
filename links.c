@@ -1,13 +1,17 @@
 #include "lem_in.h"
 
+/*void del_farm(t_room *rooms)
+{
+	t_room *rooms
+}*/
+
 int make_rooms_with_links(t_room *rooms, t_link *links, t_params *params)
 {
 	t_room_list *farm;
 	t_room_list *head;
-	//t_room_list *tmp_rooms;
 
 	if (!(farm = (t_room_list *)malloc(sizeof(t_room_list))))
-		return (0);
+		exit (0);
 	head = farm;
 	while (rooms)
 	{
@@ -15,30 +19,18 @@ int make_rooms_with_links(t_room *rooms, t_link *links, t_params *params)
 		if (rooms->next)
 		{
 			if (!(farm->next = (t_room_list *)malloc(sizeof(t_room_list))))
-				return (0);
+			{
+				exit (0);
+			}
 		}
 		else
 			farm->next = NULL;
 		rooms = rooms->next;
 		farm = farm->next;
 	}
-	ft_printf("%s\n", "non valid");
 	farm = head;
-	/*while (farm)
-	{
-		tmp_rooms = farm->room->links;
-		ft_printf("1head%s x%d y%d dist%d\n", (farm)->room->name,
-			(farm)->room->x, (farm)->room->y, (farm)->room->which_room);
-		while (tmp_rooms)
-		{
-			ft_printf("1links%s x%d y%d dist%d\n", tmp_rooms->room->name,
-				tmp_rooms->room->x, tmp_rooms->room->y, tmp_rooms->room->which_room);
-			tmp_rooms = tmp_rooms->next;
-		}
-		farm = farm->next;
-	}*/
 	if (!add_links(&farm, links, params))
-		return (0);
+		exit (0);
 	return (1);
 }
 

@@ -15,6 +15,8 @@ typedef	struct	s_params
 {
   int ants;
   int links_count;
+  int rooms_count;
+  int if_error;
   char *buf;
   char *start;
   char *end;
