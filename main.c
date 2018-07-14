@@ -4,11 +4,9 @@ void struct_nulling(t_params *params)
 {
 	(*params).buf = NULL;
 	(*params).ants = 0;
-	(*params).step = 0;
 	(*params).links_count = 0;
-	(*params).rooms_count = 0;
 	(*params).start = NULL;
-  (*params).end = NULL;
+  	(*params).end = NULL;
 }
 
 int lemin_reading(t_params *params)
@@ -34,7 +32,6 @@ int lemin_reading(t_params *params)
 		&& if_room(params, &rooms, OTHER_ROOM))
 		{
 			ft_printf("%s\n", "room");
-			(*params).rooms_count++;
 			if (!(*params).links_count)
 				continue ;
 			else
@@ -65,18 +62,6 @@ int lemin_reading(t_params *params)
 		}
 	}
 	make_rooms_with_links(rooms, links, params);
-	/*while (links)
-	{
-		ft_printf("name%s %s\n", (links)->first,
-			(links)->second);
-		links = links->next;
-	}*/
-	/*while (rooms)
-	{
-		ft_printf("name%s x%d y%d dist%d\n", (rooms)->name,
-			(rooms)->x, (rooms)->y, (rooms)->which_room);
-		rooms = rooms->next;
-	}*/
 	return (1);
 }
 
@@ -88,14 +73,14 @@ int main(void)
 	while (get_next_line(0, &params.buf) > 0 && params.buf[0] == '#')
 	{
 		if (!pre_comments_parsing(&params))
-			return (0);
+			exit (0);
 	}
 	if (!ants_saving(&params))
-		return (0);
+		exit (0);
 	if (!lemin_reading(&params))
 	{
 		ft_strdel(&params.buf);
 		ft_printf("%s\n", "ERROR9");
-		return (0);
+		exit (0);
 	}
 }

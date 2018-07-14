@@ -1,3 +1,4 @@
+
 #include "lem_in.h"
 
 int comments_parsing(t_params *params, int *ifstart, int *ifend, t_room **rooms)
@@ -24,8 +25,6 @@ int comments_parsing(t_params *params, int *ifstart, int *ifend, t_room **rooms)
 			get_next_line(0, &params->buf);
 			if (!if_room(params, rooms, START_ROOM))
 				return(0);
-			//ft_printf("buf5 %s\n", *buf);
-			(*params).rooms_count++;
 			return(1);
 		}
 	}
@@ -51,7 +50,6 @@ int comments_parsing(t_params *params, int *ifstart, int *ifend, t_room **rooms)
 			if (!if_room(params, rooms, END_ROOM))
 				return(0);
 			//ft_printf("buf7 %s\n", *buf);
-			(*params).rooms_count++;
 			return(1);
 		}
 	}
@@ -107,7 +105,6 @@ int	save_room(t_room **head, t_params *params, int which_room)
 	if (!(new_room = (t_room *)malloc(sizeof(t_room))))
 		return (0);
 	new_room->which_room = which_room;
-	new_room->distance = 0;
 	new_room->links = NULL;
 	new_room->enter = NULL;
 	new_room->usage = 0;

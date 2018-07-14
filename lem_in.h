@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/22 13:15:59 by vlikhotk          #+#    #+#             */
-/*   Updated: 2018/03/01 18:21:51 by vlikhotk         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef LEM_IN_H
 # define LEM_IN_H
 
@@ -19,16 +7,14 @@
 # include "libft/includes/libft.h"
 # include "libft/includes/ft_printf.h"
 
-#define START_ROOM 1
-#define END_ROOM 2
-#define OTHER_ROOM 0
+#define START_ROOM 0
+#define END_ROOM 1
+#define OTHER_ROOM 2
 
 typedef	struct	s_params
 {
   int ants;
-  int step;
   int links_count;
-  int rooms_count;
   char *buf;
   char *start;
   char *end;
@@ -40,7 +26,6 @@ typedef struct  s_room
   void      *name;
   int x;
   int y;
-  int distance;
   int which_room;
   int usage;
   struct s_room *enter;
@@ -64,13 +49,17 @@ typedef struct	s_link
 typedef struct	s_way
 {
   char *name;
+  int distance;
+  int if_empty;
   struct s_way *next;
 }				t_way;
 
 typedef struct	s_ways
 {
   int number;
+  int ant;
   struct s_way *way;
+  struct s_ways *prev;
   struct s_ways *next;
 }				t_ways;
 

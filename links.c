@@ -83,10 +83,8 @@ int create_links(t_room_list **farm, t_link *links)
 int add_links(t_room_list **farm, t_link *links, t_params *params)
 {
 	t_room_list	*tmplist1;
-	t_room_list	*tmplist2;
 	t_room_list	*list;
 	tmplist1 = NULL;
-	tmplist2 = NULL;
 	while (links)
 	{
 		create_links(farm, links);
