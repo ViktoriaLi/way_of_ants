@@ -49,8 +49,10 @@ void create_path(t_ways **all_paths, t_room_list *queue, int way_number)
 	t_way *new;
 	t_way *new_head;
 	t_room_list *tmp_queue;
-
+	int count;
 	t_ways *tmp;
+
+	count = 1;
 	new = NULL;
 	new_head = NULL;
 	tmp_queue = queue;
@@ -63,7 +65,7 @@ void create_path(t_ways **all_paths, t_room_list *queue, int way_number)
 	tmp->next = *all_paths;
 	tmp->prev = NULL;
 	tmp->number = way_number;
-	tmp->way->distance = -1;
+	tmp->way->distance = 0;
 
 	while (tmp_queue->next)
 		tmp_queue = tmp_queue->next;
@@ -72,7 +74,7 @@ void create_path(t_ways **all_paths, t_room_list *queue, int way_number)
 	{
 		tmp->way->name = tmp_queue->room->name;
 		tmp->way->if_empty = 1;
-		tmp->way->distance++;
+		count++;
 		ft_printf("way_number %d\n", way_number);
 		tmp->way->next = new_head;
 		ft_printf("way_number %d\n", way_number);
@@ -88,7 +90,7 @@ void create_path(t_ways **all_paths, t_room_list *queue, int way_number)
 		return ;
 	tmp->way->name = tmp_queue->room->name;
 	tmp->way->if_empty = 1;
-	tmp->way->distance++;
+	tmp->way->distance = count;
 	tmp->way->next = new_head;
 	tmp->ant = 0;
 	new_head = tmp->way;
@@ -98,6 +100,7 @@ void create_path(t_ways **all_paths, t_room_list *queue, int way_number)
 		(*all_paths)->prev = tmp;
 	*all_paths = tmp;
 	new = tmp->way;
+	ft_printf("tmp->way->distance%d\n", tmp->way->distance);
 	while (new)
 	{
 		ft_printf("rev%s\n", "rev");
@@ -234,6 +237,58 @@ void make_output(t_params *params, t_ways *all_paths)
 	}*/
 }
 
+void calc_turns(t_params *params, t_ways *all_paths)
+{
+	//int i;
+	////int turn;
+	t_ways *tmp;
+	int ants;
+	//int ways[all_paths->number + 1];
+	int quantity;
+	int min_way;
+	int if_all_one_way;
+	int last_way;
+
+	quantity = all_paths->number + 1;
+	tmp = all_paths;
+	ants = (*params).ants;
+	//turn = 1;
+	//i = 0;
+	while(tmp)
+	{
+		//ways[i++] = tmp->way->distance;
+		if (!tmp->next)
+			min_way = tmp->way->distance;
+		tmp = tmp->next;
+	}
+	if_all_one_way = min_way + (*params).ants - 2;
+	tmp = all_paths;
+	while (tmp->way->distance > if_all_one_way)
+		tmp = tmp->next;
+	last_way = tmp->number;
+	quantity = tmp->number + 1;
+	ft_printf("lastway %d if_all_one_way%d min_way%d %d\n", last_way, if_all_one_way, min_way, (*params).ants / quantity);
+	while (tmp)
+	{
+		tmp->ant = (*params).ants / quantity;
+		if (!tmp->next)
+			tmp->ant = ants;
+		ants--;
+		tmp = tmp->next;
+	}
+	tmp = all_paths;
+	while (tmp->number != last_way)
+	{
+		tmp = tmp->next;
+	}
+	while (tmp)
+	{
+		ft_printf("number %d ants%d\n", tmp->number, tmp->ant);
+		tmp = tmp->next;
+	}
+
+}
+
 int search_way(t_room_list *farm, t_params *params)
 {
 
@@ -336,6 +391,7 @@ int search_way(t_room_list *farm, t_params *params)
 	}
 	all_paths = all_paths->next;
 }*/
-	make_output(params, all_paths);
+	//make_output(params, all_paths);
+	calc_turns(params, all_paths);
 	return (1);
 }

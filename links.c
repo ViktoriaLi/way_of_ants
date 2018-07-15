@@ -82,8 +82,6 @@ int add_links(t_room_list **farm, t_link *links, t_params *params)
 		create_links(farm, links);
 		links = links->next;
 	}
-	ft_printf("%s\n", "non valid");
-
 	list = *farm;
 	while (list)
 	{
