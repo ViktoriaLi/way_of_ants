@@ -76,11 +76,12 @@ int lemin_reading(t_params *params)
 			ft_printf("%s\n", "comment");
 			continue ;
 		}
-		else if (ft_strchr((*params).buf, '-') && save_link(&links, params))
+		else if (ft_strchr((*params).buf, '-') && (*params).buf[0] != '#'
+			&& save_link(&links, params))
 		{
 			ft_printf("%s\n", "link");
 			ft_strdel(&params->buf);
-			if (!(*params).rooms_count)
+			if (!(*params).rooms_count || (!ifstart && !ifend))
 			{
 				del_rooms_and_links(rooms, links);
 				exit (0);
@@ -100,6 +101,11 @@ int lemin_reading(t_params *params)
 			del_rooms_and_links(rooms, links);
 			exit (0);
 		}
+	}
+	if ((!ifstart && !ifend) || !(*params).links_count || !(*params).rooms_count)
+	{
+		del_rooms_and_links(rooms, links);
+		exit (0);
 	}
 	if (!make_rooms_with_links(rooms, links, params))
 	{
