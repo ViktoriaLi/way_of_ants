@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   links.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/07/16 10:56:38 by vlikhotk          #+#    #+#             */
+/*   Updated: 2018/07/16 10:56:41 by vlikhotk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem_in.h"
 
 /*void del_farm(t_room *rooms)
@@ -101,5 +113,6 @@ int	save_link(t_link **head, t_params *params)
 	newelem->second = ft_strsub((*params).buf, i, ft_strlen((*params).buf - 1 + 1));
 	newelem->next = *head;
 	*head = newelem;
+	ft_printf("%s\n", (*params).buf);
 	return (1);
 }

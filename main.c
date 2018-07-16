@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/07/16 10:56:07 by vlikhotk          #+#    #+#             */
+/*   Updated: 2018/07/16 10:56:14 by vlikhotk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem_in.h"
 
 void del_rooms_and_links(t_room *rooms, t_link *links)
@@ -58,7 +70,6 @@ int lemin_reading(t_params *params)
 		&& if_room(params, &rooms, OTHER_ROOM))
 		{
 			(*params).rooms_count++;
-			ft_printf("%s\n", "room");
 			ft_strdel(&params->buf);
 			if (!(*params).links_count)
 				continue ;
@@ -73,13 +84,11 @@ int lemin_reading(t_params *params)
 		comments_parsing(params, &ifstart, &ifend, &rooms))
 		{
 			ft_strdel(&params->buf);
-			ft_printf("%s\n", "comment");
 			continue ;
 		}
 		else if (ft_strchr((*params).buf, '-') && (*params).buf[0] != '#'
 			&& save_link(&links, params))
 		{
-			ft_printf("%s\n", "link");
 			ft_strdel(&params->buf);
 			if (!(*params).rooms_count || (!ifstart && !ifend))
 			{

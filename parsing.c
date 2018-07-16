@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/07/16 10:56:20 by vlikhotk          #+#    #+#             */
+/*   Updated: 2018/07/16 10:56:22 by vlikhotk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "lem_in.h"
 
@@ -12,7 +23,7 @@ int main_rooms_saving(int *room_count, t_params *params, t_room **rooms, int whi
 		else
 		{
 			(*room_count) = 1;
-			ft_printf("buf4 %s\n", (*params).buf);
+			ft_printf("%s\n", (*params).buf);
 			ft_strdel(&params->buf);
 			get_next_line(0, &params->buf);
 			if (!if_room(params, rooms, which_room))
@@ -34,11 +45,11 @@ int 	comments_parsing(t_params *params, int *ifstart, int *ifend, t_room **rooms
 	{
 		if (main_rooms_saving(ifend, params, rooms, END_ROOM))
 			return(1);
-		return(0);	
+		return(0);
 	}
 	else
 	{
-		ft_printf("buf3 %s\n", (*params).buf);
+		ft_printf("%s\n", (*params).buf);
 		ft_strdel(&params->buf);
 		return(1);
 	}
@@ -49,7 +60,7 @@ int pre_comments_parsing(t_params *params)
 	if ((*params).buf[1] == '#' && (ft_strstr(&params->buf[2], "start")
 	|| ft_strstr(&params->buf[2], "end")))
 	{
-		ft_printf("buf3 %s\n", (*params).buf);
+		ft_printf("%s\n", (*params).buf);
 		ft_strdel(&params->buf);
 		exit (0);
 	}
@@ -77,7 +88,7 @@ int ants_saving(t_params *params)
 		exit (0);
 	}
 	(*params).ants = ft_atoi((*params).buf);
-	ft_printf("buf %s\n", (*params).buf);
+	ft_printf("%s\n", (*params).buf);
 	ft_strdel(&params->buf);
 	return (1);
 }
@@ -124,7 +135,7 @@ int if_room(t_params *params, t_room **rooms, int which_room)
 		ft_strchr((*params).buf, ' ') && save_room(rooms, params, which_room))
 	{
 
-		ft_printf("buf1 %s\n", (*params).buf);
+		ft_printf("%s\n", (*params).buf);
 		ft_strdel(&params->buf);
 		return (1);
 	}
