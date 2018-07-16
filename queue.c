@@ -2,10 +2,6 @@
 
 int add_to_queue(t_room_list *queue)
 {
-	ft_printf("startstart %s x%d y%d dist%d %s usage%d\n", (queue)->room->name,
-		(queue)->room->x, (queue)->room->y, (queue)->room->which_room, queue->room->enter->name,
-		queue->room->usage);
-
 	t_room_list *links;
 	t_room *enter;
 	t_room_list *end;
@@ -15,25 +11,20 @@ int add_to_queue(t_room_list *queue)
 	enter = queue->room;
 	links = queue->room->links;
 	end = queue;
-
 	while (end->next)
-				end = end->next;
+		end = end->next;
 	if (links)
 		queue->room->usage = 2;
 	while (links)
 	{
 		if (links->room->usage == 0 || links->room->which_room == END_ROOM)
 		{
-			ft_printf("TTT%d\n", links->room->usage);
 			if (!(new = (t_room_list *)malloc(sizeof(t_room_list))))
 				return (0);
 				new->next = NULL;
 				new->room = links->room;
 				new->room->usage = 1;
 				new->room->enter = enter;
-				ft_printf("add %s x%d y%d dist%d %s %d\n", links->room->name,
-					links->room->x, links->room->y, links->room->which_room, links->room->enter->name,
-				links->room->usage);
 				end->next = new;
 				end = end->next;
 				if (new->room->which_room == END_ROOM)
