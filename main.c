@@ -38,7 +38,7 @@ void struct_nulling(t_params *params)
 	(*params).rooms_count = 0;
 	(*params).if_error = 0;
 	(*params).start = NULL;
-  	(*params).end = NULL;
+	(*params).end = NULL;
 }
 
 int lemin_reading(t_params *params)

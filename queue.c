@@ -65,7 +65,6 @@ void create_path(t_ways **all_paths, t_room_list *queue, int way_number)
 	if (!(tmp->way = (t_way *)malloc(sizeof(t_way))))
 		return ;
 	tmp->next = *all_paths;
-	tmp->prev = NULL;
 	tmp->number = way_number;
 	tmp->way->distance = 0;
 	while (tmp_queue->next)
@@ -82,8 +81,6 @@ void create_path(t_ways **all_paths, t_room_list *queue, int way_number)
 		if (!(tmp->way = (t_way *)malloc(sizeof(t_way))))
 			return ;
 	}
-	if (!(tmp->way = (t_way *)malloc(sizeof(t_way))))
-		return ;
 	tmp->way->name = tmp_queue->room->name;
 	tmp->way->if_empty = 1;
 	tmp->way->distance = count;
@@ -92,8 +89,6 @@ void create_path(t_ways **all_paths, t_room_list *queue, int way_number)
 	new_head = tmp->way;
 	tmp_queue->room->usage = 3;
 	tmp->next = *all_paths;
-	if ((*all_paths))
-		(*all_paths)->prev = tmp;
 	*all_paths = tmp;
 	new = tmp->way;
 	while (new)
@@ -290,9 +285,7 @@ int search_way(t_room_list *farm, t_params *params)
 	queue = tmp_queue;
 	create_path(&all_paths, queue, 0);
 	if ((*params).ants > 1)
-	{
 		if_ants_more_than_one(queue, &all_paths, params);
-	}
 	t_way *all_paths1;
 	while (all_paths)
 	{

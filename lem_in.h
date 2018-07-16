@@ -61,7 +61,6 @@ typedef struct	s_ways
   int number;
   int ant;
   struct s_way *way;
-  struct s_ways *prev;
   struct s_ways *next;
 }				t_ways;
 
