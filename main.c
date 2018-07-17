@@ -38,6 +38,7 @@ void struct_nulling(t_params *params)
 	(*params).links_count = 0;
 	(*params).rooms_count = 0;
 	(*params).if_error = 0;
+	(*params).end_entries = 0;
 	(*params).start = NULL;
 	(*params).end = NULL;
 }

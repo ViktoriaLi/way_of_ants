@@ -17,10 +17,10 @@ typedef	struct	s_params
   int links_count;
   int rooms_count;
   int if_error;
+  int end_entries;
   char *buf;
   char *start;
   char *end;
-
 }				t_params;
 
 typedef struct  s_room
@@ -89,7 +89,8 @@ int ants_saving(t_params *params);
 int pre_comments_parsing(t_params *params);
 int comments_parsing(t_params *params, int *ifstart, int *ifend, t_room **rooms);
 int make_rooms_with_links(t_room *rooms, t_link *links, t_params *params);
-int add_links(t_room_list **farm, t_link *links, t_params *params);
+void add_links(t_room_list **farm, t_link *links, t_params *params);
 int search_way(t_room_list *farm, t_params *params);
+void del_rooms_and_links(t_room *rooms, t_link *links);
 
 #endif

@@ -143,6 +143,10 @@ int	save_room(t_room **head, t_params *params, int which_room)
 	if ((*params).buf[ft_strlen((*params).buf) - 1] < '0' ||
 	(*params).buf[ft_strlen((*params).buf)] > '9')
 		return(0);
+	if (which_room == START_ROOM)
+		(*params).start = new_room->name;
+	if (which_room == END_ROOM)
+		(*params).end = new_room->name;
 	new_room->next = *head;
 	*head = new_room;
 	return (1);
