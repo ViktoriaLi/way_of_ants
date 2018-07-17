@@ -247,41 +247,49 @@ void calc_turns(t_params *params, t_ways *all_paths)
 
 }
 
-int search_way(t_room_list *farm, t_params *params)
+int create_queue(t_room_list **queue, t_room_list **tmp_queue, t_room_list *farm)
 {
-	t_room_list *queue;
-	t_room_list *tmp_queue;
 	t_room_list *tmp_rooms;
-	t_ways *all_paths;
 
-	all_paths = NULL;
-	queue = NULL;
 	tmp_rooms = farm;
-	tmp_queue = NULL;
-	if (!(queue = (t_room_list *)malloc(sizeof(t_room_list))))
+	if (!(*queue = (t_room_list *)malloc(sizeof(t_room_list))))
 		return (0);
-	queue->next = NULL;
+	(*queue)->next = NULL;
 	while (tmp_rooms && tmp_rooms->room->which_room != START_ROOM)
 		tmp_rooms = tmp_rooms->next;
-	queue->room = tmp_rooms->room;
-	queue->room->usage = 1;
-	queue->room->enter = queue->room;
+	(*queue)->room = tmp_rooms->room;
+	(*queue)->room->usage = 1;
+	(*queue)->room->enter = (*queue)->room;
 	tmp_rooms = farm;
-	tmp_queue = queue;
-	while (queue)
+	*tmp_queue = (*queue);
+	while ((*queue))
 	{
-		if (queue->room->usage != 2)
+		if ((*queue)->room->usage != 2)
 		{
-			if (!add_to_queue(queue))
+			if (!add_to_queue((*queue)))
 				break ;
 		}
-		queue = queue->next;
+		(*queue) = (*queue)->next;
 	}
-	if (!queue)
+	if (!(*queue))
 	{
 		ft_printf("error%s\n", "ERROR12");
 		return (0);
 	}
+	return (1);
+}
+
+int search_way(t_room_list *farm, t_params *params)
+{
+	t_room_list *queue;
+	t_room_list *tmp_queue;
+	t_ways *all_paths;
+
+	all_paths = NULL;
+	queue = NULL;
+	tmp_queue = NULL;
+	if (!create_queue(&queue, &tmp_queue, farm))
+		return (0);
 	queue = tmp_queue;
 	create_path(&all_paths, queue, 0);
 	if ((*params).ants > 1 && (*params).max_ways > 1)
