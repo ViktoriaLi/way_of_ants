@@ -83,15 +83,24 @@ int create_links(t_room_list **farm, t_link *links)
 	return (1);
 }
 
-void add_links(t_room_list **farm, t_link *links, t_params *params)
+int add_links(t_room_list **farm, t_link *links, t_params *params)
 {
 	while (links)
 	{
 		create_links(farm, links);
 		links = links->next;
 	}
+	ft_printf("start enters %d\n", (*params).start_exits);
 	ft_printf("finish enters %d\n", (*params).end_entries);
-	search_way(*farm, params);
+	if (!(*params).start_exits || !(*params).end_entries)
+		return (0);
+	if ((*params).start_exits < (*params).end_entries)
+		(*params).max_ways = (*params).start_exits;
+	else
+		(*params).max_ways = (*params).end_entries;
+	if (!search_way(*farm, params))
+		return (0);
+	return (1);
 }
 
 int if_repeat_link(t_link **head, t_link *newelem)
@@ -159,6 +168,9 @@ int	save_link(t_link **head, t_params *params, t_room *rooms)
 		if (ft_strcmp(newelem->first, (*params).end) == 0 ||
 		ft_strcmp((*params).end, newelem->second) == 0)
 			(*params).end_entries++;
+		else if (ft_strcmp(newelem->first, (*params).start) == 0 ||
+		ft_strcmp((*params).start, newelem->second) == 0)
+			(*params).start_exits++;
 		newelem->next = *head;
 		*head = newelem;
 	}

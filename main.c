@@ -39,6 +39,8 @@ void struct_nulling(t_params *params)
 	(*params).rooms_count = 0;
 	(*params).if_error = 0;
 	(*params).end_entries = 0;
+	(*params).start_exits = 0;
+	(*params).max_ways = 0;
 	(*params).start = NULL;
 	(*params).end = NULL;
 }

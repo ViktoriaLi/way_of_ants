@@ -110,7 +110,7 @@ void if_ants_more_than_one(t_room_list *queue, t_ways **all_paths, t_params *par
 	queue->room->usage = 1;
 	head_queue = queue;
 
-	while ((*params).ants != count)
+	while ((*params).max_ways != count)
 	{
 		queue = head_queue;
 		queue = queue->next;
@@ -284,7 +284,7 @@ int search_way(t_room_list *farm, t_params *params)
 	}
 	queue = tmp_queue;
 	create_path(&all_paths, queue, 0);
-	if ((*params).ants > 1)
+	if ((*params).ants > 1 && (*params).max_ways > 1)
 		if_ants_more_than_one(queue, &all_paths, params);
 	t_way *all_paths1;
 	while (all_paths)
