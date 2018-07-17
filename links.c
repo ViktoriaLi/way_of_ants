@@ -91,9 +91,47 @@ int add_links(t_room_list **farm, t_link *links, t_params *params)
 	return (1);
 }
 
-int	save_link(t_link **head, t_params *params)
+int if_repeat_link(t_link **head, t_link *newelem)
 {
+	t_link *tmp;
 
+	tmp = *head;
+	while (tmp)
+	{
+		if ((ft_strcmp(newelem->first, tmp->first) == 0 &&
+		ft_strcmp(newelem->second, tmp->second) == 0) ||
+		(ft_strcmp(newelem->first, tmp->second) == 0 &&
+		ft_strcmp(newelem->second, tmp->first) == 0))
+			return (0);
+		tmp = tmp->next;
+	}
+	return (1);
+}
+
+int if_corrects_link_names(t_link *newelem, t_room *rooms)
+{
+	t_room *tmp;
+	int if_first;
+	int if_second;
+
+	tmp = rooms;
+	if_first = 0;
+	if_second = 0;
+	while (tmp)
+	{
+		if (ft_strcmp(newelem->first, tmp->name) == 0)
+			if_first++;
+		if (ft_strcmp(newelem->second, tmp->name) == 0)
+			if_second++;
+		tmp = tmp->next;
+	}
+	if (if_first == 1 && if_second == 1)
+		return (1);
+	return (0);
+}
+
+int	save_link(t_link **head, t_params *params, t_room *rooms)
+{
 	int i;
 	t_link	*newelem;
 
@@ -101,17 +139,24 @@ int	save_link(t_link **head, t_params *params)
 	newelem = NULL;
 	if (!(newelem = (t_link *)malloc(sizeof(t_link))))
 		return (0);
-	if ((*params).buf[0] == '#' || !ft_strchr((*params).buf, '-'))
-		return (0);
 	while ((*params).buf[i] && (*params).buf[i] != '-')
 		i++;
-	newelem->first = ft_strsub((*params).buf, 0, i);
-	i++;
+	newelem->first = ft_strsub((*params).buf, 0, i++);
 	if (!(*params).buf[i])
 		return (0);
 	newelem->second = ft_strsub((*params).buf, i, ft_strlen((*params).buf - 1 + 1));
-	newelem->next = *head;
-	*head = newelem;
+	if (!if_corrects_link_names(newelem, rooms))
+	{
+		free(newelem);
+		return (0);
+	}
+	if (if_repeat_link(head, newelem))
+	{
+		newelem->next = *head;
+		*head = newelem;
+	}
+	else
+		free(newelem);
 	ft_printf("%s\n", (*params).buf);
 	return (1);
 }

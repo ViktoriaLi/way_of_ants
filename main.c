@@ -16,6 +16,7 @@ void del_rooms_and_links(t_room *rooms, t_link *links)
 {
 	t_room *tmp_rooms;
 	t_link *tmp_links;
+
 	while (rooms)
 	{
 		tmp_rooms = rooms->next;
@@ -87,10 +88,10 @@ int lemin_reading(t_params *params)
 			continue ;
 		}
 		else if (ft_strchr((*params).buf, '-') && (*params).buf[0] != '#'
-			&& save_link(&links, params))
+			&& save_link(&links, params, rooms))
 		{
 			ft_strdel(&params->buf);
-			if (!(*params).rooms_count || (!ifstart && !ifend))
+			if (!(*params).rooms_count || !ifstart || !ifend)
 			{
 				del_rooms_and_links(rooms, links);
 				exit (0);
@@ -111,7 +112,7 @@ int lemin_reading(t_params *params)
 			exit (0);
 		}
 	}
-	if ((!ifstart && !ifend) || !(*params).links_count || !(*params).rooms_count)
+	if (!ifstart || !ifend || !(*params).links_count || !(*params).rooms_count)
 	{
 		del_rooms_and_links(rooms, links);
 		exit (0);
@@ -128,6 +129,7 @@ int lemin_reading(t_params *params)
 int main(void)
 {
 	t_params params;
+
 	struct_nulling(&params);
 	while (get_next_line(0, &params.buf) > 0 && params.buf[0] == '#')
 	{

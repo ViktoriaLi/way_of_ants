@@ -28,7 +28,6 @@ int main_rooms_saving(int *room_count, t_params *params, t_room **rooms, int whi
 			get_next_line(0, &params->buf);
 			if (!if_room(params, rooms, which_room))
 				return(0);
-			return(1);
 		}
 	return(1);
 }
@@ -93,6 +92,20 @@ int ants_saving(t_params *params)
 	return (1);
 }
 
+int if_not_repeat_room(t_room **head, char *new_room_name)
+{
+	t_room *tmp;
+
+	tmp = *head;
+	while (tmp)
+	{
+		if (ft_strcmp(new_room_name, tmp->name) == 0)
+			return (0);
+		tmp = tmp->next;
+	}
+	return (1);
+}
+
 int	save_room(t_room **head, t_params *params, int which_room)
 {
 	int i;
@@ -108,6 +121,13 @@ int	save_room(t_room **head, t_params *params, int which_room)
 	while ((*params).buf[i] && (*params).buf[i] != ' ')
 		i++;
 	new_room->name = ft_strsub((*params).buf, 0, i++);
+	if (!if_not_repeat_room(head, new_room->name))
+	{
+		free(new_room);
+		ft_strdel(&params->buf);
+		ft_printf("%s\n", "ERROR14");
+		exit (0);
+	}
 	if ((*params).buf[i] >= '0' && (*params).buf[i] <= '9')
 		new_room->x = ft_atoi(&params->buf[i]);
 	else
@@ -120,9 +140,8 @@ int	save_room(t_room **head, t_params *params, int which_room)
 		new_room->y = ft_atoi(&params->buf[i]);
 	else
 		return(0);
-	while ((*params).buf[i] >= '0' && (*params).buf[i] <= '9')
-		i++;
-	if (i != (int)ft_strlen((*params).buf))
+	if ((*params).buf[ft_strlen((*params).buf) - 1] < '0' ||
+	(*params).buf[ft_strlen((*params).buf)] > '9')
 		return(0);
 	new_room->next = *head;
 	*head = new_room;

@@ -82,7 +82,7 @@ size_t		ft_strlen(const char *s);
 char	*ft_strsub(char const *s, unsigned int start, size_t len);
 
 
-int	save_link(t_link **head, t_params *params);
+int	save_link(t_link **head, t_params *params, t_room *rooms);
 int	save_room(t_room **head, t_params *params, int which_room);
 int if_room(t_params *params, t_room **rooms, int which_room);
 int ants_saving(t_params *params);
