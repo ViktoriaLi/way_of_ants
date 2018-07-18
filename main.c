@@ -61,7 +61,6 @@ int lemin_reading(t_params *params)
 		if (ft_strcmp((*params).buf, "\n") == 0 || (*params).buf[0] == 'L')
 		{
 			ft_strdel(&params->buf);
-			ft_printf("%s\n", "ERROR11");
 			if ((*params).links_count && (*params).rooms_count)
 			{
 				(*params).if_error = 1;
@@ -107,7 +106,6 @@ int lemin_reading(t_params *params)
 		else if (ft_strchr((*params).buf, '-') && (*params).buf[0] != '#'
 			&& save_link(&links, params, rooms))
 		{
-			ft_printf("%s\n", "ERROR7");
 			ft_strdel(&params->buf);
 			if (!(*params).rooms_count || !ifstart || !ifend)
 			{
@@ -120,7 +118,6 @@ int lemin_reading(t_params *params)
 		else
 		{
 			ft_strdel(&params->buf);
-			ft_printf("%s\n", "ERROR8");
 			if ((*params).links_count && (*params).rooms_count)
 			{
 				(*params).if_error = 1;
@@ -159,6 +156,7 @@ int main(void)
 	}
 	if (!ants_saving(&params))
 	{
+		ft_printf("%s\n", "ERROR9");
 		exit (0);
 	}
 	if (!lemin_reading(&params))

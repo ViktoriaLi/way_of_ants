@@ -45,7 +45,8 @@ int make_rooms_with_links(t_room *rooms, t_link *links, t_params *params)
 		farm = farm->next;
 	}
 	farm = head;
-	add_links(&farm, links, params);
+	if (!add_links(&farm, links, params))
+		return (0);
 	return (1);
 }
 
@@ -149,6 +150,10 @@ int	save_link(t_link **head, t_params *params, t_room *rooms)
 
 	i = 0;
 	newelem = NULL;
+	if (!(*params).start || !(*params).end)
+	{
+		return (0);
+	}
 	if (!(newelem = (t_link *)malloc(sizeof(t_link))))
 		return (0);
 	while ((*params).buf[i] && (*params).buf[i] != '-')
@@ -163,7 +168,6 @@ int	save_link(t_link **head, t_params *params, t_room *rooms)
 		free(newelem);
 		return (0);
 	}
-	//ft_printf("%s\n", "ERROR8");
 	if (if_repeat_link(head, newelem))
 	{
 		if (ft_strcmp(newelem->first, (*params).end) == 0 ||

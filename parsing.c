@@ -51,7 +51,6 @@ int main_rooms_saving(int *room_count, t_params *params, t_room **rooms, int whi
 {
 	if (*room_count != 0)
 		{
-			ft_printf("%s\n", "ERROR3");
 			ft_strdel(&params->buf);
 			return (0);
 		}
@@ -111,7 +110,6 @@ int ants_saving(t_params *params)
 	if ((*params).buf[0] < '1' || (*params).buf[0] > '9')
 	{
 		ft_strdel(&params->buf);
-		ft_printf("%s\n", "ERROR5");
 		return (0);
 	}
 	while ((*params).buf[i] >= '0' && (*params).buf[i] <= '9')
@@ -119,14 +117,12 @@ int ants_saving(t_params *params)
 	if ((*params).buf[i] || i > 9)
 	{
 		ft_strdel(&params->buf);
-		ft_printf("%s\n", "ERROR6");
 		return (0);
 	}
 	(*params).ants = ft_uns_atoi((*params).buf);
 	if ((*params).ants > 2147483647)
 	{
 		ft_strdel(&params->buf);
-		ft_printf("%s\n", "ERROR6");
 		return (0);
 	}
 	ft_printf("%s\n", (*params).buf);
@@ -181,9 +177,16 @@ int	save_room(t_room **head, t_params *params, int which_room)
 		new_room->y = ft_atoi(&params->buf[i]);
 	else
 		return(0);
-	if ((*params).buf[ft_strlen((*params).buf) - 1] < '0' ||
-	(*params).buf[ft_strlen((*params).buf)] > '9')
+	while ((*params).buf[i] >= '0' && (*params).buf[i] <= '9')
+		i++;
+	if ((*params).buf[i])
 		return(0);
+	if (new_room->x > 2147483647 || new_room->y > 2147483647)
+	{
+			free(new_room);
+			ft_strdel(&params->buf);
+			return (0);
+	}
 	if (which_room == START_ROOM)
 		(*params).start = new_room->name;
 	if (which_room == END_ROOM)

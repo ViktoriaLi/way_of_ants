@@ -28,8 +28,8 @@ typedef	struct	s_params
 typedef struct  s_room
 {
   void      *name;
-  int x;
-  int y;
+  unsigned long long int x;
+  unsigned long long int y;
   int which_room;
   int usage;
   struct s_room *enter;
