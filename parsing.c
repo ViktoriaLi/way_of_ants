@@ -144,6 +144,20 @@ int if_not_repeat_room(t_room **head, char *new_room_name)
 	return (1);
 }
 
+int if_repeat_coords(t_room **head, unsigned long long int x, unsigned long long int y)
+{
+	t_room *tmp;
+
+	tmp = *head;
+	while (tmp)
+	{
+		if (tmp->x == x && tmp->y == y)
+			return (0);
+		tmp = tmp->next;
+	}
+	return (1);
+}
+
 int	save_room(t_room **head, t_params *params, int which_room)
 {
 	int i;
@@ -181,7 +195,8 @@ int	save_room(t_room **head, t_params *params, int which_room)
 		i++;
 	if ((*params).buf[i])
 		return(0);
-	if (new_room->x > 2147483647 || new_room->y > 2147483647)
+	if (new_room->x > 2147483647 || new_room->y > 2147483647 ||
+		!if_repeat_coords(head, new_room->x, new_room->y))
 	{
 			free(new_room);
 			ft_strdel(&params->buf);
