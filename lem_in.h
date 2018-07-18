@@ -13,7 +13,7 @@
 
 typedef	struct	s_params
 {
-  int ants;
+  unsigned long long int ants;
   int links_count;
   int rooms_count;
   int if_error;

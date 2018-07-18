@@ -68,36 +68,51 @@ int lemin_reading(t_params *params)
 				break;
 			}
 			del_rooms_and_links(rooms, links);
-			exit (0);
+			return (0);
 		}
-		if (!ft_strchr((*params).buf, '-') && (*params).buf[0] != '#'
-		&& if_room(params, &rooms, OTHER_ROOM))
+		if (!ft_strchr((*params).buf, '-') && (*params).buf[0] != '#')
 		{
-			(*params).rooms_count++;
-			ft_strdel(&params->buf);
-			if (!(*params).links_count)
-				continue ;
+			if (if_room(params, &rooms, OTHER_ROOM))
+			{
+				(*params).rooms_count++;
+				ft_strdel(&params->buf);
+				if (!(*params).links_count)
+					continue ;
+				else
+				{
+					ft_printf("%s\n", "ERROR7");
+					(*params).if_error = 1;
+					break ;
+				}
+			}
 			else
 			{
-				ft_printf("%s\n", "ERROR7");
-				(*params).if_error = 1;
-				break ;
+				ft_strdel(&params->buf);
+				break;
 			}
 		}
-		else if ((*params).buf[0] == '#' &&
-		comments_parsing(params, &ifstart, &ifend, &rooms))
+		else if ((*params).buf[0] == '#')
 		{
-			ft_strdel(&params->buf);
-			continue ;
+			if (comments_parsing(params, &ifstart, &ifend, &rooms))
+			{
+				ft_strdel(&params->buf);
+				continue ;
+			}
+			else
+			{
+				ft_strdel(&params->buf);
+				break ;
+			}
 		}
 		else if (ft_strchr((*params).buf, '-') && (*params).buf[0] != '#'
 			&& save_link(&links, params, rooms))
 		{
+			ft_printf("%s\n", "ERROR7");
 			ft_strdel(&params->buf);
 			if (!(*params).rooms_count || !ifstart || !ifend)
 			{
 				del_rooms_and_links(rooms, links);
-				exit (0);
+				return (0);
 			}
 			(*params).links_count++;
 			continue ;
@@ -112,18 +127,18 @@ int lemin_reading(t_params *params)
 				break;
 			}
 			del_rooms_and_links(rooms, links);
-			exit (0);
+			return (0);
 		}
 	}
 	if (!ifstart || !ifend || !(*params).links_count || !(*params).rooms_count)
 	{
 		del_rooms_and_links(rooms, links);
-		exit (0);
+		return (0);
 	}
 	if (!make_rooms_with_links(rooms, links, params))
 	{
 		del_rooms_and_links(rooms, links);
-		exit (0);
+		return (0);
 	}
 	return (1);
 }
@@ -137,10 +152,15 @@ int main(void)
 	while (get_next_line(0, &params.buf) > 0 && params.buf[0] == '#')
 	{
 		if (!pre_comments_parsing(&params))
+		{
+			ft_printf("%s\n", "ERROR9");
 			exit (0);
+		}
 	}
 	if (!ants_saving(&params))
+	{
 		exit (0);
+	}
 	if (!lemin_reading(&params))
 	{
 		ft_strdel(&params.buf);

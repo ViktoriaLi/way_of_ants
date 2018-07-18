@@ -25,7 +25,7 @@ int make_rooms_with_links(t_room *rooms, t_link *links, t_params *params)
 	if (!(farm = (t_room_list *)malloc(sizeof(t_room_list))))
 	{
 		del_rooms_and_links(rooms, links);
-		exit (0);
+		return (0);
 	}
 	head = farm;
 	while (rooms)
@@ -36,7 +36,7 @@ int make_rooms_with_links(t_room *rooms, t_link *links, t_params *params)
 			if (!(farm->next = (t_room_list *)malloc(sizeof(t_room_list))))
 			{
 				del_rooms_and_links(rooms, links);
-				exit (0);
+				return (0);
 			}
 		}
 		else
@@ -163,6 +163,7 @@ int	save_link(t_link **head, t_params *params, t_room *rooms)
 		free(newelem);
 		return (0);
 	}
+	//ft_printf("%s\n", "ERROR8");
 	if (if_repeat_link(head, newelem))
 	{
 		if (ft_strcmp(newelem->first, (*params).end) == 0 ||

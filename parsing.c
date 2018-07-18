@@ -12,6 +12,41 @@
 
 #include "lem_in.h"
 
+static unsigned long long int main_uns_atoi(const char *str, int i)
+{
+	unsigned long long int tmp;
+	unsigned long long int res;
+
+	res = 0;
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		tmp = res * 10 + (str[i] - '0');
+		if (tmp / 10 != res)
+			return (0);
+		if (tmp / 10 != res)
+			return (-1);
+		res = tmp;
+		i++;
+	}
+	return (unsigned long long int)(res);
+}
+
+unsigned long long int	ft_uns_atoi(const char *str)
+{
+	unsigned int i;
+
+	i = 0;
+	while (str[i] == ' ' || str[i] == '\n' || str[i] == '\t' ||
+		str[i] == '\v' || str[i] == '\f' || str[i] == '\r')
+		i++;
+	if (str[i] == '-')
+		i++;
+	else if (str[i] == '+')
+		i++;
+	return (main_uns_atoi(str, i));
+}
+
+
 int main_rooms_saving(int *room_count, t_params *params, t_room **rooms, int which_room)
 {
 	if (*room_count != 0)
@@ -61,10 +96,11 @@ int pre_comments_parsing(t_params *params)
 	{
 		ft_printf("%s\n", (*params).buf);
 		ft_strdel(&params->buf);
-		exit (0);
+		return (0);
 	}
-	else
-		return (1);
+	ft_printf("%s\n", (*params).buf);
+	ft_strdel(&params->buf);
+	return (1);
 }
 
 int ants_saving(t_params *params)
@@ -76,17 +112,23 @@ int ants_saving(t_params *params)
 	{
 		ft_strdel(&params->buf);
 		ft_printf("%s\n", "ERROR5");
-		exit (0);
+		return (0);
 	}
 	while ((*params).buf[i] >= '0' && (*params).buf[i] <= '9')
 		i++;
-	if ((*params).buf[i])
+	if ((*params).buf[i] || i > 9)
 	{
 		ft_strdel(&params->buf);
 		ft_printf("%s\n", "ERROR6");
-		exit (0);
+		return (0);
 	}
-	(*params).ants = ft_atoi((*params).buf);
+	(*params).ants = ft_uns_atoi((*params).buf);
+	if ((*params).ants > 2147483647)
+	{
+		ft_strdel(&params->buf);
+		ft_printf("%s\n", "ERROR6");
+		return (0);
+	}
 	ft_printf("%s\n", (*params).buf);
 	ft_strdel(&params->buf);
 	return (1);
@@ -125,8 +167,7 @@ int	save_room(t_room **head, t_params *params, int which_room)
 	{
 		free(new_room);
 		ft_strdel(&params->buf);
-		ft_printf("%s\n", "ERROR14");
-		exit (0);
+		return (0);
 	}
 	if ((*params).buf[i] >= '0' && (*params).buf[i] <= '9')
 		new_room->x = ft_atoi(&params->buf[i]);
@@ -163,6 +204,5 @@ int if_room(t_params *params, t_room **rooms, int which_room)
 		return (1);
 	}
 	ft_strdel(&params->buf);
-	ft_printf("%s\n", "ERROR1");
 	return (0);
 }

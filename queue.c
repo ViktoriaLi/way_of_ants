@@ -59,45 +59,51 @@ void create_path(t_ways **all_paths, t_room_list *queue, int way_number)
 	new = NULL;
 	new_head = NULL;
 	tmp_queue = queue;
-	ft_printf("way_number %d\n", way_number);
+	while (tmp_queue->next)
+		tmp_queue = tmp_queue->next;
 	if (!(tmp = (t_ways *)malloc(sizeof(t_ways *))))
 		return ;
 	if (!(tmp->way = (t_way *)malloc(sizeof(t_way))))
 		return ;
-	tmp->next = *all_paths;
+	//tmp->next = *all_paths;
+	//*all_paths = NULL;
 	tmp->number = way_number;
-	tmp->way->distance = 0;
-	while (tmp_queue->next)
-		tmp_queue = tmp_queue->next;
-	while (tmp_queue->room->which_room != START_ROOM)
+	tmp->ant = 0;
+	while (tmp_queue->room->which_room >= START_ROOM)
 	{
 		tmp->way->name = tmp_queue->room->name;
 		tmp->way->if_empty = 1;
+		tmp->way->distance = count;
 		count++;
 		tmp->way->next = new_head;
 		new_head = tmp->way;
+
 		tmp_queue->room->usage = 3;
+		if (!tmp_queue->room->enter)
+			break;
 		tmp_queue->room = tmp_queue->room->enter;
 		if (!(tmp->way = (t_way *)malloc(sizeof(t_way))))
 			return ;
 	}
-	tmp->way->name = tmp_queue->room->name;
-	tmp->way->if_empty = 1;
-	tmp->way->distance = count;
-	tmp->way->next = new_head;
-	tmp->ant = 0;
-	new_head = tmp->way;
-	tmp_queue->room->usage = 3;
-	tmp->next = *all_paths;
-	*all_paths = tmp;
+	if (*all_paths)
+	{
+		tmp->next = *all_paths;
+		*all_paths = tmp;
+	}
+	else
+	{
+		*all_paths = tmp;
+		(*all_paths)->next = NULL;
+	}
+
 	new = tmp->way;
 	while (new)
 	{
-		ft_printf("rev%s\n", "rev");
 		ft_printf("3path%s\n", new->name);
 		new = new->next;
 	}
 }
+
 
 void if_ants_more_than_one(t_room_list *queue, t_ways **all_paths, t_params *params)
 {
@@ -139,6 +145,12 @@ void if_ants_more_than_one(t_room_list *queue, t_ways **all_paths, t_params *par
 		if (!queue)
 			break ;
 		queue = head_queue;
+		while (queue)
+		{
+			ft_printf("queue %s\n", queue->room->name);
+			queue = queue->next;
+		}
+		queue = head_queue;
 		create_path(all_paths, queue, count);
 		count++;
 	}
@@ -146,8 +158,8 @@ void if_ants_more_than_one(t_room_list *queue, t_ways **all_paths, t_params *par
 
 void make_output(t_params *params, t_ways *all_paths)
 {
-	int i;
-	int ants;
+	unsigned int i;
+	unsigned int ants;
 	int all_ants[(*params).ants];
 	t_ways *head_ways;
 	//void *concret_ways[all_paths->number];
@@ -259,7 +271,7 @@ int create_queue(t_room_list **queue, t_room_list **tmp_queue, t_room_list *farm
 		tmp_rooms = tmp_rooms->next;
 	(*queue)->room = tmp_rooms->room;
 	(*queue)->room->usage = 1;
-	(*queue)->room->enter = (*queue)->room;
+	(*queue)->room->enter = NULL;
 	tmp_rooms = farm;
 	*tmp_queue = (*queue);
 	while ((*queue))
@@ -291,18 +303,32 @@ int search_way(t_room_list *farm, t_params *params)
 	if (!create_queue(&queue, &tmp_queue, farm))
 		return (0);
 	queue = tmp_queue;
+	while (queue)
+	{
+		ft_printf("queue %s\n", queue->room->name);
+		queue = queue->next;
+	}
+	queue = tmp_queue;
 	create_path(&all_paths, queue, 0);
 	if ((*params).ants > 1 && (*params).max_ways > 1)
 		if_ants_more_than_one(queue, &all_paths, params);
+	ft_printf("tmp%d\n", (*params).max_ways);
 	t_way *all_paths1;
 	while (all_paths)
 	{
+		/*if (!all_paths->way)
+			break;*/
 		all_paths1 = all_paths->way;
+		//ft_printf("3test%s\n", "3test");
+		//ft_printf("2test%s\n", "2test");
 		ft_printf("1way%d\n", all_paths->number);
 		while (all_paths1)
 		{
+			//ft_printf("1test%s\n", "1test");
 		ft_printf("2way%s\n", all_paths1->name);
+
 		all_paths1 = all_paths1->next;
+
 	}
 	all_paths = all_paths->next;
 }
