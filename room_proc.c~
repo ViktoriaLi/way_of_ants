@@ -6,7 +6,7 @@
 /*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/16 10:56:20 by vlikhotk          #+#    #+#             */
-/*   Updated: 2018/07/19 17:03:12 by vlikhotk         ###   ########.fr       */
+/*   Updated: 2018/07/19 16:39:47 by vlikhotk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ t_room **rooms, int which_room)
 	return (1);
 }
 
-int		take_room_params(t_params *params, t_room *new_room)
+int take_room_params(t_params *params, t_room	*new_room)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	while ((*params).buf[i] && (*params).buf[i] != ' ')
