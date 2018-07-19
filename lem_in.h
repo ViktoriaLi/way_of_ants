@@ -25,6 +25,8 @@ typedef	struct	s_params
   char *end;
 }				t_params;
 
+
+
 typedef struct  s_room
 {
   void      *name;
@@ -49,6 +51,15 @@ typedef struct	s_link
   char *second;
   struct s_link *next;
 }				t_link;
+
+typedef	struct	s_reading
+{
+  int res;
+  int ifstart;
+	int ifend;
+	t_room *rooms;
+	t_link *links;
+}				t_reading;
 
 typedef struct	s_way
 {
@@ -94,5 +105,21 @@ int make_rooms_with_links(t_room *rooms, t_link *links, t_params *params);
 int add_links(t_room_list **farm, t_link *links, t_params *params);
 int search_way(t_room_list *farm, t_params *params);
 void del_rooms_and_links(t_room *rooms, t_link *links);
+
+int proc_incorrect_str(t_params *params, t_reading *read_params);
+int proc_comment_str(t_params *params, t_reading *read_params);
+int proc_room_str(t_params *params, t_room **rooms);
+int proc_links_str(t_params *params, t_reading *read_params);
+int proc_else_str(t_params *params, t_reading read_params);
+int check_correct_str(t_reading *read_params, t_params *params);
+int stop_reading(t_params *params, t_reading *read_params);
+int lemin_reading(t_params *params);
+void read_params_nulling(t_reading *read_params);
+void del_rooms_and_links(t_room *rooms, t_link *links);
+void struct_nulling(t_params *params);
+int if_not_repeat_room(t_room **head, char *new_room_name);
+int if_repeat_coords(t_room **head, unsigned long long int x, unsigned long long int y);
+int main_rooms_saving(int *room_count, t_params *params, t_room **rooms, int which_room);
+unsigned long long int	ft_uns_atoi(const char *str);
 
 #endif

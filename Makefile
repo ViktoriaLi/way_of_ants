@@ -14,9 +14,11 @@ NAME = lem-in
 
 LIB_DIR = ./libft/
 
-SFILES = main.c parsing.c links.c queue.c
+SFILES = main.c links.c queue.c str_processing.c reading.c clear.c \
+room_validation.c room_proc.c comments_ants_parsing.c
 
-OFILES = main.o parsing.o links.o queue.o
+OFILES = main.o links.o queue.o  str_processing.o reading.o clear.o \
+room_validation.o room_proc.o comments_ants_parsing.o
 
 LIBFT = $(LIBFT_DIR)libftprintf.a
 LIBFT_DIR = $(LIB_DIR)

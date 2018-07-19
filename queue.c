@@ -104,6 +104,67 @@ void create_path(t_ways **all_paths, t_room_list *queue, int way_number)
 	}
 }
 
+void create_first_path(t_ways **all_paths, t_room_list *queue, int way_number)
+{
+	t_way *new;
+	t_way *new_head;
+	t_room_list *tmp_queue;
+	int count;
+
+	count = 1;
+	new = NULL;
+	tmp_queue = queue;
+	new_head = NULL;
+
+	while (tmp_queue->next)
+		tmp_queue = tmp_queue->next;
+
+	if (!(*all_paths = (t_ways *)malloc(sizeof(t_ways *))))
+		return ;
+		(*all_paths)->next = NULL;
+		(*all_paths)->number = way_number;
+		(*all_paths)->ant = 0;
+		(*all_paths)->way = NULL;
+	if (!((*all_paths)->way = (t_way *)malloc(sizeof(t_way))))
+		return ;
+	while (tmp_queue->room->which_room >= START_ROOM)
+	{
+		//if (!tmp->way)
+			//tmp->way->next = NULL;
+		tmp_queue->room->usage = 3;
+		(*all_paths)->way->name = tmp_queue->room->name;
+		(*all_paths)->way->if_empty = 1;
+		(*all_paths)->way->distance = count;
+		count++;
+		if (tmp_queue->room->which_room == END_ROOM)
+			(*all_paths)->way->next = NULL;
+		else
+			(*all_paths)->way->next = new_head;
+		//(*all_paths)->way->next = new_head;
+		new_head = (*all_paths)->way;
+		if (!tmp_queue->room->enter)
+			break;
+		tmp_queue->room = tmp_queue->room->enter;
+		if (!((*all_paths)->way = (t_way *)malloc(sizeof(t_way))))
+			return ;
+	}
+	/*if (*all_paths)
+		tmp->next = *all_paths;
+	else
+		tmp->next = NULL;*/
+	/*if (way_number > 0)
+		tmp->next = *all_paths;
+	else
+		tmp->next = NULL;
+	*all_paths = tmp;*/
+
+	new = (*all_paths)->way;
+	while (new)
+	{
+		ft_printf("3path%s\n", new->name);
+		new = new->next;
+	}
+}
 
 void if_ants_more_than_one(t_room_list *queue, t_ways **all_paths, t_params *params)
 {
@@ -284,10 +345,7 @@ int create_queue(t_room_list **queue, t_room_list **tmp_queue, t_room_list *farm
 		(*queue) = (*queue)->next;
 	}
 	if (!(*queue))
-	{
-		ft_printf("error%s\n", "ERROR12");
 		return (0);
-	}
 	return (1);
 }
 
@@ -318,6 +376,7 @@ int search_way(t_room_list *farm, t_params *params)
 	{
 		/*if (!all_paths->way)
 			break;*/
+		//ft_printf("3way%s\n", "");
 		all_paths1 = all_paths->way;
 		//ft_printf("3test%s\n", "3test");
 		//ft_printf("2test%s\n", "2test");
@@ -325,13 +384,17 @@ int search_way(t_room_list *farm, t_params *params)
 		while (all_paths1)
 		{
 			//ft_printf("1test%s\n", "1test");
+			//ft_printf("3way%s\n", "");
 		ft_printf("2way%s\n", all_paths1->name);
 
 		all_paths1 = all_paths1->next;
 
 	}
+	//ft_printf("4way%s\n", "");
 	all_paths = all_paths->next;
+	//ft_printf("4way%s\n", "");
 }
+//ft_printf("5way%s\n", "");
 	//make_output(params, all_paths);
 	//calc_turns(params, all_paths);
 	return (1);
