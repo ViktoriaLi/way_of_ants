@@ -61,7 +61,7 @@ void create_path(t_ways **all_paths, t_room_list *queue, int way_number)
 	tmp_queue = queue;
 	while (tmp_queue->next)
 		tmp_queue = tmp_queue->next;
-	if (!(tmp = (t_ways *)malloc(sizeof(t_ways *))))
+	if (!(tmp = (t_ways *)malloc(sizeof(t_ways))))
 		return ;
 	if (!(tmp->way = (t_way *)malloc(sizeof(t_way))))
 		return ;
@@ -119,7 +119,7 @@ void create_first_path(t_ways **all_paths, t_room_list *queue, int way_number)
 	while (tmp_queue->next)
 		tmp_queue = tmp_queue->next;
 
-	if (!(*all_paths = (t_ways *)malloc(sizeof(t_ways *))))
+	if (!(*all_paths = (t_ways *)malloc(sizeof(t_ways))))
 		return ;
 		(*all_paths)->next = NULL;
 		(*all_paths)->number = way_number;
