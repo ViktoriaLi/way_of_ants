@@ -121,5 +121,7 @@ int if_not_repeat_room(t_room **head, char *new_room_name);
 int if_repeat_coords(t_room **head, unsigned long long int x, unsigned long long int y);
 int main_rooms_saving(int *room_count, t_params *params, t_room **rooms, int which_room);
 unsigned long long int	ft_uns_atoi(const char *str);
-
+int add_to_queue(t_room_list *queue);
+int create_queue(t_room_list **queue, t_room_list **tmp_queue,
+	t_room_list *farm);
 #endif
