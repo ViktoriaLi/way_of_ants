@@ -124,4 +124,6 @@ unsigned long long int	ft_uns_atoi(const char *str);
 int add_to_queue(t_room_list *queue);
 int create_queue(t_room_list **queue, t_room_list **tmp_queue,
 	t_room_list *farm);
+void clear_queue(t_room_list *head_queue, t_room_list *queue);
+
 #endif

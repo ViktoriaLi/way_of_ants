@@ -6,13 +6,13 @@
 /*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 13:47:44 by vlikhotk          #+#    #+#             */
-/*   Updated: 2018/07/25 13:47:46 by vlikhotk         ###   ########.fr       */
+/*   Updated: 2018/07/25 14:48:22 by vlikhotk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int if_repeat_link(t_link **head, t_link *newelem)
+int		if_repeat_link(t_link **head, t_link *newelem)
 {
 	t_link *tmp;
 
@@ -29,11 +29,11 @@ int if_repeat_link(t_link **head, t_link *newelem)
 	return (1);
 }
 
-int if_corrects_link_names(t_link *newelem, t_room *rooms)
+int		if_corrects_link_names(t_link *newelem, t_room *rooms)
 {
-	t_room *tmp;
-	int if_first;
-	int if_second;
+	t_room	*tmp;
+	int		if_first;
+	int		if_second;
 
 	tmp = rooms;
 	if_first = 0;
@@ -51,7 +51,7 @@ int if_corrects_link_names(t_link *newelem, t_room *rooms)
 	return (0);
 }
 
-void add_new_link(t_link **head, t_link	*newelem, t_params *params)
+void	add_new_link(t_link **head, t_link *newelem, t_params *params)
 {
 	if (if_repeat_link(head, newelem))
 	{
@@ -69,9 +69,9 @@ void add_new_link(t_link **head, t_link	*newelem, t_params *params)
 	ft_printf("%s\n", (*params).buf);
 }
 
-int	save_link(t_link **head, t_params *params, t_room *rooms)
+int		save_link(t_link **head, t_params *params, t_room *rooms)
 {
-	int i;
+	int		i;
 	t_link	*newelem;
 
 	i = 0;
@@ -85,7 +85,8 @@ int	save_link(t_link **head, t_params *params, t_room *rooms)
 	newelem->first = ft_strsub((*params).buf, 0, i++);
 	if (!(*params).buf[i])
 		return (0);
-	newelem->second = ft_strsub((*params).buf, i, ft_strlen((*params).buf - 1 + 1));
+	newelem->second = ft_strsub((*params).buf, i,
+		ft_strlen((*params).buf - 1 + 1));
 	if (!if_corrects_link_names(newelem, rooms) ||
 	ft_strcmp(newelem->first, newelem->second) == 0)
 	{
