@@ -52,51 +52,9 @@ lemin_reading лемин ридинг - пропускает ли некорре
 + перед числом муравьев дожен игнориться?
 предусмотреть кейсы координат 0 или 01 - второй невалидный?
 
-void create_path(t_ways **all_paths, t_room_list *queue, int way_number)
-{
-	t_way *new;
-	t_way *new_head;
-	t_room_list *tmp_queue;
-	int count;
-	t_ways *tmp;
-
-	count = 1;
-	new = NULL;
-	new_head = NULL;
-	tmp_queue = queue;
-	if (!(tmp = (t_ways *)malloc(sizeof(t_ways *))))
-		return ;
-	if (!(tmp->way = (t_way *)malloc(sizeof(t_way))))
-		return ;
-  ft_printf("way_number %d\n", way_number);
-	tmp->number = way_number;
-	tmp->ant = 0;
-	tmp->next = *all_paths;
-	while (tmp_queue->next)
-		tmp_queue = tmp_queue->next;
-	while (tmp_queue->room->which_room >= 0)
-	{
-
-		tmp->way->name = tmp_queue->room->name;
-		ft_printf("tmp_queue->room->name %s\n", tmp->way->name);
-		tmp->way->if_empty = 1;
-		tmp->way->distance = count;
-		count++;
-		tmp->way->next = new_head;
-		new_head = tmp->way;
-		tmp_queue->room->usage = 3;
-		if (tmp_queue->room->which_room == START_ROOM)
-			break;
-		tmp_queue->room = tmp_queue->room->enter;
-		if (!(tmp->way = (t_way *)malloc(sizeof(t_way))))
-			return ;
-	}
-	tmp->next = *all_paths;
-	*all_paths = tmp;
-	new = tmp->way;
-	while (new)
-	{
-		ft_printf("3path%s\n", new->name);
-		new = new->next;
-	}
-}
+выделение памяти
+t_room_list *farm + линкс
+t_room_list *queue
+t_ways **all_paths + вейс
+t_link *links
+t_room *room + room->name
