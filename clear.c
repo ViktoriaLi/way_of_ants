@@ -12,6 +12,52 @@
 
 #include "lem_in.h"
 
+void	del_t_ways(t_ways *all_paths)
+{
+	t_ways *tmp_paths;
+	t_way *tmp_way;
+
+	while (all_paths)
+	{
+		tmp_paths = all_paths->next;
+		while (all_paths->way)
+		{
+			tmp_way = all_paths->way->next;
+			free(all_paths->way);
+			all_paths->way = tmp_way;
+		}
+		free(all_paths);
+		all_paths = tmp_paths;
+	}
+
+}
+
+void	del_t_room_list(t_room_list *farm)
+{
+	t_room_list *tmp_farm;
+	t_room_list *tmp_links;
+	t_room *tmp_room;
+
+	while (farm)
+	{
+		tmp_farm = farm->next;
+		while (farm->room)
+		{
+			tmp_room = farm->room->next;
+			while (farm->room->links)
+			{
+				tmp_links = farm->room->links->next;
+				free(farm->room->links);
+				farm->room->links = tmp_links;
+			}
+			free(farm->room);
+			farm->room = tmp_room;
+		}
+		free(farm);
+		farm = tmp_farm;
+	}
+}
+
 void	del_rooms_and_links(t_room *rooms, t_link *links)
 {
 	t_room *tmp_rooms;
@@ -20,12 +66,15 @@ void	del_rooms_and_links(t_room *rooms, t_link *links)
 	while (rooms)
 	{
 		tmp_rooms = rooms->next;
+		ft_strdel(&rooms->name);
 		free(rooms);
 		rooms = tmp_rooms;
 	}
 	while (links)
 	{
 		tmp_links = links->next;
+		ft_strdel(&links->first);
+		ft_strdel(&links->second);
 		free(links);
 		links = tmp_links;
 	}

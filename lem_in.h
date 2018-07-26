@@ -40,7 +40,7 @@ typedef	struct				s_params
 
 typedef struct				s_room
 {
-	void					*name;
+	char					*name;
 	unsigned long long int	x;
 	unsigned long long int	y;
 	int						which_room;
@@ -132,6 +132,9 @@ int							add_to_queue(t_room_list *queue);
 int							create_queue(t_room_list **queue,
 							t_room_list **tmp_queue, t_room_list *farm);
 void						clear_queue(t_room_list *head_queue,
-							t_room_list *queue);
+							t_room_list *queue, int if_finish);
+void						del_t_room_list(t_room_list *farm);
+void						del_t_ways(t_ways *all_paths);
+void						calc_turns(t_params *params, t_ways *all_paths);
 
 #endif

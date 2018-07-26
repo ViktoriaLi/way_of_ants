@@ -50,10 +50,18 @@ int make_rooms_with_links(t_room *rooms, t_link *links, t_params *params)
 	}
 	head = farm;
 	if (!add_links_to_rooms(rooms, farm, links))
+	{
+		del_t_room_list(farm);
 		return (0);
+	}
+
 	farm = head;
 	if (!add_links(&farm, links, params))
+	{
+		del_rooms_and_links(rooms, links);
+		del_t_room_list(farm);
 		return (0);
+	}
 	return (1);
 }
 

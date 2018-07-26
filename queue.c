@@ -12,16 +12,18 @@
 
 #include "lem_in.h"
 
-void	clear_queue(t_room_list *head_queue, t_room_list *queue)
+void	clear_queue(t_room_list *head_queue, t_room_list *queue, int if_finish)
 {
 	t_room_list *tmp;
 
 	tmp = NULL;
 	queue = head_queue;
-	queue = queue->next;
+	if (!if_finish)
+		queue = queue->next;
 	while (queue)
 	{
-		if (queue->room->usage != 3 && queue->room->which_room != START_ROOM)
+		if (!if_finish && queue->room->usage != 3 &&
+			queue->room->which_room != START_ROOM)
 		{
 			queue->room->usage = 0;
 			queue->room->enter = NULL;
