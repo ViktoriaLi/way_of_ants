@@ -76,8 +76,10 @@ typedef struct				s_way
 {
 	char					*name;
 	int						distance;
-	int						if_empty;
+	int						if_room;
+	int						ant_numb;
 	struct s_way			*next;
+	struct s_way			*fict_next;
 }							t_way;
 
 typedef struct				s_ways

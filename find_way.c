@@ -20,10 +20,12 @@ int		create_path_cycle(t_room_list *queue, t_ways *tmp, t_way *new_head)
 	while (queue->room->which_room > START_ROOM)
 	{
 		tmp->way->name = queue->room->name;
-		tmp->way->if_empty = 1;
+		tmp->way->if_room = 1;
+		tmp->way->ant_numb = 0;
 		tmp->way->distance = count;
 		count++;
 		tmp->way->next = new_head;
+		tmp->way->fict_next = new_head;
 		new_head = tmp->way;
 		queue->room->usage = 3;
 		queue->room = queue->room->enter;
@@ -112,7 +114,6 @@ int		search_way(t_room_list *farm, t_params *params)
 	if (!create_queue(&queue, &tmp_queue, farm))
 	{
 		clear_queue(queue, queue, 1);
-		del_t_ways(all_paths);
 		return (0);
 	}
 	queue = tmp_queue;
