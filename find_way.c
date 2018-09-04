@@ -52,7 +52,7 @@ void	create_path(t_ways **all_paths, t_room_list *queue, int way_number)
 	if (!(tmp->way = (t_way *)malloc(sizeof(t_way))))
 		return ;
 	tmp->number = way_number;
-	tmp->ant = 0;
+	tmp->ant_quantity = 0;
 	if (!create_path_cycle(queue, tmp, new_head))
 		return ;
 	tmp->next = NULL;

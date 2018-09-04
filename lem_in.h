@@ -85,7 +85,8 @@ typedef struct				s_way
 typedef struct				s_ways
 {
 	int						number;
-	int						ant;
+	int						ant_quantity;
+	int						start_ant;
 	struct s_way			*way;
 	struct s_ways			*next;
 }							t_ways;
