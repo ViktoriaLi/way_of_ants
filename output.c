@@ -106,6 +106,9 @@ int		add_ant_node(t_ways *all_paths, int last_way)
 		ants_list->ant_numb = ants;
 		ants_list->distance = 0;
 		ants_list->next = new_head;
+		ants_list->prev = NULL;
+		if (new_head)
+			new_head->prev = ants_list;
 		//ants_list->fict_next = new_head;
 		new_head = ants_list;
 		ants += (last_way + 1);
@@ -137,10 +140,16 @@ void add_ants_to_rooms(t_ways *all_paths, int last_way)
 	{
 		all_paths1 = all_paths2->way;
 		ft_printf("1way%d %d %d\n", all_paths2->number, all_paths2->ant_quantity, all_paths2->start_ant);
-		while (all_paths1)
+		while (all_paths1->next)
 		{
 			ft_printf("2way%s %d\n", all_paths1->name, all_paths1->ant_numb);
 			all_paths1 = all_paths1->next;
+		}
+		ft_printf("2way%s %d\n", all_paths1->name, all_paths1->ant_numb);
+		while (all_paths1->prev)
+		{
+			ft_printf("3way%s %d\n", all_paths1->name, all_paths1->ant_numb);
+			all_paths1 = all_paths1->prev;
 		}
 		all_paths2 = all_paths2->next;
 	}

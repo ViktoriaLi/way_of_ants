@@ -15,8 +15,12 @@
 int		create_path_cycle(t_room_list *queue, t_ways *tmp, t_way *new_head)
 {
 	int count;
+	t_way *prev;
+
 
 	count = 1;
+	prev = NULL;
+
 	while (queue->room->which_room > START_ROOM)
 	{
 		tmp->way->name = queue->room->name;
@@ -25,7 +29,9 @@ int		create_path_cycle(t_room_list *queue, t_ways *tmp, t_way *new_head)
 		tmp->way->distance = count;
 		count++;
 		tmp->way->next = new_head;
-		tmp->way->fict_next = new_head;
+		tmp->way->prev = NULL;
+		if (new_head)
+			new_head->prev = tmp->way;
 		new_head = tmp->way;
 		queue->room->usage = 3;
 		queue->room = queue->room->enter;
@@ -34,6 +40,8 @@ int		create_path_cycle(t_room_list *queue, t_ways *tmp, t_way *new_head)
 		if (!(tmp->way = (t_way *)malloc(sizeof(t_way))))
 			return (0);
 	}
+
+
 	return (1);
 }
 

@@ -79,7 +79,7 @@ typedef struct				s_way
 	int						if_room;
 	int						ant_numb;
 	struct s_way			*next;
-	struct s_way			*fict_next;
+	struct s_way			*prev;
 }							t_way;
 
 typedef struct				s_ways
