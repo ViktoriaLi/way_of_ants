@@ -15,12 +15,8 @@
 int		create_path_cycle(t_room_list *queue, t_ways *tmp, t_way *new_head)
 {
 	int count;
-	t_way *prev;
-
 
 	count = 1;
-	prev = NULL;
-
 	while (queue->room->which_room > START_ROOM)
 	{
 		tmp->way->name = queue->room->name;
@@ -40,8 +36,6 @@ int		create_path_cycle(t_room_list *queue, t_ways *tmp, t_way *new_head)
 		if (!(tmp->way = (t_way *)malloc(sizeof(t_way))))
 			return (0);
 	}
-
-
 	return (1);
 }
 
@@ -149,10 +143,8 @@ int		search_way(t_room_list *farm, t_params *params)
 		all_paths = all_paths->next;
 	}
 	all_paths = tmp_all_paths;
-	//make_output(params, all_paths);
 	calc_turns(params, all_paths);
-	all_paths = tmp_all_paths;
-	/*clear_queue(queue, queue, 1);
-	del_t_ways(all_paths);*/
+	del_t_ways(all_paths);
+	clear_queue(queue, queue, 1);
 	return (1);
 }

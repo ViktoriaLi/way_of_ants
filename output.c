@@ -42,49 +42,70 @@ b->Next = a;        //  ptr -> b -> a -> c*/
     return list;
 }*/
 
-/*void ants_moving(t_ways *all_paths, int last_way, t_params *params)
+void print_ants(t_way *path)
 {
-	t_way *end;
+	//ft_printf("print %d\n", 27);
 	t_way *tmp;
-	t_way *prev;
-	int finished_ants;
-	int i;
 
-	i = 0;
-	end = NULL;
-	tmp = NULL;
-	prev = NULL;
-	finished_ants = (*params).ants;
+	tmp = path;
 	while (tmp->next)
 		tmp = tmp->next;
-	end = tmp;
+	while (tmp)
+	{
+		if (tmp->if_room && tmp->ant_numb)
+		{
+			ft_printf("L%d-%s", tmp->ant_numb, tmp->name);
+			if (!tmp->next)
+				tmp->ant_numb = 0;
+		}
+		tmp = tmp->prev;
+	}
+}
+
+void ants_shift(t_way *path, int *finished_ants)
+{
+	t_way *tmp;
+
+	tmp = path;
+	while (tmp->next)
+		tmp = tmp->next;
+	while (tmp)
+	{
+		//ft_printf("1test%s %d\n", tmp->name, tmp->ant_numb);
+		if (!tmp->ant_numb && tmp->prev && tmp->prev->ant_numb)
+		{
+			tmp->ant_numb = tmp->prev->ant_numb;
+			tmp->prev->ant_numb = 0;
+			if (!tmp->next)
+				(*finished_ants) = (*finished_ants) - 1;
+		}
+		//ft_printf("2test%s %d\n", tmp->name, tmp->ant_numb);
+		tmp = tmp->prev;
+	}
+}
+
+void ants_moving(t_ways *all_paths, int last_way, t_params *params)
+{
+	t_ways *tmp;
+	int finished_ants;
+
 	tmp = all_paths;
-	if (tmp == end)
-		return ;
+	finished_ants = (*params).ants;
+	tmp = all_paths;
 	while (finished_ants > 0)
 	{
-		tmp
-		while()
+		tmp = all_paths;
+		while(tmp && tmp->number <= last_way)
 		{
-			if (tmp->way->next->if_room)
-			{
-
-			}
+			ants_shift(tmp->way, &finished_ants);
+			print_ants(tmp->way);
+			if (tmp->next && tmp->next->number <= last_way)
+				ft_printf("%c", ' ');
+			tmp = tmp->next;
 		}
-		tmp = tmp->next;
-		i++;
+			ft_printf("%c%c", '\b', '\n');
 	}
-	Node* node;
-	for (node = list->head; node->next != list->tail; node = node->next) { ; }
-
-	node->next = NULL;
-	list->tail->next = list->head;
-	list->head = list->tail;
-	list->tail = node;
-
-
-	return list;
-}*/
+}
 
 int		add_ant_node(t_ways *all_paths, int last_way)
 {
@@ -118,7 +139,7 @@ int		add_ant_node(t_ways *all_paths, int last_way)
 	return (1);
 }
 
-void add_ants_to_rooms(t_ways *all_paths, int last_way)
+void add_ants_to_rooms(t_ways *all_paths, int last_way, t_params *params)
 {
 	int i;
 	t_ways *tmp;
@@ -140,19 +161,14 @@ void add_ants_to_rooms(t_ways *all_paths, int last_way)
 	{
 		all_paths1 = all_paths2->way;
 		ft_printf("1way%d %d %d\n", all_paths2->number, all_paths2->ant_quantity, all_paths2->start_ant);
-		while (all_paths1->next)
+		while (all_paths1)
 		{
 			ft_printf("2way%s %d\n", all_paths1->name, all_paths1->ant_numb);
 			all_paths1 = all_paths1->next;
 		}
-		ft_printf("2way%s %d\n", all_paths1->name, all_paths1->ant_numb);
-		while (all_paths1->prev)
-		{
-			ft_printf("3way%s %d\n", all_paths1->name, all_paths1->ant_numb);
-			all_paths1 = all_paths1->prev;
-		}
 		all_paths2 = all_paths2->next;
 	}
+	ants_moving(all_paths, last_way, params);
 }
 
 void calc_turns(t_params *params, t_ways *all_paths)
@@ -165,14 +181,6 @@ void calc_turns(t_params *params, t_ways *all_paths)
 	int last_way;
 	int ants_id;
 
-	int i;
-	i = 0;
-	int j;
-	j = 0;
-	int add_ants;
-	add_ants = 0;
-	unsigned long long ants_at_finish;
-	ants_at_finish = 0;
 	ants_id = 1;
 	quantity = all_paths->number + 1;
 	tmp = all_paths;
@@ -204,7 +212,7 @@ void calc_turns(t_params *params, t_ways *all_paths)
 		tmp->ant_quantity = ants;
 	ants = 1;
 
-	add_ants_to_rooms(all_paths, last_way);
+	add_ants_to_rooms(all_paths, last_way, params);
 /*	while (1)
 	{
 		tmp = all_paths;
