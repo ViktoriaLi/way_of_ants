@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-void print_ants(t_way *path, int iflast)
+void print_ants(t_way *path)
 {
 	t_way *tmp;
 
@@ -23,10 +23,7 @@ void print_ants(t_way *path, int iflast)
 	{
 		if (tmp->if_room && tmp->ant_numb)
 		{
-			if (!iflast || (tmp->prev))
-				ft_printf("L%d-%s ", tmp->ant_numb, tmp->name);
-			else
-				ft_printf("L%d-%s", tmp->ant_numb, tmp->name);
+			ft_printf("L%d-%s ", tmp->ant_numb, tmp->name);
 			if (!tmp->next)
 				tmp->ant_numb = 0;
 		}
@@ -67,11 +64,7 @@ void ants_moving(t_ways *all_paths, int last_way, t_params *params)
 		while(tmp && tmp->number <= last_way)
 		{
 			ants_shift(tmp->way, &finished_ants);
-			
-			if (tmp->next && tmp->next->number <= last_way)
-				print_ants(tmp->way, 0);
-			else
-				print_ants(tmp->way, 1);
+			print_ants(tmp->way);
 			tmp = tmp->next;
 		}
 			ft_printf("%c", '\n');
@@ -124,43 +117,31 @@ void add_ants_to_rooms(t_ways *all_paths, int last_way, t_params *params)
 	ants_moving(all_paths, last_way, params);
 }
 
-void set_ants_qauntity()
+void calc_turns(t_params *params, t_ways *all_paths, t_ways *tmp)
 {
-	
-}
-
-void calc_turns(t_params *params, t_ways *all_paths)
-{
-	t_ways *tmp;
-	int ants;
 	int quantity;
-	int last_way;
 	int ants_id;
 
 	ants_id = 1;
-	tmp = all_paths;
-	ants = (*params).ants;
 	while (tmp->next && tmp->way->distance <
 		(tmp->way->distance + (*params).ants - 1))
 	{
-		tmp->start_ant = ants_id;
-		ants_id++;
+		tmp->start_ant = ants_id++;
 		tmp = tmp->next;
 	}
 	tmp->start_ant = ants_id;
-	last_way = tmp->number;
+	(*params).last_way = tmp->number;
 	quantity = tmp->number + 1;
 	tmp = all_paths;
+	ants_id = (*params).ants;
 	while (tmp)
 	{
 		tmp->ant_quantity = (*params).ants / quantity;
-		if (tmp->number == last_way)
+		if (tmp->number == (*params).last_way)
 			break ;
-		ants--;
+		ants_id--;
 		tmp = tmp->next;
 	}
-	tmp = all_paths;
-	if (ants)
-		tmp->ant_quantity = ants;
-	add_ants_to_rooms(all_paths, last_way, params);
+	if (ants_id)
+		all_paths->ant_quantity = ants_id;
 }

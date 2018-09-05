@@ -32,6 +32,7 @@ typedef	struct				s_params
 	int						if_error;
 	int						end_entries;
 	int						start_exits;
+	int						last_way;
 	int						max_ways;
 	char					*buf;
 	char					*start;
@@ -138,6 +139,7 @@ void						clear_queue(t_room_list *head_queue,
 							t_room_list *queue, int if_finish);
 void						del_t_room_list(t_room_list *farm);
 void						del_t_ways(t_ways *all_paths);
-void						calc_turns(t_params *params, t_ways *all_paths);
+void						calc_turns(t_params *params, t_ways *all_paths, t_ways *tmp);
+void						add_ants_to_rooms(t_ways *all_paths, int last_way, t_params *params);
 
 #endif
