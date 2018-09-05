@@ -75,7 +75,7 @@ typedef	struct				s_reading
 typedef struct				s_way
 {
 	char					*name;
-	int						distance;
+	unsigned int						distance;
 	int						if_room;
 	int						ant_numb;
 	struct s_way			*next;
