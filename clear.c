@@ -6,7 +6,7 @@
 /*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/19 16:20:20 by vlikhotk          #+#    #+#             */
-/*   Updated: 2018/07/19 16:20:54 by vlikhotk         ###   ########.fr       */
+/*   Updated: 2018/09/05 14:34:33 by vlikhotk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	del_t_ways(t_ways *all_paths)
 {
-	t_ways *tmp_paths;
-	t_way *tmp_way;
+	t_ways	*tmp_paths;
+	t_way	*tmp_way;
 
 	while (all_paths)
 	{
@@ -29,14 +29,13 @@ void	del_t_ways(t_ways *all_paths)
 		free(all_paths);
 		all_paths = tmp_paths;
 	}
-
 }
 
 void	del_t_room_list(t_room_list *farm)
 {
-	t_room_list *tmp_farm;
-	t_room_list *tmp_links;
-	t_room *tmp_room;
+	t_room_list	*tmp_farm;
+	t_room_list	*tmp_links;
+	t_room		*tmp_room;
 
 	while (farm)
 	{

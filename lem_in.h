@@ -6,7 +6,7 @@
 /*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 16:03:28 by vlikhotk          #+#    #+#             */
-/*   Updated: 2018/07/25 17:25:12 by vlikhotk         ###   ########.fr       */
+/*   Updated: 2018/09/05 14:35:58 by vlikhotk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ typedef	struct				s_reading
 typedef struct				s_way
 {
 	char					*name;
-	unsigned int						distance;
+	unsigned int			distance;
 	int						if_room;
 	int						ant_numb;
 	struct s_way			*next;
@@ -139,7 +139,9 @@ void						clear_queue(t_room_list *head_queue,
 							t_room_list *queue, int if_finish);
 void						del_t_room_list(t_room_list *farm);
 void						del_t_ways(t_ways *all_paths);
-void						calc_turns(t_params *params, t_ways *all_paths, t_ways *tmp);
-void						add_ants_to_rooms(t_ways *all_paths, int last_way, t_params *params);
+void						calc_turns(t_params *params, t_ways *all_paths,
+							t_ways *tmp);
+void						add_ants_to_rooms(t_ways *all_paths, int last_way,
+							t_params *params);
 
 #endif

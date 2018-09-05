@@ -97,6 +97,35 @@ void	if_ants_more_than_one(t_room_list *queue, t_ways **all_paths,
 	}
 }
 
+void	calc_turns(t_params *params, t_ways *all_paths, t_ways *tmp)
+{
+	int quantity;
+	int ants_id;
+
+	ants_id = 1;
+	while (tmp->next && tmp->way->distance <
+		(tmp->way->distance + (*params).ants - 1))
+	{
+		tmp->start_ant = ants_id++;
+		tmp = tmp->next;
+	}
+	tmp->start_ant = ants_id;
+	(*params).last_way = tmp->number;
+	quantity = tmp->number + 1;
+	tmp = all_paths;
+	ants_id = (*params).ants;
+	while (tmp)
+	{
+		tmp->ant_quantity = (*params).ants / quantity;
+		if (tmp->number == (*params).last_way)
+			break ;
+		ants_id--;
+		tmp = tmp->next;
+	}
+	if (ants_id)
+		all_paths->ant_quantity = ants_id;
+}
+
 int		search_way(t_room_list *farm, t_params *params)
 {
 	t_room_list *queue;

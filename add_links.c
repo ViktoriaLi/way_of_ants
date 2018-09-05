@@ -6,18 +6,13 @@
 /*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 13:47:31 by vlikhotk          #+#    #+#             */
-/*   Updated: 2018/07/25 13:47:34 by vlikhotk         ###   ########.fr       */
+/*   Updated: 2018/09/05 14:33:22 by vlikhotk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-/*void del_farm(t_room *rooms)
-{
-	t_room *rooms
-}*/
-
-int add_links_to_rooms(t_room *rooms, t_room_list *farm, t_link *links)
+int		add_links_to_rooms(t_room *rooms, t_room_list *farm, t_link *links)
 {
 	while (rooms)
 	{
@@ -38,7 +33,7 @@ int add_links_to_rooms(t_room *rooms, t_room_list *farm, t_link *links)
 	return (1);
 }
 
-int make_rooms_with_links(t_room *rooms, t_link *links, t_params *params)
+int		make_rooms_with_links(t_room *rooms, t_link *links, t_params *params)
 {
 	t_room_list *farm;
 	t_room_list *head;
@@ -54,7 +49,6 @@ int make_rooms_with_links(t_room *rooms, t_link *links, t_params *params)
 		del_t_room_list(farm);
 		return (0);
 	}
-
 	farm = head;
 	if (!add_links(&farm, links, params))
 	{
@@ -65,7 +59,7 @@ int make_rooms_with_links(t_room *rooms, t_link *links, t_params *params)
 	return (1);
 }
 
-void search_links(t_room_list **farm, t_room **link,
+void	search_links(t_room_list **farm, t_room **link,
 	t_room **head, t_link *links)
 {
 	t_room_list	*tmp_farm;
@@ -81,11 +75,11 @@ void search_links(t_room_list **farm, t_room **link,
 	}
 }
 
-int create_links(t_room_list **farm, t_link *links)
+int		create_links(t_room_list **farm, t_link *links)
 {
 	t_room_list	*tmp;
-	t_room	*link;
-	t_room	*head;
+	t_room		*link;
+	t_room		*head;
 
 	tmp = NULL;
 	head = NULL;
@@ -106,7 +100,7 @@ int create_links(t_room_list **farm, t_link *links)
 	return (1);
 }
 
-int add_links(t_room_list **farm, t_link *links, t_params *params)
+int		add_links(t_room_list **farm, t_link *links, t_params *params)
 {
 	while (links)
 	{
