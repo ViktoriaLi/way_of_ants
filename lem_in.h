@@ -108,8 +108,7 @@ int							add_links(t_room_list **farm, t_link *links,
 							t_params *params);
 int							search_way(t_room_list *farm, t_params *params);
 void						del_rooms_and_links(t_room *rooms, t_link *links);
-int							proc_incorrect_str(t_params *params,
-							t_reading *read_params);
+int							proc_incorrect_str(t_params *params);
 int							proc_comment_str(t_params *params,
 							t_reading *read_params);
 int							proc_room_str(t_params *params, t_room **rooms);

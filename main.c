@@ -36,4 +36,9 @@ int		main(void)
 		ft_printf("%s\n", "ERROR9");
 		exit(0);
 	}
+	while (1)
+	{
+		;
+	}
+	//system("leaks lem-in");
 }

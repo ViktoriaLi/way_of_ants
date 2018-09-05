@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-int		proc_incorrect_str(t_params *params, t_reading *read_params)
+int		proc_incorrect_str(t_params *params)
 {
 	if (ft_strcmp((*params).buf, "\n") == 0 ||
 	(*params).buf[0] == 'L')
@@ -23,7 +23,6 @@ int		proc_incorrect_str(t_params *params, t_reading *read_params)
 			(*params).if_error = 1;
 			return (1);
 		}
-		del_rooms_and_links((*read_params).rooms, (*read_params).links);
 		return (0);
 	}
 	return (2);

@@ -56,7 +56,7 @@ int		lemin_reading(t_params *params)
 	read_params_nulling(&read_params);
 	while (get_next_line(0, &params->buf) > 0)
 	{
-		read_params.res = proc_incorrect_str(params, &read_params);
+		read_params.res = proc_incorrect_str(params);
 		if (!read_params.res)
 			return (0);
 		if (read_params.res == 1)
@@ -69,7 +69,10 @@ int		lemin_reading(t_params *params)
 		if (read_params.res == 0)
 			return (0);
 		if (read_params.res == 1)
+		{
+			ft_strdel(&params->buf);
 			continue ;
+		}
 		if (read_params.res == 2)
 			break ;
 	}

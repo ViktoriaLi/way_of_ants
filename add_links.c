@@ -22,6 +22,7 @@ int		add_links_to_rooms(t_room *rooms, t_room_list *farm, t_link *links)
 			if (!(farm->next = (t_room_list *)malloc(sizeof(t_room_list))))
 			{
 				del_rooms_and_links(rooms, links);
+				del_t_room_list(farm);
 				return (0);
 			}
 		}
@@ -39,14 +40,12 @@ int		make_rooms_with_links(t_room *rooms, t_link *links, t_params *params)
 	t_room_list *head;
 
 	if (!(farm = (t_room_list *)malloc(sizeof(t_room_list))))
-	{
-		del_rooms_and_links(rooms, links);
 		return (0);
-	}
 	head = farm;
 	if (!add_links_to_rooms(rooms, farm, links))
 	{
 		del_t_room_list(farm);
+		del_rooms_and_links(rooms, links);
 		return (0);
 	}
 	farm = head;
@@ -56,6 +55,7 @@ int		make_rooms_with_links(t_room *rooms, t_link *links, t_params *params)
 		del_t_room_list(farm);
 		return (0);
 	}
+	//del_rooms_and_links(rooms, NULL);
 	return (1);
 }
 
@@ -88,12 +88,20 @@ int		create_links(t_room_list **farm, t_link *links)
 	if (!head || !link)
 		return (0);
 	if (!(tmp = (t_room_list *)malloc(sizeof(t_room_list))))
+	{
+		del_rooms_and_links(NULL, links);
+		del_t_room_list(tmp);
 		return (0);
+	}
 	tmp->next = head->links;
 	head->links = tmp;
 	tmp->room = link;
 	if (!(tmp = (t_room_list *)malloc(sizeof(t_room_list))))
+	{
+		del_rooms_and_links(NULL, links);
+		del_t_room_list(tmp);
 		return (0);
+	}
 	tmp->next = link->links;
 	link->links = tmp;
 	tmp->room = head;

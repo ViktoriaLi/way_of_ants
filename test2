@@ -1,12 +1,12 @@
 3
-2 5 0
+two 5 0
 ##start
-0 1 2
+zero 1 2
 ##end
-1 9 2
-3 5 4
-0-2
-0-3
-2-1
-3-1
-2-3
+one 9 2
+three 5 4
+zero-two
+zero-three
+two-one
+three-one
+two-three
