@@ -50,6 +50,7 @@ int		make_rooms_with_links(t_room *rooms, t_link *links, t_params *params)
 		return (0);
 	}
 	//del_t_room_list(farm);
+	//del_rooms_and_links(rooms, links);
 	return (1);
 }
 
