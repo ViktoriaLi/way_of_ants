@@ -80,8 +80,9 @@ void	if_ants_more_than_one(t_room_list *queue, t_ways **all_paths,
 	head_queue = queue;
 	while ((*params).max_ways != count)
 	{
+		ft_printf("count %d\n", count);
 		clear_queue(head_queue, queue, 0);
-		while (queue)
+		/*while (queue)
 		{
 			if (queue->room->usage != 2)
 			{
@@ -89,9 +90,26 @@ void	if_ants_more_than_one(t_room_list *queue, t_ways **all_paths,
 					break ;
 			}
 			queue = queue->next;
-		}
+		}*/
+
+			while (queue)
+			{
+				//if (queue->room->usage != 2)
+				//{
+					if (/*queue->room->usage != 2 && */!add_to_queue(queue))
+						break ;
+				//}
+				queue = queue->next;
+			}
 		if (!queue)
 			break ;
+		ft_printf("2count %d\n", count);
+		queue = head_queue;
+		while (queue)
+		{
+			ft_printf("2queue %s\n", queue->room->name);
+			queue = queue->next;
+		}
 		queue = head_queue;
 		create_path(all_paths, queue, count);
 		count++;
@@ -143,11 +161,30 @@ int		search_way(t_room_list *farm, t_params *params)
 		return (0);
 	}
 	queue = tmp_queue;
+	while (queue)
+	{
+		ft_printf("queue %s\n", queue->room->name);
+		queue = queue->next;
+	}
+	queue = tmp_queue;
 	create_path(&all_paths, queue, 0);
 	tmp_all_paths = all_paths;
 	queue = tmp_queue;
 	if ((*params).ants > 1 && (*params).max_ways > 1)
 		if_ants_more_than_one(queue, &all_paths, params);
+	t_way *all_paths1;
+	while (all_paths)
+	{
+		all_paths1 = all_paths->way;
+		ft_printf("1way%d\n", all_paths->number);
+		while (all_paths1)
+		{
+			ft_printf("2way%s\n", all_paths1->name);
+			all_paths1 = all_paths1->next;
+		}
+		all_paths = all_paths->next;
+	}
+	ft_printf("MAX%d\n", (*params).max_ways);
 	all_paths = tmp_all_paths;
 	calc_turns(params, all_paths, tmp_all_paths);
 	add_ants_to_rooms(all_paths, (*params).last_way, params);
