@@ -98,6 +98,7 @@ void	add_ant_node(t_ways *all_paths, int last_way)
 		ants += (last_way + 1);
 		counter++;
 	}
+	all_paths->way = new_head;
 }
 
 void	add_ants_to_rooms(t_ways *all_paths, int last_way, t_params *params)
@@ -109,10 +110,9 @@ void	add_ants_to_rooms(t_ways *all_paths, int last_way, t_params *params)
 	tmp = all_paths;
 	while (i <= last_way)
 	{
-		add_ant_node(all_paths, last_way);
-		all_paths = all_paths->next;
+		add_ant_node(tmp, last_way);
+		tmp = tmp->next;
 		i++;
 	}
-	all_paths = tmp;
 	ants_moving(all_paths, last_way, params);
 }

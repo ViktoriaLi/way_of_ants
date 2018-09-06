@@ -152,7 +152,6 @@ int		search_way(t_room_list *farm, t_params *params)
 	calc_turns(params, all_paths, tmp_all_paths);
 	add_ants_to_rooms(all_paths, (*params).last_way, params);
 	all_paths = tmp_all_paths;
-	//
 	clear_queue(tmp_queue, queue, 1);
 	del_t_ways(all_paths);
 	del_t_room_list(farm);
