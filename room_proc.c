@@ -73,6 +73,7 @@ int		save_room(t_room **head, t_params *params, int which_room)
 		new_room->name) || new_room->x > 2147483647 || new_room->y >
 		2147483647 || !if_repeat_coords(head, new_room->x, new_room->y))
 	{
+		ft_strdel(&new_room->name);
 		free(new_room);
 		ft_strdel(&params->buf);
 		return (0);

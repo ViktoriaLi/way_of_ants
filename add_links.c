@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-int		add_links_to_rooms(t_room *rooms, t_room_list *farm, t_link *links)
+int		add_links_to_rooms(t_room *rooms, t_room_list *farm)
 {
 	while (rooms)
 	{
@@ -20,11 +20,7 @@ int		add_links_to_rooms(t_room *rooms, t_room_list *farm, t_link *links)
 		if (rooms->next)
 		{
 			if (!(farm->next = (t_room_list *)malloc(sizeof(t_room_list))))
-			{
-				del_rooms_and_links(rooms, links);
-				del_t_room_list(farm);
 				return (0);
-			}
 		}
 		else
 			farm->next = NULL;
@@ -42,20 +38,18 @@ int		make_rooms_with_links(t_room *rooms, t_link *links, t_params *params)
 	if (!(farm = (t_room_list *)malloc(sizeof(t_room_list))))
 		return (0);
 	head = farm;
-	if (!add_links_to_rooms(rooms, farm, links))
+	if (!add_links_to_rooms(rooms, farm))
 	{
 		del_t_room_list(farm);
-		del_rooms_and_links(rooms, links);
 		return (0);
 	}
 	farm = head;
 	if (!add_links(&farm, links, params))
 	{
-		del_rooms_and_links(rooms, links);
 		del_t_room_list(farm);
 		return (0);
 	}
-	//del_rooms_and_links(rooms, NULL);
+	//del_t_room_list(farm);
 	return (1);
 }
 
@@ -88,20 +82,12 @@ int		create_links(t_room_list **farm, t_link *links)
 	if (!head || !link)
 		return (0);
 	if (!(tmp = (t_room_list *)malloc(sizeof(t_room_list))))
-	{
-		del_rooms_and_links(NULL, links);
-		del_t_room_list(tmp);
 		return (0);
-	}
 	tmp->next = head->links;
 	head->links = tmp;
 	tmp->room = link;
 	if (!(tmp = (t_room_list *)malloc(sizeof(t_room_list))))
-	{
-		del_rooms_and_links(NULL, links);
-		del_t_room_list(tmp);
 		return (0);
-	}
 	tmp->next = link->links;
 	link->links = tmp;
 	tmp->room = head;
@@ -110,11 +96,16 @@ int		create_links(t_room_list **farm, t_link *links)
 
 int		add_links(t_room_list **farm, t_link *links, t_params *params)
 {
+	t_link *tmp_links;
+
+	tmp_links = links;
 	while (links)
 	{
-		create_links(farm, links);
+		if (!create_links(farm, links))
+			return (0);
 		links = links->next;
 	}
+	del_rooms_and_links(NULL, tmp_links);
 	ft_printf("start enters %d\n", (*params).start_exits);
 	ft_printf("finish enters %d\n", (*params).end_entries);
 	if (!(*params).start_exits || !(*params).end_entries)
@@ -125,5 +116,6 @@ int		add_links(t_room_list **farm, t_link *links, t_params *params)
 		(*params).max_ways = (*params).end_entries;
 	if (!search_way(*farm, params))
 		return (0);
+	//del_t_room_list(*farm);
 	return (1);
 }

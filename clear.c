@@ -43,6 +43,7 @@ void	del_t_room_list(t_room_list *farm)
 		while (farm->room)
 		{
 			tmp_room = farm->room->next;
+			ft_strdel(&farm->room->name);
 			while (farm->room->links)
 			{
 				tmp_links = farm->room->links->next;

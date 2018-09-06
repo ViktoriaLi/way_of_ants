@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -58,14 +59,20 @@ int		lemin_reading(t_params *params)
 	{
 		read_params.res = proc_incorrect_str(params);
 		if (!read_params.res)
+		{
+			del_rooms_and_links(read_params.rooms, read_params.links);
 			return (0);
+		}
 		if (read_params.res == 1)
 			break ;
 		read_params.res = check_correct_str(&read_params, params);
-		if (read_params.res == -1 && proc_else_str(params, read_params))
+		if (read_params.res == -1 && proc_else_str(params))
 			break ;
-		if (read_params.res == -1 && !proc_else_str(params, read_params))
+		if (read_params.res == -1 && !proc_else_str(params))
+		{
+			del_rooms_and_links(read_params.rooms, read_params.links);
 			return (0);
+		}
 		if (read_params.res == 0)
 			return (0);
 		if (read_params.res == 1)
@@ -78,5 +85,6 @@ int		lemin_reading(t_params *params)
 	}
 	if (!stop_reading(params, &read_params))
 		return (0);
+	//del_rooms_and_links(read_params.rooms, read_params.links);
 	return (1);
 }

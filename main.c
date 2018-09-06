@@ -40,5 +40,4 @@ int		main(void)
 	{
 		;
 	}
-	//system("leaks lem-in");
 }

@@ -114,8 +114,7 @@ int							proc_comment_str(t_params *params,
 int							proc_room_str(t_params *params, t_room **rooms);
 int							proc_links_str(t_params *params,
 							t_reading *read_params);
-int							proc_else_str(t_params *params,
-							t_reading read_params);
+int							proc_else_str(t_params *params);
 int							check_correct_str(t_reading *read_params,
 							t_params *params);
 int							stop_reading(t_params *params,

@@ -71,13 +71,12 @@ int		proc_links_str(t_params *params, t_reading *read_params)
 	return (1);
 }
 
-int		proc_else_str(t_params *params, t_reading read_params)
+int		proc_else_str(t_params *params)
 {
 	if ((*params).links_count && (*params).rooms_count)
 	{
 		(*params).if_error = 1;
 		return (1);
 	}
-	del_rooms_and_links(read_params.rooms, read_params.links);
 	return (0);
 }

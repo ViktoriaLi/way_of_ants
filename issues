@@ -60,6 +60,17 @@ t_room_list *queue
 t_ways **all_paths + вейс
 t_link *links
 t_room *room + room->name сделать фри комнат и ссылок при корректном выходе из программы
+функции с ликами
+save_link
+save_link - save_link
+save_room
+save_room | take_room_params | ft_strsub
+make_rooms_with_links
+make_rooms_with_links | add_links_to_rooms
+add_links | create_links
+add_links | search_way | add_ants_to_rooms | add_ant_node
 
 после строк идет пробел
 85 ликов
+надо решить с фри фермы, комнаты и линков
+проверить все места где поиск пути не прекращается, чтоб не было фри раньше времени
