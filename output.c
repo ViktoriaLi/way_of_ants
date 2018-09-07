@@ -117,6 +117,6 @@ void	add_ants_to_rooms(t_ways *all_paths, int last_way, t_params *params)
 		tmp = tmp->next;
 		i++;
 	}
-	//ft_printf("%c", '\n');
+	ft_printf("%c", '\n');
 	ants_moving(all_paths, last_way, params);
 }

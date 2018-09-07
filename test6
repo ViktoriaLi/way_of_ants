@@ -1,25 +1,26 @@
-100
+5
 ##start
-rs 1 0
+r_start 23 3
+r_1 16 7
+r_2 16 3
+r_5 16 5
+r_6 9 3
+r_7 1 5
+r_8 4 8
 ##end
-re 5 0
-s1 1 1
-s2 2 2
-s3 3 3
-s4 4 4
-s5 5 5
-s6 6 6
-s7 7 7
-s8 8 8
-rs-s1
-rs-s3
-rs-s5
-rs-s7
-s1-s2
-s3-s4
-s5-s6
-s7-s8
-s2-re
-s4-re
-s6-re
-s8-re
+r_end 9 5
+r_end-r_6
+r_end-r_7
+r_start-r_2
+r_2-r_end
+#THIS PIPE PIPES TO THE SAME ROOM
+r_5-r_5
+r_5-r_2
+r_6-r_1
+r_2-r_6
+r_5-r_1
+r_1-r_start
+r_8-r_7
+r_8-r_1
+r_8-r_5
+r_7-r_6

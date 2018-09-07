@@ -77,6 +77,7 @@ int		save_link(t_link **head, t_params *params, t_room *rooms, int i)
 	if (!(*params).start || !(*params).end ||
 		!(newelem = (t_link *)malloc(sizeof(t_link))))
 		return (0);
+	newelem->next = NULL;
 	while ((*params).buf[i] && (*params).buf[i] != '-')
 		i++;
 	newelem->first = ft_strsub((*params).buf, 0, i++);
