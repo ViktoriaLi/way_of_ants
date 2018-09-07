@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-void	print_ants(t_way *path)
+void	print_ants(t_way *path, int if_last)
 {
 	t_way *tmp;
 
@@ -23,7 +23,10 @@ void	print_ants(t_way *path)
 	{
 		if (tmp->if_room && tmp->ant_numb)
 		{
-			ft_printf("L%d-%s ", tmp->ant_numb, tmp->name);
+			if (!if_last || (tmp->prev && tmp->prev->if_room && tmp->prev->ant_numb))
+				ft_printf("L%d-%s ", tmp->ant_numb, tmp->name);
+			else
+				ft_printf("L%d-%s", tmp->ant_numb, tmp->name);
 			if (!tmp->next)
 				tmp->ant_numb = 0;
 		}
@@ -64,7 +67,10 @@ void	ants_moving(t_ways *all_paths, int last_way, t_params *params)
 		while (tmp && tmp->number <= last_way)
 		{
 			ants_shift(tmp->way, &finished_ants);
-			print_ants(tmp->way);
+			if (tmp->next && tmp->next->number <= last_way)
+				print_ants(tmp->way, 0);
+			else
+				print_ants(tmp->way, 1);
 			tmp = tmp->next;
 		}
 		ft_printf("%c", '\n');
@@ -111,5 +117,6 @@ void	add_ants_to_rooms(t_ways *all_paths, int last_way, t_params *params)
 		tmp = tmp->next;
 		i++;
 	}
+	//ft_printf("%c", '\n');
 	ants_moving(all_paths, last_way, params);
 }

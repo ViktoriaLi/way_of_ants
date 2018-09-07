@@ -42,7 +42,6 @@ int		pre_comments_parsing(t_params *params)
 	if ((*params).buf[1] == '#' && (ft_strstr(&params->buf[2], "start")
 	|| ft_strstr(&params->buf[2], "end")))
 	{
-		ft_printf("%s\n", (*params).buf);
 		ft_strdel(&params->buf);
 		return (0);
 	}

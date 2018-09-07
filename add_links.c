@@ -107,8 +107,6 @@ int		add_links(t_room_list **farm, t_link *links, t_params *params)
 		links = links->next;
 	}
 	del_rooms_and_links(NULL, tmp_links);
-	ft_printf("start enters %d\n", (*params).start_exits);
-	ft_printf("finish enters %d\n", (*params).end_entries);
 	if (!(*params).start_exits || !(*params).end_entries)
 		return (0);
 	if ((*params).start_exits < (*params).end_entries)

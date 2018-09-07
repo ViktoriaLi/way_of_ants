@@ -41,7 +41,7 @@ int		take_room_params(t_params *params, t_room *new_room)
 		i++;
 	new_room->name = ft_strsub((*params).buf, 0, i++);
 	if ((*params).buf[i] >= '0' && (*params).buf[i] <= '9')
-		new_room->x = ft_atoi(&params->buf[i]);
+		new_room->x = ft_uns_atoi(&params->buf[i]);
 	else
 		return (0);
 	while ((*params).buf[i] >= '0' && (*params).buf[i] <= '9')
@@ -49,12 +49,13 @@ int		take_room_params(t_params *params, t_room *new_room)
 	if ((*params).buf[i++] != ' ')
 		return (0);
 	if ((*params).buf[i] >= '0' && (*params).buf[i] <= '9')
-		new_room->y = ft_atoi(&params->buf[i]);
+		new_room->y = ft_uns_atoi(&params->buf[i]);
 	else
 		return (0);
 	while ((*params).buf[i] >= '0' && (*params).buf[i] <= '9')
 		i++;
-	if ((*params).buf[i])
+	if ((*params).buf[i] || new_room->x > 2147483647
+		|| new_room->y > 2147483647)
 		return (0);
 	return (1);
 }

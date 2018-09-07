@@ -75,7 +75,6 @@ void	if_ants_more_than_one(t_room_list *queue, t_ways **all_paths,
 	t_room_list	*head_queue;
 
 	count = 1;
-	ft_printf("2count %d\n", count);
 	queue->room->usage = 1;
 	head_queue = queue;
 	while ((*params).max_ways != count)
