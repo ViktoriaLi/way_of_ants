@@ -69,6 +69,7 @@ void	ants_moving(t_ways *all_paths, int last_way, t_params *params)
 		}
 		ft_printf("%c", '\n');
 	}
+	//ft_printf("TEST%c", '\n');
 }
 
 void	add_ant_node(t_ways *all_paths, int last_way)
