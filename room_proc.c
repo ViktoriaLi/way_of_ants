@@ -22,6 +22,7 @@ t_room **rooms, int which_room)
 	}
 	else
 	{
+		(*params).rooms_count++;
 		(*room_count) = 1;
 		ft_printf("%s\n", (*params).buf);
 		ft_strdel(&params->buf);

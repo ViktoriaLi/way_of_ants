@@ -45,62 +45,20 @@ ant size
 1 5 0
 0-1
 
-no way
-5
-##start
-rs 7 7
-r0 0 0
-r1 1 1
-r2 2 2
-r3 3 3
-##end
-re 8 8
-rs-r0
-r0-r1
-r1-r2
-r3-re
-
-5
-##end
-re 8 8
-r2 2 2
-r1 1 1
-r0 0 0
-##start
-rs 7 7
-r3 3 3
-re-r3
-r2-r1
-r0-r1
-r0-rs
-
-5
-##start
-rs 0 0
-r0 1 1
-r1 2 2
-r2 3 3
-r3 4 4
-r4 5 5
-##end
-re 8 8
-rs-r0
-rs-r1
-r1-r2
-r0-r2
-r3-re
-
-pipes error error middle pipe segfault - ссылка комнаты содержит сама себя - сделать игнор
+comment after end and start
 5
 ##start
 r_start 23 3
 r_1 16 7
 r_2 16 3
+r_3 24 12
+r_4 7 19
 r_5 16 5
 r_6 9 3
 r_7 1 5
 r_8 4 8
 ##end
+#COMMENT_AFTER_END
 r_end 9 5
 r_end-r_6
 r_end-r_7
@@ -109,10 +67,49 @@ r_5-r_2
 r_6-r_1
 r_2-r_6
 r_5-r_1
-#THESES ROOMS DOESN'T EXIST
-r_42-44
 r_1-r_start
 r_8-r_7
 r_8-r_1
 r_8-r_5
 r_7-r_6
+
+L1-r_1
+L1-r_6 L2-r_1
+L1-r_end L2-r_6 L3-r_1
+L2-r_end L3-r_6 L4-r_1
+L3-r_end L4-r_6 L5-r_1
+L4-r_end L5-r_6
+L5-r_end
+
+нужно ли пропускать коммент после енд?
+
+5
+##start
+r_start 23 3
+r_1 16 7
+r_2 16 3
+r_3 24 12
+r_4 7 19
+r_5 16 5
+r_6 9 3
+r_7 1 5
+r_8 4 8
+##end
+#COMMENT_AFTER_END
+#COMMENT_AFTER_END2
+#COMMENT_AFTER_END3
+r_end 9 5
+r_end-r_6
+r_end-r_7
+r_start-r_2
+r_5-r_2
+r_6-r_1
+r_2-r_6
+r_5-r_1
+r_1-r_start
+r_8-r_7
+r_8-r_1
+r_8-r_5
+r_7-r_6
+
+проверить все ноувеи

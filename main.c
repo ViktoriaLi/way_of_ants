@@ -21,7 +21,7 @@ int		main(void)
 	{
 		if (!pre_comments_parsing(&params))
 		{
-			ft_printf("%s\n", "ERROR9");
+			ft_printf("%s\n", "ERROR");
 			exit(0);
 		}
 	}
@@ -29,13 +29,13 @@ int		main(void)
 	{
 		if (!ants_saving(&params))
 		{
-			ft_printf("%s\n", "ERROR10");
+			ft_printf("%s\n", "ERROR");
 			exit(0);
 		}
 		if (!lemin_reading(&params))
 		{
 			ft_strdel(&params.buf);
-			ft_printf("%s\n", "ERROR11");
+			ft_printf("%s\n", "ERROR");
 			exit(0);
 		}
 	}

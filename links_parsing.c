@@ -58,7 +58,7 @@ void	add_new_link(t_link **head, t_link *newelem, t_params *params)
 		if (ft_strcmp(newelem->first, (*params).end) == 0 ||
 		ft_strcmp((*params).end, newelem->second) == 0)
 			(*params).end_entries++;
-		else if (ft_strcmp(newelem->first, (*params).start) == 0 ||
+		if (ft_strcmp(newelem->first, (*params).start) == 0 ||
 		ft_strcmp((*params).start, newelem->second) == 0)
 			(*params).start_exits++;
 		newelem->next = *head;
