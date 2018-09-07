@@ -61,13 +61,13 @@ int		ants_saving(t_params *params)
 	}
 	while ((*params).buf[i] >= '0' && (*params).buf[i] <= '9')
 		i++;
-	if ((*params).buf[i] || i > 9)
+	if ((*params).buf[i] || i > 10)
 	{
 		ft_strdel(&params->buf);
 		return (0);
 	}
 	(*params).ants = ft_uns_atoi((*params).buf);
-	if ((*params).ants > 2147483647)
+	if ((*params).ants > 2147483647 || (*params).ants <= 0)
 	{
 		ft_strdel(&params->buf);
 		return (0);

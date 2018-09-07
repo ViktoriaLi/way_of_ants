@@ -69,18 +69,15 @@ void	ants_moving(t_ways *all_paths, int last_way, t_params *params)
 		}
 		ft_printf("%c", '\n');
 	}
-	//ft_printf("TEST%c", '\n');
 }
 
 void	add_ant_node(t_ways *all_paths, int last_way)
 {
-	t_way	*new_head;
 	int		ants;
 	int		counter;
 	t_way	*ants_list;
 
 	ants = all_paths->start_ant;
-	new_head = all_paths->way;
 	ants_list = NULL;
 	counter = 0;
 	while (counter < all_paths->ant_quantity)
@@ -91,15 +88,14 @@ void	add_ant_node(t_ways *all_paths, int last_way)
 		ants_list->if_room = 0;
 		ants_list->ant_numb = ants;
 		ants_list->distance = 0;
-		ants_list->next = new_head;
+		ants_list->next = all_paths->way;
 		ants_list->prev = NULL;
-		if (new_head)
-			new_head->prev = ants_list;
-		new_head = ants_list;
+		if (all_paths->way)
+			all_paths->way->prev = ants_list;
+		all_paths->way = ants_list;
 		ants += (last_way + 1);
 		counter++;
 	}
-	all_paths->way = new_head;
 }
 
 void	add_ants_to_rooms(t_ways *all_paths, int last_way, t_params *params)

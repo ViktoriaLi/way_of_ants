@@ -34,26 +34,10 @@ void	del_t_ways(t_ways *all_paths)
 void	del_t_room_list(t_room_list *farm)
 {
 	t_room_list	*tmp_farm;
-	//t_room_list	*tmp_links;
-	//t_room		*tmp_room;
 
 	while (farm)
 	{
 		tmp_farm = farm->next;
-		/*while (farm->room)
-		{
-			tmp_room = farm->room->next;
-			ft_strdel(&farm->room->name);
-			del_t_room_list(farm->room->links);
-			while (farm->room->links)
-			{
-				tmp_links = farm->room->links->next;
-				free(farm->room->links);
-				farm->room->links = tmp_links;
-			}
-			free(farm->room);
-			farm->room = tmp_room;
-		}*/
 		free(farm);
 		farm = tmp_farm;
 	}
@@ -63,19 +47,12 @@ void	del_rooms_and_links(t_room *rooms, t_link *links)
 {
 	t_room *tmp_rooms;
 	t_link *tmp_links;
-	//t_room_list	*tmp_links2;
 
 	while (rooms)
 	{
 		tmp_rooms = rooms->next;
 		ft_strdel(&rooms->name);
 		del_t_room_list(rooms->links);
-		/*while (rooms->links)
-		{
-			tmp_links2 = rooms->links->next;
-			free(rooms->links);
-			rooms->links = tmp_links2;
-		}*/
 		free(rooms);
 		rooms = tmp_rooms;
 	}

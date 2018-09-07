@@ -49,7 +49,6 @@ int		make_rooms_with_links(t_room *rooms, t_link *links, t_params *params)
 		del_t_room_list(farm);
 		return (0);
 	}
-	//del_t_room_list(farm);
 	del_rooms_and_links(rooms, NULL);
 	return (1);
 }
@@ -117,6 +116,5 @@ int		add_links(t_room_list **farm, t_link *links, t_params *params)
 		(*params).max_ways = (*params).end_entries;
 	if (!search_way(*farm, params))
 		return (0);
-	//del_t_room_list(*farm);
 	return (1);
 }

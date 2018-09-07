@@ -93,7 +93,7 @@ typedef struct				s_ways
 }							t_ways;
 
 int							save_link(t_link **head, t_params *params,
-							t_room *rooms);
+							t_room *rooms, int i);
 int							save_room(t_room **head, t_params *params,
 							int which_room);
 int							if_room(t_params *params, t_room **rooms,

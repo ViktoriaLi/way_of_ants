@@ -1,4 +1,3 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -15,6 +14,9 @@
 
 int		check_correct_str(t_reading *read_params, t_params *params)
 {
+	int i;
+
+	i = 0;
 	if (!ft_strchr((*params).buf, '-') && (*params).buf[0] != '#')
 	{
 		if (!proc_room_str(params, &read_params->rooms))
@@ -28,7 +30,7 @@ int		check_correct_str(t_reading *read_params, t_params *params)
 		return (1);
 	}
 	else if (ft_strchr((*params).buf, '-') && (*params).buf[0] != '#'
-		&& save_link(&read_params->links, params, read_params->rooms))
+		&& save_link(&read_params->links, params, read_params->rooms, i))
 	{
 		if (!proc_links_str(params, read_params))
 			return (0);
@@ -85,6 +87,5 @@ int		lemin_reading(t_params *params)
 	}
 	if (!stop_reading(params, &read_params))
 		return (0);
-	//del_rooms_and_links(read_params.rooms, read_params.links);
 	return (1);
 }

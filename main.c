@@ -25,16 +25,19 @@ int		main(void)
 			exit(0);
 		}
 	}
-	if (!ants_saving(&params))
+	if (params.buf)
 	{
-		ft_printf("%s\n", "ERROR9");
-		exit(0);
-	}
-	if (!lemin_reading(&params))
-	{
-		ft_strdel(&params.buf);
-		ft_printf("%s\n", "ERROR9");
-		exit(0);
+		if (!ants_saving(&params))
+		{
+			ft_printf("%s\n", "ERROR10");
+			exit(0);
+		}
+		if (!lemin_reading(&params))
+		{
+			ft_strdel(&params.buf);
+			ft_printf("%s\n", "ERROR11");
+			exit(0);
+		}
 	}
 	while (1)
 	{

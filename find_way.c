@@ -39,7 +39,7 @@ int		create_path_cycle(t_room_list *queue, t_ways *tmp, t_way *new_head)
 	return (1);
 }
 
-int	create_path(t_ways **all_paths, t_room_list *queue, int way_number)
+int		create_path(t_ways **all_paths, t_room_list *queue, int way_number)
 {
 	t_way	*new_head;
 	t_ways	*tmp;
@@ -49,9 +49,8 @@ int	create_path(t_ways **all_paths, t_room_list *queue, int way_number)
 	head_paths = *all_paths;
 	while (queue->next)
 		queue = queue->next;
-	if (!(tmp = (t_ways *)malloc(sizeof(t_ways))))
-		return (0);
-	if (!(tmp->way = (t_way *)malloc(sizeof(t_way))))
+	if (!(tmp = (t_ways *)malloc(sizeof(t_ways))) ||
+		!(tmp->way = (t_way *)malloc(sizeof(t_way))))
 		return (0);
 	tmp->number = way_number;
 	tmp->ant_quantity = 0;
@@ -81,36 +80,15 @@ void	if_ants_more_than_one(t_room_list *queue, t_ways **all_paths,
 	head_queue = queue;
 	while ((*params).max_ways != count)
 	{
-		//ft_printf("count %d\n", count);
 		clear_queue(head_queue, queue, 0);
-		/*while (queue)
-		{
-			if (queue->room->usage != 2)
-			{
-				if (!add_to_queue(queue))
-					break ;
-			}
-			queue = queue->next;
-		}*/
-
-			while (queue)
-			{
-				//if (queue->room->usage != 2)
-				//{
-					if (/*queue->room->usage != 2 &&*/ !add_to_queue(queue))
-						break ;
-				//}
-				queue = queue->next;
-			}
-		if (!queue)
-			break ;
-		ft_printf("2count %d\n", count);
-		/*queue = head_queue;
 		while (queue)
 		{
-			ft_printf("2queue %s\n", queue->room->name);
+			if (!add_to_queue(queue))
+				break ;
 			queue = queue->next;
-		}*/
+		}
+		if (!queue)
+			break ;
 		queue = head_queue;
 		create_path(all_paths, queue, count);
 		count++;
@@ -163,15 +141,13 @@ int		search_way(t_room_list *farm, t_params *params)
 	}
 	create_path(&all_paths, queue, 0);
 	tmp_all_paths = all_paths;
-	queue = tmp_queue;
 	if ((*params).ants > 1 && (*params).max_ways > 1)
 		if_ants_more_than_one(queue, &all_paths, params);
 	all_paths = tmp_all_paths;
 	calc_turns(params, all_paths, tmp_all_paths);
 	add_ants_to_rooms(all_paths, (*params).last_way, params);
-	queue = tmp_queue;
 	all_paths = tmp_all_paths;
-	del_t_room_list(queue);
+	del_t_room_list(tmp_queue);
 	del_t_ways(all_paths);
 	del_t_room_list(farm);
 	return (1);

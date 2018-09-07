@@ -65,31 +65,24 @@ void	add_new_link(t_link **head, t_link *newelem, t_params *params)
 		*head = newelem;
 	}
 	else
-	{
-		ft_strdel(&newelem->first);
-		ft_strdel(&newelem->second);
-		free(newelem);
-	}
+		del_rooms_and_links(NULL, newelem);
 	ft_printf("%s\n", (*params).buf);
 }
 
-int		save_link(t_link **head, t_params *params, t_room *rooms)
+int		save_link(t_link **head, t_params *params, t_room *rooms, int i)
 {
-	int		i;
 	t_link	*newelem;
 
-	i = 0;
 	newelem = NULL;
-	if (!(*params).start || !(*params).end)
-		return (0);
-	if (!(newelem = (t_link *)malloc(sizeof(t_link))))
+	if (!(*params).start || !(*params).end ||
+		!(newelem = (t_link *)malloc(sizeof(t_link))))
 		return (0);
 	while ((*params).buf[i] && (*params).buf[i] != '-')
 		i++;
 	newelem->first = ft_strsub((*params).buf, 0, i++);
 	if (!(*params).buf[i])
 	{
-		ft_strdel(&newelem->first);
+		del_rooms_and_links(NULL, newelem);
 		return (0);
 	}
 	newelem->second = ft_strsub((*params).buf, i,
@@ -97,9 +90,7 @@ int		save_link(t_link **head, t_params *params, t_room *rooms)
 	if (!if_corrects_link_names(newelem, rooms) ||
 	ft_strcmp(newelem->first, newelem->second) == 0)
 	{
-		ft_strdel(&newelem->first);
-		ft_strdel(&newelem->second);
-		free(newelem);
+		del_rooms_and_links(NULL, newelem);
 		return (0);
 	}
 	add_new_link(head, newelem, params);
