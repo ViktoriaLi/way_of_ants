@@ -39,8 +39,8 @@ int		main(void)
 			exit(0);
 		}
 	}
-	while (1)
+	/*while (1)
 	{
 		;
-	}
+	}*/
 }

@@ -17,13 +17,15 @@ t_room **rooms)
 {
 	if ((*params).buf[1] == '#' && ft_strstr(&params->buf[2], "start"))
 	{
-		if (main_rooms_saving(ifstart, params, rooms, START_ROOM))
+		if (ft_strlen((*params).buf) == 7 &&
+			main_rooms_saving(ifstart, params, rooms, START_ROOM))
 			return (1);
 		return (0);
 	}
 	if ((*params).buf[1] == '#' && ft_strstr(&params->buf[2], "end"))
 	{
-		if (main_rooms_saving(ifend, params, rooms, END_ROOM))
+		if (ft_strlen((*params).buf) == 5 &&
+			main_rooms_saving(ifend, params, rooms, END_ROOM))
 			return (1);
 		return (0);
 	}

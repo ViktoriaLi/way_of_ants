@@ -46,7 +46,8 @@ int		stop_reading(t_params *params, t_reading *read_params)
 		!make_rooms_with_links(read_params->rooms,
 			read_params->links, params))
 	{
-		del_rooms_and_links(read_params->rooms, read_params->links);
+		del_rooms_and_links(read_params->rooms, NULL);
+		ft_printf("finish enters %d\n", 1);
 		return (0);
 	}
 	return (1);
