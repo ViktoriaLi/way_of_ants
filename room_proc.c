@@ -12,6 +12,17 @@
 
 #include "lem_in.h"
 
+void comment_between_commands(t_params *params)
+{
+	while (get_next_line(0, &params->buf) > 0 && params->buf[0] == '#'
+		&& !ft_strstr(&params->buf[2], "start") &&
+		!ft_strstr(&params->buf[2], "end"))
+	{
+		ft_printf("%s\n", (*params).buf);
+		ft_strdel(&params->buf);
+	}
+}
+
 int		main_rooms_saving(int *room_count, t_params *params,
 t_room **rooms, int which_room)
 {
@@ -26,7 +37,7 @@ t_room **rooms, int which_room)
 		(*room_count) = 1;
 		ft_printf("%s\n", (*params).buf);
 		ft_strdel(&params->buf);
-		get_next_line(0, &params->buf);
+		comment_between_commands(params);
 		if (!if_room(params, rooms, which_room))
 			return (0);
 	}
