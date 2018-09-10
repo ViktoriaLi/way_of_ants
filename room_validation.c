@@ -76,7 +76,7 @@ int						if_not_repeat_room(t_room **head, char *new_room_name)
 }
 
 int						if_repeat_coords(t_room **head,
-unsigned long long int x, unsigned long long int y)
+long long int x, long long int y)
 {
 	t_room *tmp;
 

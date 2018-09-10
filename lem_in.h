@@ -42,8 +42,8 @@ typedef	struct				s_params
 typedef struct				s_room
 {
 	char					*name;
-	unsigned long long int	x;
-	unsigned long long int	y;
+	long long int	x;
+	long long int	y;
 	int						which_room;
 	int						usage;
 	struct s_room			*enter;
@@ -126,7 +126,7 @@ void						struct_nulling(t_params *params);
 int							if_not_repeat_room(t_room **head,
 							char *new_room_name);
 int							if_repeat_coords(t_room **head,
-							unsigned long long int x, unsigned long long int y);
+							long long int x, long long int y);
 int							main_rooms_saving(int *room_count, t_params *params,
 							t_room **rooms, int which_room);
 unsigned long long int		ft_uns_atoi(const char *str);
