@@ -125,7 +125,6 @@ void	calc_turns(t_params *params, t_ways *all_paths, t_ways *tmp)
 
 int		search_way(t_room_list *farm, t_params *params)
 {
-	//ft_printf("%s\n", "TEST");
 	t_room_list *queue;
 	t_room_list *tmp_queue;
 	t_ways		*all_paths;
@@ -136,12 +135,9 @@ int		search_way(t_room_list *farm, t_params *params)
 	tmp_queue = NULL;
 	if (!create_queue(&queue, &tmp_queue, farm))
 	{
-		//ft_printf("%s\n", "TEST");
 		//clear_queue(tmp_queue, queue, 1);
-		//ft_printf("%s\n", "TEST");
 		return (0);
 	}
-	//ft_printf("%s\n", "TEST");
 	create_path(&all_paths, queue, 0);
 	tmp_all_paths = all_paths;
 	queue = tmp_queue;

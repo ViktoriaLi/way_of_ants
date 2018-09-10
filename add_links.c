@@ -12,23 +12,6 @@
 
 #include "lem_in.h"
 
-void add_str_to_list(t_params *params)
-{
-	t_buf *tmp;
-	t_buf *tmp2;
-
-	tmp = NULL;
-	tmp2 = (*params).buf_to_print;
-	if (!(tmp = (t_buf *)malloc(sizeof(t_buf))))
-		return ;
-	tmp->buf = ft_strdup((*params).buf);
-	tmp->next = (*params).buf_to_print;
-	tmp->prev = NULL;
-	if ((*params).buf_to_print)
-		(*params).buf_to_print->prev = tmp;
-	(*params).buf_to_print = tmp;
-}
-
 int		add_links_to_rooms(t_room *rooms, t_room_list *farm)
 {
 	while (rooms)
@@ -61,7 +44,6 @@ int		make_rooms_with_links(t_room *rooms, t_link *links, t_params *params)
 		return (0);
 	}
 	farm = head;
-
 	if (!add_links(&farm, links, params))
 	{
 		//del_t_room_list(farm);
@@ -114,7 +96,6 @@ int		create_links(t_room_list **farm, t_link *links)
 
 int		add_links(t_room_list **farm, t_link *links, t_params *params)
 {
-	//ft_printf("%s\n", "ERROR");
 	t_link *tmp_links;
 
 	tmp_links = links;
@@ -124,7 +105,6 @@ int		add_links(t_room_list **farm, t_link *links, t_params *params)
 			return (0);
 		links = links->next;
 	}
-	//ft_printf("%s\n", "ERROR");
 	del_rooms_and_links(NULL, tmp_links);
 	if (!(*params).start_exits || !(*params).end_entries)
 		return (0);
@@ -132,12 +112,7 @@ int		add_links(t_room_list **farm, t_link *links, t_params *params)
 		(*params).max_ways = (*params).start_exits;
 	else
 		(*params).max_ways = (*params).end_entries;
-		//ft_printf("%s\n", "ERROR");
 	if (!search_way(*farm, params))
-	{
-		//ft_printf("%s\n", "ERROR");
 		return (0);
-	}
-
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 15:28:45 by vlikhotk          #+#    #+#             */
-/*   Updated: 2018/09/05 14:29:55 by vlikhotk         ###   ########.fr       */
+/*   Updated: 2018/09/10 15:17:24 by vlikhotk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	print_ants(t_way *path, int if_last)
 	{
 		if (tmp->if_room && tmp->ant_numb)
 		{
-			if (!if_last || (tmp->prev && tmp->prev->if_room && tmp->prev->ant_numb))
+			if (!if_last || (tmp->prev && tmp->prev->if_room &&
+				tmp->prev->ant_numb))
 				ft_printf("L%d-%s ", tmp->ant_numb, tmp->name);
 			else
 				ft_printf("L%d-%s", tmp->ant_numb, tmp->name);
@@ -108,7 +109,8 @@ void	add_ants_to_rooms(t_ways *all_paths, int last_way, t_params *params)
 {
 	int		i;
 	t_ways	*tmp;
-	t_buf *tmp_buf;
+	t_buf	*tmp_buf;
+
 	i = 0;
 	tmp = all_paths;
 	while (i <= last_way)

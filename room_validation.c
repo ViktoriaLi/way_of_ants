@@ -49,12 +49,11 @@ unsigned long long int	ft_uns_atoi(const char *str)
 int						if_room(t_params *params,
 t_room **rooms, int which_room)
 {
-	if (!ft_strchr((*params).buf, '-') && (*params).buf[0] != '#' &&
+	if ((*params).buf[0] != '#' &&
 		ft_strchr((*params).buf, ' ' && ft_strchr((*params).buf, 'L'))
 		&& save_room(rooms, params, which_room))
 	{
 		add_str_to_list(params);
-		//ft_printf("%s\n", (*params).buf);
 		ft_strdel(&params->buf);
 		return (1);
 	}

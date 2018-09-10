@@ -44,11 +44,8 @@ int		stop_reading(t_params *params, t_reading *read_params)
 	ft_strdel(&params->buf);
 	if (!read_params->ifstart || !read_params->ifend ||
 		!make_rooms_with_links(read_params->rooms,
-			read_params->links, params))
-			{
-				return (0);
-			}
-
+		read_params->links, params))
+		return (0);
 	return (1);
 }
 

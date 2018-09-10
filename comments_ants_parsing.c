@@ -12,6 +12,23 @@
 
 #include "lem_in.h"
 
+void	add_str_to_list(t_params *params)
+{
+	t_buf *tmp;
+	t_buf *tmp2;
+
+	tmp = NULL;
+	tmp2 = (*params).buf_to_print;
+	if (!(tmp = (t_buf *)malloc(sizeof(t_buf))))
+		return ;
+	tmp->buf = ft_strdup((*params).buf);
+	tmp->next = (*params).buf_to_print;
+	tmp->prev = NULL;
+	if ((*params).buf_to_print)
+		(*params).buf_to_print->prev = tmp;
+	(*params).buf_to_print = tmp;
+}
+
 int		comments_parsing(t_params *params, int *ifstart, int *ifend,
 t_room **rooms)
 {
@@ -32,7 +49,6 @@ t_room **rooms)
 	else
 	{
 		add_str_to_list(params);
-		//ft_printf("%s\n", (*params).buf);
 		ft_strdel(&params->buf);
 		return (1);
 	}
@@ -47,7 +63,6 @@ int		pre_comments_parsing(t_params *params)
 		return (0);
 	}
 	add_str_to_list(params);
-	//ft_printf("%s\n", (*params).buf);
 	ft_strdel(&params->buf);
 	return (1);
 }
@@ -76,7 +91,6 @@ int		ants_saving(t_params *params)
 		return (0);
 	}
 	add_str_to_list(params);
-	//ft_printf("%s\n", (*params).buf);
 	ft_strdel(&params->buf);
 	return (1);
 }

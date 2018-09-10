@@ -12,14 +12,13 @@
 
 #include "lem_in.h"
 
-void comment_between_commands(t_params *params)
+void		comment_between_commands(t_params *params)
 {
 	while (get_next_line(0, &params->buf) > 0 && params->buf[0] == '#'
 		&& !ft_strstr(&params->buf[2], "start") &&
 		!ft_strstr(&params->buf[2], "end"))
 	{
 		add_str_to_list(params);
-		//ft_printf("%s\n", (*params).buf);
 		ft_strdel(&params->buf);
 	}
 }
@@ -37,7 +36,6 @@ t_room **rooms, int which_room)
 		(*params).rooms_count++;
 		(*room_count) = 1;
 		add_str_to_list(params);
-		//ft_printf("%s\n", (*params).buf);
 		ft_strdel(&params->buf);
 		comment_between_commands(params);
 		if (!if_room(params, rooms, which_room))
@@ -54,41 +52,29 @@ int		take_room_params(t_params *params, t_room *new_room)
 	while ((*params).buf[i] && (*params).buf[i] != ' ')
 		i++;
 	new_room->name = ft_strsub((*params).buf, 0, i++);
-	//ft_printf("%s\n", "TESR1");
 	if (((*params).buf[i] >= '0' && (*params).buf[i] <= '9')
 		|| (((*params).buf[i] == '+' || (*params).buf[i] == '-')
 		&& (*params).buf[i + 1] >= '0' && (*params).buf[i + 1] <= '9'))
 		new_room->x = ft_atoi(&params->buf[i]);
 	else
-	{
-		//ft_printf("%s\n", "TESR1");
 		return (0);
-	}
 	while ((*params).buf[i] == '+' || (*params).buf[i] == '-' ||
 		((*params).buf[i] >= '0' && (*params).buf[i] <= '9'))
 		i++;
 	if ((*params).buf[i++] != ' ')
-		{
-		//ft_printf("%s\n", "TESR2");
 		return (0);
-	}
 	if (((*params).buf[i] >= '0' && (*params).buf[i] <= '9')
 		|| (((*params).buf[i] == '+' || (*params).buf[i] == '-')
 		&& (*params).buf[i + 1] >= '0' && (*params).buf[i + 1] <= '9'))
 		new_room->y = ft_atoi(&params->buf[i]);
 	else
-		{
-		//ft_printf("%s\n", "TESR3");
 		return (0);
-	}
 	while ((*params).buf[i] == '+' || (*params).buf[i] == '-' ||
 		((*params).buf[i] >= '0' && (*params).buf[i] <= '9'))
 		i++;
-//ft_printf("%s %c %d %d\n", "TESR", (*params).buf[i], new_room->x, new_room->y);
 	if ((*params).buf[i] || new_room->x > 2147483647
 		|| new_room->y > 2147483647)
 		return (0);
-	//ft_printf("%s %c %d %d\n", "TESR", (*params).buf[i], new_room->x, new_room->y);
 	return (1);
 }
 
@@ -106,7 +92,6 @@ int		save_room(t_room **head, t_params *params, int which_room)
 		new_room->name) || new_room->x > 2147483647 || new_room->y >
 		2147483647 || !if_repeat_coords(head, new_room->x, new_room->y))
 	{
-		//ft_printf("%s %d %d\n", "TESR", new_room->x, new_room->y);
 		ft_strdel(&new_room->name);
 		free(new_room);
 		ft_strdel(&params->buf);
@@ -118,6 +103,5 @@ int		save_room(t_room **head, t_params *params, int which_room)
 		(*params).end = new_room->name;
 	new_room->next = *head;
 	*head = new_room;
-	//ft_printf("%s %d %d\n", "TESR", new_room->x, new_room->y);
 	return (1);
 }
