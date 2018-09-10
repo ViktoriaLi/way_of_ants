@@ -88,12 +88,14 @@ int		save_link(t_link **head, t_params *params, t_room *rooms, int i)
 	}
 	newelem->second = ft_strsub((*params).buf, i,
 		ft_strlen((*params).buf - 1 + 1));
-	if (!if_corrects_link_names(newelem, rooms) ||
-	ft_strcmp(newelem->first, newelem->second) == 0)
+	if (!if_corrects_link_names(newelem, rooms))
 	{
 		del_rooms_and_links(NULL, newelem);
 		return (0);
 	}
-	add_new_link(head, newelem, params);
+	if (ft_strcmp(newelem->first, newelem->second) == 0)
+		del_rooms_and_links(NULL, newelem);
+	else
+		add_new_link(head, newelem, params);
 	return (1);
 }
