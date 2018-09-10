@@ -94,7 +94,10 @@ int		save_link(t_link **head, t_params *params, t_room *rooms, int i)
 		return (0);
 	}
 	if (ft_strcmp(newelem->first, newelem->second) == 0)
+	{
+		add_str_to_list(params);
 		del_rooms_and_links(NULL, newelem);
+	}
 	else
 		add_new_link(head, newelem, params);
 	return (1);
