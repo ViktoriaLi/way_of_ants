@@ -53,7 +53,8 @@ t_room **rooms, int which_room)
 		ft_strchr((*params).buf, ' ' && ft_strchr((*params).buf, 'L'))
 		&& save_room(rooms, params, which_room))
 	{
-		ft_printf("%s\n", (*params).buf);
+		add_str_to_list(params);
+		//ft_printf("%s\n", (*params).buf);
 		ft_strdel(&params->buf);
 		return (1);
 	}

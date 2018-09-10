@@ -78,6 +78,7 @@ void	struct_nulling(t_params *params)
 	(*params).max_ways = 0;
 	(*params).start = NULL;
 	(*params).end = NULL;
+	(*params).buf_to_print = NULL;
 }
 
 void	read_params_nulling(t_reading *read_params)

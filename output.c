@@ -108,7 +108,7 @@ void	add_ants_to_rooms(t_ways *all_paths, int last_way, t_params *params)
 {
 	int		i;
 	t_ways	*tmp;
-
+	t_buf *tmp_buf;
 	i = 0;
 	tmp = all_paths;
 	while (i <= last_way)
@@ -116,6 +116,16 @@ void	add_ants_to_rooms(t_ways *all_paths, int last_way, t_params *params)
 		add_ant_node(tmp, last_way);
 		tmp = tmp->next;
 		i++;
+	}
+	while ((*params).buf_to_print->next)
+		(*params).buf_to_print = (*params).buf_to_print->next;
+	while ((*params).buf_to_print)
+	{
+		tmp_buf = (*params).buf_to_print->prev;
+		ft_printf("%s\n", (*params).buf_to_print->buf);
+		ft_strdel(&params->buf_to_print->buf);
+		free(params->buf_to_print);
+		(*params).buf_to_print = tmp_buf;
 	}
 	ft_printf("%c", '\n');
 	ants_moving(all_paths, last_way, params);

@@ -66,7 +66,8 @@ void	add_new_link(t_link **head, t_link *newelem, t_params *params)
 	}
 	else
 		del_rooms_and_links(NULL, newelem);
-	ft_printf("%s\n", (*params).buf);
+	add_str_to_list(params);
+	//ft_printf("%s\n", (*params).buf);
 }
 
 int		save_link(t_link **head, t_params *params, t_room *rooms, int i)

@@ -31,7 +31,8 @@ t_room **rooms)
 	}
 	else
 	{
-		ft_printf("%s\n", (*params).buf);
+		add_str_to_list(params);
+		//ft_printf("%s\n", (*params).buf);
 		ft_strdel(&params->buf);
 		return (1);
 	}
@@ -45,7 +46,8 @@ int		pre_comments_parsing(t_params *params)
 		ft_strdel(&params->buf);
 		return (0);
 	}
-	ft_printf("%s\n", (*params).buf);
+	add_str_to_list(params);
+	//ft_printf("%s\n", (*params).buf);
 	ft_strdel(&params->buf);
 	return (1);
 }
@@ -73,7 +75,8 @@ int		ants_saving(t_params *params)
 		ft_strdel(&params->buf);
 		return (0);
 	}
-	ft_printf("%s\n", (*params).buf);
+	add_str_to_list(params);
+	//ft_printf("%s\n", (*params).buf);
 	ft_strdel(&params->buf);
 	return (1);
 }

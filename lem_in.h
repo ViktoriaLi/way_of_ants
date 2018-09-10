@@ -37,6 +37,7 @@ typedef	struct				s_params
 	char					*buf;
 	char					*start;
 	char					*end;
+	struct s_buf *buf_to_print;
 }							t_params;
 
 typedef struct				s_room
@@ -63,6 +64,13 @@ typedef struct				s_link
 	char					*second;
 	struct s_link			*next;
 }							t_link;
+
+typedef struct				s_buf
+{
+	char					*buf;
+	struct s_buf			*next;
+	struct s_buf			*prev;
+}							t_buf;
 
 typedef	struct				s_reading
 {
@@ -141,5 +149,6 @@ void						calc_turns(t_params *params, t_ways *all_paths,
 							t_ways *tmp);
 void						add_ants_to_rooms(t_ways *all_paths, int last_way,
 							t_params *params);
+void add_str_to_list(t_params *params);
 
 #endif
