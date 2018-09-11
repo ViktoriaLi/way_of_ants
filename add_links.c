@@ -97,7 +97,9 @@ int		create_links(t_room_list **farm, t_link *links)
 int		add_links(t_room_list **farm, t_link *links, t_params *params)
 {
 	t_link *tmp_links;
+	t_ways *all_paths;
 
+	all_paths = NULL;
 	tmp_links = links;
 	while (links)
 	{
@@ -112,7 +114,7 @@ int		add_links(t_room_list **farm, t_link *links, t_params *params)
 		(*params).max_ways = (*params).start_exits;
 	else
 		(*params).max_ways = (*params).end_entries;
-	if (!search_way(*farm, params))
+	if (!search_way(*farm, params, &all_paths))
 		return (0);
 	return (1);
 }

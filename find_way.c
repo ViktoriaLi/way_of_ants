@@ -82,8 +82,11 @@ void	if_ants_more_than_one(t_room_list *queue, t_ways **all_paths,
 		clear_queue(head_queue, queue, 0);
 		while (queue)
 		{
-			if (!add_to_queue(queue))
-				break ;
+			if (queue->room->usage != 2)
+			{
+				if (!add_to_queue(queue))
+					break ;
+			}
 			queue = queue->next;
 		}
 		if (!queue)
@@ -123,14 +126,13 @@ void	calc_turns(t_params *params, t_ways *all_paths, t_ways *tmp)
 		all_paths->ant_quantity = ants_id;
 }
 
-int		search_way(t_room_list *farm, t_params *params)
+int		search_way(t_room_list *farm, t_params *params,
+	t_ways **all_paths)
 {
 	t_room_list *queue;
 	t_room_list *tmp_queue;
-	t_ways		*all_paths;
 	t_ways		*tmp_all_paths;
 
-	all_paths = NULL;
 	queue = NULL;
 	tmp_queue = NULL;
 	if (!create_queue(&queue, &tmp_queue, farm))
@@ -138,18 +140,17 @@ int		search_way(t_room_list *farm, t_params *params)
 		del_t_room_list(queue);
 		return (0);
 	}
-	create_path(&all_paths, queue, 0);
-	tmp_all_paths = all_paths;
+	create_path(all_paths, queue, 0);
+	tmp_all_paths = *all_paths;
 	queue = tmp_queue;
 	if ((*params).ants > 1 && (*params).max_ways > 1)
-		if_ants_more_than_one(queue, &all_paths, params);
-	all_paths = tmp_all_paths;
-	calc_turns(params, all_paths, tmp_all_paths);
-	add_ants_to_rooms(all_paths, (*params).last_way, params);
-	queue = tmp_queue;
-	all_paths = tmp_all_paths;
+		if_ants_more_than_one(queue, all_paths, params);
+	*all_paths = tmp_all_paths;
+	calc_turns(params, *all_paths, tmp_all_paths);
+	add_ants_to_rooms(*all_paths, (*params).last_way, params);
+	*all_paths = tmp_all_paths;
 	del_t_room_list(tmp_queue);
-	del_t_ways(all_paths);
+	del_t_ways(*all_paths);
 	del_t_room_list(farm);
 	return (1);
 }
