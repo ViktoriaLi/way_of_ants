@@ -6,7 +6,7 @@
 /*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/16 10:56:07 by vlikhotk          #+#    #+#             */
-/*   Updated: 2018/07/19 16:28:55 by vlikhotk         ###   ########.fr       */
+/*   Updated: 2018/09/11 13:17:19 by vlikhotk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 int		main(void)
 {
-	t_params params;
+	t_params	params;
+	t_reading	read_params;
 
+	read_params_nulling(&read_params);
 	struct_nulling(&params);
 	while (get_next_line(0, &params.buf) > 0 && params.buf[0] == '#')
 	{
@@ -27,17 +29,14 @@ int		main(void)
 	}
 	if (params.buf)
 	{
-		if (!ants_saving(&params))
-		{
-			ft_printf("%s\n", "ERROR");
-			exit(0);
-		}
-		if (!lemin_reading(&params))
+		if (!ants_saving(&params) || !lemin_reading(&params, &read_params)
+		|| !stop_reading(&params, &read_params))
 		{
 			ft_strdel(&params.buf);
 			ft_printf("%s\n", "ERROR");
 			exit(0);
 		}
 	}
-	ft_printf("%s\n", "ERROR");
+	else
+		ft_printf("%s\n", "ERROR");
 }

@@ -6,7 +6,7 @@
 /*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 16:03:28 by vlikhotk          #+#    #+#             */
-/*   Updated: 2018/09/05 14:35:58 by vlikhotk         ###   ########.fr       */
+/*   Updated: 2018/09/11 13:33:42 by vlikhotk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ typedef	struct				s_params
 	char					*buf;
 	char					*start;
 	char					*end;
-	struct s_buf *buf_to_print;
+	struct s_buf			*buf_to_print;
 }							t_params;
 
 typedef struct				s_room
 {
 	char					*name;
-	long long int	x;
-	long long int	y;
+	long long int			x;
+	long long int			y;
 	int						which_room;
 	int						usage;
 	struct s_room			*enter;
@@ -127,7 +127,8 @@ int							check_correct_str(t_reading *read_params,
 							t_params *params);
 int							stop_reading(t_params *params,
 							t_reading *read_params);
-int							lemin_reading(t_params *params);
+int							lemin_reading(t_params *params,
+							t_reading *read_params);
 void						read_params_nulling(t_reading *read_params);
 void						del_rooms_and_links(t_room *rooms, t_link *links);
 void						struct_nulling(t_params *params);
@@ -149,6 +150,6 @@ void						calc_turns(t_params *params, t_ways *all_paths,
 							t_ways *tmp);
 void						add_ants_to_rooms(t_ways *all_paths, int last_way,
 							t_params *params);
-void add_str_to_list(t_params *params);
-
+void						add_str_to_list(t_params *params);
+intmax_t					ft_long_atoi(const char *str);
 #endif

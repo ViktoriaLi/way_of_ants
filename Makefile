@@ -16,11 +16,11 @@ LIB_DIR = ./libft/
 
 SFILES = main.c add_links.c links_parsing.c find_way.c str_processing.c \
 reading.c clear.c room_validation.c room_proc.c comments_ants_parsing.c \
-queue.c output.c
+queue.c output.c ft_long_atoi.c
 
 OFILES = main.o add_links.o links_parsing.o find_way.o str_processing.o \
 reading.o clear.o room_validation.o room_proc.o comments_ants_parsing.o \
-queue.o output.o
+queue.o output.o ft_long_atoi.o
 
 LIBFT = $(LIBFT_DIR)libftprintf.a
 LIBFT_DIR = $(LIB_DIR)
@@ -35,7 +35,7 @@ CC = gcc
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OFILES)
-	$(CC) $(OFILES) $(LIBFT) -o $(NAME)
+	$(CC) $(CC_FLAGS) $(OFILES) $(LIBFT) -o $(NAME)
 
 $(OFILES): %.o:%.c
 	$(CC) -c $< -o $@ $(CC_FLAGS) $(HEADER_FLAGS)

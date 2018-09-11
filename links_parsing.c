@@ -69,6 +69,24 @@ void	add_new_link(t_link **head, t_link *newelem, t_params *params)
 	add_str_to_list(params);
 }
 
+int		if_correct_new_link(t_link *newelem, t_link **head,
+	t_params *params, t_room *rooms)
+{
+	if (!if_corrects_link_names(newelem, rooms))
+	{
+		del_rooms_and_links(NULL, newelem);
+		return (0);
+	}
+	if (ft_strcmp(newelem->first, newelem->second) == 0)
+	{
+		add_str_to_list(params);
+		del_rooms_and_links(NULL, newelem);
+	}
+	else
+		add_new_link(head, newelem, params);
+	return (1);
+}
+
 int		save_link(t_link **head, t_params *params, t_room *rooms, int i)
 {
 	t_link	*newelem;
@@ -88,17 +106,7 @@ int		save_link(t_link **head, t_params *params, t_room *rooms, int i)
 	}
 	newelem->second = ft_strsub((*params).buf, i,
 		ft_strlen((*params).buf - 1 + 1));
-	if (!if_corrects_link_names(newelem, rooms))
-	{
-		del_rooms_and_links(NULL, newelem);
+	if (!if_correct_new_link(newelem, head, params, rooms))
 		return (0);
-	}
-	if (ft_strcmp(newelem->first, newelem->second) == 0)
-	{
-		add_str_to_list(params);
-		del_rooms_and_links(NULL, newelem);
-	}
-	else
-		add_new_link(head, newelem, params);
 	return (1);
 }
