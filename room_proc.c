@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "lem_in.h"
-
+#include <stdio.h>
 void		comment_between_commands(t_params *params)
 {
 	while (get_next_line(0, &params->buf) > 0 && params->buf[0] == '#'
@@ -73,8 +73,10 @@ int		take_room_params(t_params *params, t_room *new_room)
 		((*params).buf[i] >= '0' && (*params).buf[i] <= '9'))
 		i++;
 	if ((*params).buf[i] || new_room->x > 2147483647
-		|| new_room->y > 2147483647)
+		|| new_room->y > 2147483647 || new_room->x < -2147483648
+		|| new_room->y < -2147483648)
 		return (0);
+	printf("%lli %lli\n", new_room->x, new_room->y);
 	return (1);
 }
 
@@ -90,7 +92,8 @@ int		save_room(t_room **head, t_params *params, int which_room)
 	new_room->usage = 0;
 	if (!take_room_params(params, new_room) || !if_not_repeat_room(head,
 		new_room->name) || new_room->x > 2147483647 || new_room->y >
-		2147483647 || !if_repeat_coords(head, new_room->x, new_room->y))
+		2147483647 || new_room->x < -2147483648
+		|| new_room->y < -2147483648 || !if_repeat_coords(head, new_room->x, new_room->y))
 	{
 		ft_strdel(&new_room->name);
 		free(new_room);

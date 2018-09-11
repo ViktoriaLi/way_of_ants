@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-static int	main_atoi(const char *str, int i, int sign)
+static long long int	main_atoi(const char *str, int i, int sign)
 {
-	long long	tmp;
-	long long	res;
+	long long int	tmp;
+	long long int	res;
 
 	res = 0;
 	while (str[i] >= '0' && str[i] <= '9')
@@ -26,10 +26,10 @@ static int	main_atoi(const char *str, int i, int sign)
 		res = tmp;
 		i++;
 	}
-	return (int)(res);
+	return (res);
 }
 
-int			ft_atoi(const char *str)
+long long int			ft_atoi(const char *str)
 {
 	int	i;
 	int	sign;

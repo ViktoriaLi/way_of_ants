@@ -15,10 +15,8 @@
 void	add_str_to_list(t_params *params)
 {
 	t_buf *tmp;
-	t_buf *tmp2;
 
 	tmp = NULL;
-	tmp2 = (*params).buf_to_print;
 	if (!(tmp = (t_buf *)malloc(sizeof(t_buf))))
 		return ;
 	tmp->buf = ft_strdup((*params).buf);
