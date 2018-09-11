@@ -140,11 +140,13 @@ int		search_way(t_room_list *farm, t_params *params)
 	}
 	create_path(&all_paths, queue, 0);
 	tmp_all_paths = all_paths;
+	queue = tmp_queue;
 	if ((*params).ants > 1 && (*params).max_ways > 1)
 		if_ants_more_than_one(queue, &all_paths, params);
 	all_paths = tmp_all_paths;
 	calc_turns(params, all_paths, tmp_all_paths);
 	add_ants_to_rooms(all_paths, (*params).last_way, params);
+	queue = tmp_queue;
 	all_paths = tmp_all_paths;
 	del_t_room_list(tmp_queue);
 	del_t_ways(all_paths);
