@@ -82,11 +82,8 @@ void	if_ants_more_than_one(t_room_list *queue, t_ways **all_paths,
 		clear_queue(head_queue, queue, 0);
 		while (queue)
 		{
-			if (queue->room->usage != 2)
-			{
-				if (!add_to_queue(queue))
-					break ;
-			}
+			if (!add_to_queue(queue))
+				break ;
 			queue = queue->next;
 		}
 		if (!queue)
