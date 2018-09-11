@@ -19,9 +19,6 @@ void	swap_and_join(char **tmp, char *buf)
 	swap = NULL;
 	swap = *tmp;
 	*tmp = ft_strjoin(swap, buf);
-	//write(fd2, "3", 1);
-	//write(fd2, *tmp, ft_strlen(*tmp));
-	//write(fd2, "\n", 1);
 	if (swap[0])
 		ft_strdel(&swap);
 }
@@ -35,17 +32,9 @@ void	if_next(char **line, char **tmp, char **next_s, int i)
 	if ((*next_s)[i] == '\n')
 	{
 		*line = ft_strsub((*next_s), 0, i);
-		//write(fd2, "1", 1);
-		//write(fd2, *next_s, ft_strlen(*next_s));
-		//write(fd2, *line, ft_strlen(*line));
-		//write(fd2, "\n", 1);
-		//write(fd2, line, ft_strlen(*line));
-			rem = (*next_s);
-			(*next_s) = ft_strsub((*next_s), i + 1, ft_strlen((*next_s)) - i - 1);
-			//write(fd2, "2", 1);
-			//write(fd2, *next_s, ft_strlen(*next_s));
-			//write(fd2, "\n", 1);
-			ft_strdel(&rem);
+		rem = (*next_s);
+		(*next_s) = ft_strsub((*next_s), i + 1, ft_strlen((*next_s)) - i - 1);
+		ft_strdel(&rem);
 	}
 	else
 	{
@@ -84,6 +73,7 @@ int		reading(char **line, char **all_fd, char **tmp, int fd)
 	int		i;
 	int		ret;
 	char	buf[BUFF_SIZE + 1];
+
 	while ((ret = read(fd, &buf, BUFF_SIZE)) > 0)
 	{
 		buf[ret] = 0;
@@ -96,7 +86,6 @@ int		reading(char **line, char **all_fd, char **tmp, int fd)
 		}
 		else
 			swap_and_join(tmp, buf);
-
 	}
 	return (0);
 }
@@ -106,11 +95,9 @@ int		get_next_line(const int fd, char **line)
 	int					res;
 	char				*tmp;
 	char				*buf;
-	//int fd2;
 	static char			*all_fd[FD_LIMIT];
 
 	res = 0;
-	//fd2 = open("123", O_WRONLY);
 	tmp = "";
 	buf = NULL;
 	if (fd < 0 || fd > FD_LIMIT || BUFF_SIZE < 1 || BUFF_SIZE > STACK_LIMIT ||
@@ -118,11 +105,7 @@ int		get_next_line(const int fd, char **line)
 		return (-1);
 	*line = NULL;
 	if (all_fd[fd])
-	{
 		if_next(line, &tmp, &all_fd[fd], res);
-		//write(fd2, "ok\n", 3);
-		//write(fd2, line, ft_strlen(*line));
-	}
 	if (*line)
 		return (1);
 	res = reading(line, all_fd, &tmp, fd);

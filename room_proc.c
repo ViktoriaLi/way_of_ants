@@ -11,7 +11,46 @@
 /* ************************************************************************** */
 
 #include "lem_in.h"
-#include <stdio.h>
+
+intmax_t		long_main_atoi(const char *str, int i, int sign)
+{
+	intmax_t	tmp;
+	intmax_t	res;
+
+	res = 0;
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		tmp = res * 10 + sign * (str[i] - '0');
+		if (tmp / 10 != res && sign == -1)
+			return (0);
+		if (tmp / 10 != res && sign == 1)
+			return (-1);
+		res = tmp;
+		i++;
+	}
+	return (res);
+}
+
+intmax_t				ft_long_atoi(const char *str)
+{
+	int	i;
+	int	sign;
+
+	i = 0;
+	sign = 1;
+	while (str[i] == ' ' || str[i] == '\n' || str[i] == '\t' ||
+		str[i] == '\v' || str[i] == '\f' || str[i] == '\r')
+		i++;
+	if (str[i] == '-')
+	{
+		sign = -1;
+		i++;
+	}
+	else if (str[i] == '+')
+		i++;
+	return (long_main_atoi(str, i, sign));
+}
+
 void		comment_between_commands(t_params *params)
 {
 	while (get_next_line(0, &params->buf) > 0 && params->buf[0] == '#'
@@ -55,7 +94,7 @@ int		take_room_params(t_params *params, t_room *new_room)
 	if (((*params).buf[i] >= '0' && (*params).buf[i] <= '9')
 		|| (((*params).buf[i] == '+' || (*params).buf[i] == '-')
 		&& (*params).buf[i + 1] >= '0' && (*params).buf[i + 1] <= '9'))
-		new_room->x = ft_atoi(&params->buf[i]);
+		new_room->x = ft_long_atoi(&params->buf[i]);
 	else
 		return (0);
 	while ((*params).buf[i] == '+' || (*params).buf[i] == '-' ||
@@ -63,10 +102,12 @@ int		take_room_params(t_params *params, t_room *new_room)
 		i++;
 	if ((*params).buf[i++] != ' ')
 		return (0);
+	if (ft_strrchr((*params).buf, ' ') - ft_strchr((*params).buf, ' ') > 11)
+		return (0);
 	if (((*params).buf[i] >= '0' && (*params).buf[i] <= '9')
 		|| (((*params).buf[i] == '+' || (*params).buf[i] == '-')
 		&& (*params).buf[i + 1] >= '0' && (*params).buf[i + 1] <= '9'))
-		new_room->y = ft_atoi(&params->buf[i]);
+		new_room->y = ft_long_atoi(&params->buf[i]);
 	else
 		return (0);
 	while ((*params).buf[i] == '+' || (*params).buf[i] == '-' ||
@@ -76,7 +117,8 @@ int		take_room_params(t_params *params, t_room *new_room)
 		|| new_room->y > 2147483647 || new_room->x < -2147483648
 		|| new_room->y < -2147483648)
 		return (0);
-	printf("%lli %lli\n", new_room->x, new_room->y);
+	if (&params->buf[i] - ft_strrchr((*params).buf, ' ') > 11)
+		return (0);
 	return (1);
 }
 

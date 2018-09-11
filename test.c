@@ -3,8 +3,8 @@
 
 int		main(void)
 {
-	
-	char *test = "015";
+
+	char *test = "-2147483649";
 
 	printf("%d\n", atoi(test));
 }

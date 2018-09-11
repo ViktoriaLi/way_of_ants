@@ -39,4 +39,5 @@ int		main(void)
 			exit(0);
 		}
 	}
+	ft_printf("%s\n", "ERROR");
 }
