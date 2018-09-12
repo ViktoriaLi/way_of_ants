@@ -43,3 +43,31 @@
 сверить, стало на 1 баг больше, не печатает ссылку с-с
 доработать координаты, принимает больше максимума, но не принимает минимум крайний
 версия 2bccf37 не содержит повторов комнат
+
+лики если нет пути
+5
+##start
+rs 7 7
+r0 0 0
+r1 1 1
+r2 2 2
+r3 3 3
+##end
+re 8 8
+rs-r0
+r0-r1
+r1-r2
+r3-re
+
+Leak: 0x7fe6ca402a00  size=16  zone: DefaultMallocZone_0x1018bd000
+	0xca402760 0x00007fe6 0xca402bc0 0x00007fe6 	`'@......+@.....
+	Call stack: [thread 0x7fffae1ed340]: | start | main | stop_reading | make_rooms_with_links | add_links | search_way | create_queue | malloc | malloc_zone_malloc
+Leak: 0x7fe6ca402a70  size=16  zone: DefaultMallocZone_0x1018bd000
+	0xca402860 0x00007fe6 0xca402a80 0x00007fe6 	`(@......*@.....
+	Call stack: [thread 0x7fffae1ed340]: | start | main | stop_reading | make_rooms_with_links | add_links | search_way | create_queue | add_to_queue | fill_queue_params | malloc | malloc_zone_malloc
+Leak: 0x7fe6ca402a80  size=16  zone: DefaultMallocZone_0x1018bd000
+	0xca4028e0 0x00007fe6 0x00000000 0x00000000 	.(@.............
+	Call stack: [thread 0x7fffae1ed340]: | start | main | stop_reading | make_rooms_with_links | add_links | search_way | create_queue | add_to_queue | fill_queue_params | malloc | malloc_zone_malloc
+Leak: 0x7fe6ca402bc0  size=16  zone: DefaultMallocZone_0x1018bd000
+	0xca4027f0 0x00007fe6 0xca402a70 0x00007fe6 	.'@.....p*@.....
+	Call stack: [thread 0x7fffae1ed340]: | start | main | stop_reading | make_rooms_with_links | add_links | search_way | create_queue | add_to_queue | fill_queue_params | malloc | malloc_zone_malloc

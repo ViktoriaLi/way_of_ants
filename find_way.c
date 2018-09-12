@@ -98,10 +98,11 @@ void	calc_turns(t_params *params, t_ways *all_paths, t_ways *tmp)
 {
 	int quantity;
 	int ants_id;
+	unsigned int if_all_one_way;
 
 	ants_id = 1;
-	while (tmp->next && tmp->way->distance <
-		(tmp->way->distance + (*params).ants - 1))
+	if_all_one_way = tmp->way->distance + (*params).ants - 1;
+	while (tmp->next && tmp->way->distance < if_all_one_way)
 	{
 		tmp->start_ant = ants_id++;
 		tmp = tmp->next;
@@ -134,7 +135,7 @@ int		search_way(t_room_list *farm, t_params *params,
 	tmp_queue = NULL;
 	if (!create_queue(&queue, &tmp_queue, farm))
 	{
-		del_t_room_list(queue);
+		del_t_room_list(tmp_queue);
 		return (0);
 	}
 	create_path(all_paths, queue, 0);
