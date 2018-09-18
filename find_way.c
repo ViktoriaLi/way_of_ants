@@ -98,11 +98,10 @@ void	calc_turns(t_params *params, t_ways *all_paths, t_ways *tmp)
 {
 	int quantity;
 	int ants_id;
-	unsigned int if_all_one_way;
 
 	ants_id = 1;
-	if_all_one_way = tmp->way->distance + (*params).ants - 1;
-	while (tmp->next && tmp->way->distance < if_all_one_way)
+	(*params).if_all_one_way = tmp->way->distance + (*params).ants - 1;
+	while (tmp->next && tmp->way->distance < (*params).if_all_one_way)
 	{
 		tmp->start_ant = ants_id++;
 		tmp = tmp->next;

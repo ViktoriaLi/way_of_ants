@@ -44,30 +44,28 @@
 доработать координаты, принимает больше максимума, но не принимает минимум крайний
 версия 2bccf37 не содержит повторов комнат
 
-лики если нет пути
-5
-##start
-rs 7 7
-r0 0 0
-r1 1 1
-r2 2 2
-r3 3 3
-##end
-re 8 8
-rs-r0
-r0-r1
-r1-r2
-r3-re
-
-Leak: 0x7fe6ca402a00  size=16  zone: DefaultMallocZone_0x1018bd000
-	0xca402760 0x00007fe6 0xca402bc0 0x00007fe6 	`'@......+@.....
-	Call stack: [thread 0x7fffae1ed340]: | start | main | stop_reading | make_rooms_with_links | add_links | search_way | create_queue | malloc | malloc_zone_malloc
-Leak: 0x7fe6ca402a70  size=16  zone: DefaultMallocZone_0x1018bd000
-	0xca402860 0x00007fe6 0xca402a80 0x00007fe6 	`(@......*@.....
-	Call stack: [thread 0x7fffae1ed340]: | start | main | stop_reading | make_rooms_with_links | add_links | search_way | create_queue | add_to_queue | fill_queue_params | malloc | malloc_zone_malloc
-Leak: 0x7fe6ca402a80  size=16  zone: DefaultMallocZone_0x1018bd000
-	0xca4028e0 0x00007fe6 0x00000000 0x00000000 	.(@.............
-	Call stack: [thread 0x7fffae1ed340]: | start | main | stop_reading | make_rooms_with_links | add_links | search_way | create_queue | add_to_queue | fill_queue_params | malloc | malloc_zone_malloc
-Leak: 0x7fe6ca402bc0  size=16  zone: DefaultMallocZone_0x1018bd000
-	0xca4027f0 0x00007fe6 0xca402a70 0x00007fe6 	.'@.....p*@.....
-	Call stack: [thread 0x7fffae1ed340]: | start | main | stop_reading | make_rooms_with_links | add_links | search_way | create_queue | add_to_queue | fill_queue_params | malloc | malloc_zone_malloc
+comment_###          : KO             comment_###2         : KO
+comment_after_ant    : KO             comment_after_end    : KO
+comment_after_end2   : KO             comment_after_pipes  : KO
+comment_after_rooms  : KO             comment_after_start  : KO
+comment_after_start2 : KO             comment_b_a_pipes    : KO
+comment_b_a_rooms    : KO             comment_before_ant   : KO
+comment_before_ant2  : KO             comment_before_end   : KO
+comment_before_pipes : KO             comment_before_rooms : KO
+comment_before_start : KO             comment_mass_pipes   : KO
+comment_mass_rooms   : KO             comment_pipe         : KO
+comment_room         : KO             cmd_after_ant        : KO
+cmd_after_end        : KO             cmd_after_pipes      : KO
+cmd_after_rooms      : KO             cmd_after_start      : KO
+cmd_b_a_ant          : KO             cmd_b_a_pipes        : KO
+cmd_b_a_rooms        : KO             cmd_before_ant       : KO
+cmd_before_end       : KO             cmd_before_pipes     : KO
+cmd_before_rooms     : KO             cmd_before_start     : KO
+cmd_mass_pipes       : KO             bad_line_pipe_14     : KO
+bad_line_pipe_2      : KO             bad_line_pipe_6      : KO
+pipe_to_itself       : KO             same_pipe            : KO
+same_pipe2           : KO             same_pipe3           : KO
+four_ways            : KO             three_ways           : KO
+two_ways             : KO             two_ways_long        : KO
+1000_map             : KO             100_map              : KO
+300_map              : KO             500_map              : KO

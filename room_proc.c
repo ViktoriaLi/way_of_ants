@@ -15,8 +15,8 @@
 void	comment_between_commands(t_params *params)
 {
 	while (get_next_line(0, &params->buf) > 0 && params->buf[0] == '#'
-		&& !ft_strstr(&params->buf[2], "start") &&
-		!ft_strstr(&params->buf[2], "end"))
+		&& !ft_strequ((*params).buf, "##start") &&
+		!ft_strequ((*params).buf, "##end"))
 	{
 		add_str_to_list(params);
 		ft_strdel(&params->buf);

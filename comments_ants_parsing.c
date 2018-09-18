@@ -30,14 +30,14 @@ void	add_str_to_list(t_params *params)
 int		comments_parsing(t_params *params, int *ifstart, int *ifend,
 t_room **rooms)
 {
-	if ((*params).buf[1] == '#' && ft_strstr(&params->buf[2], "start"))
+	if ((*params).buf[1] == '#' && ft_strequ((*params).buf, "##start"))
 	{
 		if (ft_strlen((*params).buf) == 7 &&
 			main_rooms_saving(ifstart, params, rooms, START_ROOM))
 			return (1);
 		return (0);
 	}
-	if ((*params).buf[1] == '#' && ft_strstr(&params->buf[2], "end"))
+	if ((*params).buf[1] == '#' && ft_strequ((*params).buf, "##end"))
 	{
 		if (ft_strlen((*params).buf) == 5 &&
 			main_rooms_saving(ifend, params, rooms, END_ROOM))
@@ -54,8 +54,8 @@ t_room **rooms)
 
 int		pre_comments_parsing(t_params *params)
 {
-	if ((*params).buf[1] == '#' && (ft_strstr(&params->buf[2], "start")
-	|| ft_strstr(&params->buf[2], "end")))
+	if ((*params).buf[1] == '#' && (ft_strequ((*params).buf, "##start")
+	|| ft_strequ((*params).buf, "##end")))
 	{
 		ft_strdel(&params->buf);
 		return (0);

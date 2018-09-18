@@ -6,16 +6,13 @@
 /*   By: vlikhotk <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 16:03:28 by vlikhotk          #+#    #+#             */
-/*   Updated: 2018/09/11 13:33:42 by vlikhotk         ###   ########.fr       */
+/*   Updated: 2018/09/18 13:48:04 by vlikhotk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_H
 # define LEM_IN_H
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <fcntl.h>
 # include "libft/includes/libft.h"
 # include "libft/includes/ft_printf.h"
 # include "libft/get_next_line.h"
@@ -37,6 +34,7 @@ typedef	struct				s_params
 	char					*buf;
 	char					*start;
 	char					*end;
+	unsigned int			if_all_one_way;
 	struct s_buf			*buf_to_print;
 }							t_params;
 

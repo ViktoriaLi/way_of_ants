@@ -1,13 +1,25 @@
-5
+##start2
+##endh
+#end
+#start
+10
 ##start
-rs 7 7
-r0 0 0
-r1 1 1
-r2 2 2
-r3 3 3
+##start2
+#start
+1 1 1
+2 2 2
+3 3 3
+4 4 4
+5 5 5
+6 6 6
 ##end
-re 8 8
-rs-r0
-r0-r1
-r1-r2
-r3-re
+##endsfsfs
+#end
+7 7 7
+1-2
+2-3
+3-4
+4-5
+5-6
+6-7
+1-7
