@@ -23,17 +23,19 @@ ft_strnew.c ft_putchar.c ft_putstr.c ft_striteri.c ft_strsplit.c ft_putchar_fd.c
 ft_strsub.c ft_putendl.c ft_strclr.c ft_strmap.c ft_strtrim.c ft_lstadd.c ft_lstdel.c ft_lstdelone.c \
 ft_lstiter.c ft_lstmap.c ft_lstnew.c ft_printf.c int_and_u.c hex.c \
 check_params.c length_analize.c unicode.c octal.c atoi_and_itoa.c chars_handle.c flags_and_stars.c \
-print_ints.c strings_handle.c additional_funcs.c get_next_line.c
+print_ints.c strings_handle.c additional_funcs.c get_next_line.c ft_sqrt.c hash.c multi_arr_mem.c \
+to_multi_arr.c two_dim_arr_mem.c
 
 OFILES = ft_atoi.o ft_bzero.o ft_isalnum.o ft_isalpha.o ft_isascii.o ft_isdigit.o ft_isprint.o ft_memccpy.o \
 ft_memchr.o ft_memcmp.o ft_memcpy.o ft_memmove.o ft_memset.o ft_strcat.o ft_strchr.o ft_strcmp.o ft_strcpy.o \
 ft_strdup.o ft_strlcat.o ft_strlen.o ft_strncat.o ft_strncmp.o ft_strncpy.o ft_strnstr.o ft_strrchr.o ft_strstr.o \
 ft_tolower.o ft_toupper.o ft_itoa.o ft_putendl_fd.o ft_strdel.o ft_strmapi.o ft_memalloc.o ft_putnbr.o ft_strequ.o \
 ft_strnequ.o ft_memdel.o ft_putnbr_fd.o ft_striter.o ft_strnew.o ft_putchar.o ft_putstr.o ft_striteri.o ft_strsplit.o \
-ft_putchar_fd.o ft_putstr_fd.o ft_strjoin.o ft_strsub.o ft_putendl.o ft_strclr.o ft_strmap.o ft_strtrim.o ft_lstadd.o ft_lstdel.o \
-ft_lstdelone.o ft_lstiter.o ft_lstmap.o ft_lstnew.o ft_printf.o int_and_u.o hex.o \
-check_params.o length_analize.o unicode.o octal.o atoi_and_itoa.o chars_handle.o flags_and_stars.o print_ints.o strings_handle.o \
-additional_funcs.o get_next_line.o
+ft_putchar_fd.o ft_putstr_fd.o ft_strjoin.o ft_strsub.o ft_putendl.o ft_strclr.o ft_strmap.o ft_strtrim.o ft_lstadd.o \
+ft_lstdel.o ft_lstdelone.o ft_lstiter.o ft_lstmap.o ft_lstnew.o ft_printf.o int_and_u.o hex.o \
+check_params.o length_analize.o unicode.o octal.o atoi_and_itoa.o chars_handle.o flags_and_stars.o print_ints.o \
+strings_handle.o additional_funcs.o get_next_line.o ft_sqrt.o hash.o multi_arr_mem.o to_multi_arr.o \
+two_dim_arr_mem.o
 
 all: $(NAME)
 
